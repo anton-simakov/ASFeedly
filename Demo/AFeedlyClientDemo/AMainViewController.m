@@ -65,6 +65,12 @@ static NSString *const kCellIdentifier = @"ACell";
     [[self navigationItem] setRightBarButtonItem:_refreshButton];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self refreshButtonAction:nil];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -94,11 +100,6 @@ static NSString *const kCellIdentifier = @"ACell";
     ACell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
     [self setupCell:cell forIndexPath:indexPath];
     return [cell calculateHeight:CGRectGetWidth([_tableView frame])];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 100.0f;
 }
 
 #pragma mark - UITableViewDataSource
@@ -188,7 +189,15 @@ static NSString *const kCellIdentifier = @"ACell";
 
 - (void)updateTableView
 {
-    [_tableView reloadData];
+    if (![_tableSections count])
+    {
+        return;
+    }
+    
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[_tableSections count] - 1];
+    
+    [_tableView insertSections:indexSet
+              withRowAnimation:UITableViewRowAnimationTop];
 }
 
 #pragma mark - Action
