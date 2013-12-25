@@ -19,6 +19,10 @@
 		84A571AE186AC30C0067C898 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A57196186AC30C0067C898 /* UIKit.framework */; };
 		84A571B6186AC30C0067C898 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84A571B4186AC30C0067C898 /* InfoPlist.strings */; };
 		84A571B8186AC30C0067C898 /* AFeedlyClientDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A571B7186AC30C0067C898 /* AFeedlyClientDemoTests.m */; };
+		84B612D6186AC98E00BA9E10 /* AMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612D5186AC98E00BA9E10 /* AMainViewController.m */; };
+		84B612D9186ACB3100BA9E10 /* ACell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612D8186ACB3100BA9E10 /* ACell.m */; };
+		84B612DC186ACD8000BA9E10 /* ATableSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612DB186ACD8000BA9E10 /* ATableSection.m */; };
+		84B612DF186ACE7900BA9E10 /* ACellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612DE186ACE7900BA9E10 /* ACellItem.m */; };
 		84C29558186AC4C700B59901 /* AFeedlyClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29547186AC4C700B59901 /* AFeedlyClient.m */; };
 		84C29559186AC4C700B59901 /* AFeedlyClientAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29549186AC4C700B59901 /* AFeedlyClientAuthentication.m */; };
 		84C2955A186AC4C700B59901 /* AFeedlyClientAuthenticationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954B186AC4C700B59901 /* AFeedlyClientAuthenticationViewController.m */; };
@@ -66,6 +70,14 @@
 		84A571B3186AC30C0067C898 /* AFeedlyClientDemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AFeedlyClientDemoTests-Info.plist"; sourceTree = "<group>"; };
 		84A571B5186AC30C0067C898 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		84A571B7186AC30C0067C898 /* AFeedlyClientDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFeedlyClientDemoTests.m; sourceTree = "<group>"; };
+		84B612D4186AC98E00BA9E10 /* AMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMainViewController.h; sourceTree = "<group>"; };
+		84B612D5186AC98E00BA9E10 /* AMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMainViewController.m; sourceTree = "<group>"; };
+		84B612D7186ACB3100BA9E10 /* ACell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACell.h; sourceTree = "<group>"; };
+		84B612D8186ACB3100BA9E10 /* ACell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACell.m; sourceTree = "<group>"; };
+		84B612DA186ACD8000BA9E10 /* ATableSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATableSection.h; sourceTree = "<group>"; };
+		84B612DB186ACD8000BA9E10 /* ATableSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATableSection.m; sourceTree = "<group>"; };
+		84B612DD186ACE7900BA9E10 /* ACellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACellItem.h; sourceTree = "<group>"; };
+		84B612DE186ACE7900BA9E10 /* ACellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACellItem.m; sourceTree = "<group>"; };
 		84C29546186AC4C700B59901 /* AFeedlyClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFeedlyClient.h; sourceTree = "<group>"; };
 		84C29547186AC4C700B59901 /* AFeedlyClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFeedlyClient.m; sourceTree = "<group>"; };
 		84C29548186AC4C700B59901 /* AFeedlyClientAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFeedlyClientAuthentication.h; sourceTree = "<group>"; };
@@ -166,6 +178,14 @@
 			children = (
 				84A571A1186AC30C0067C898 /* AAppDelegate.h */,
 				84A571A2186AC30C0067C898 /* AAppDelegate.m */,
+				84B612D4186AC98E00BA9E10 /* AMainViewController.h */,
+				84B612D5186AC98E00BA9E10 /* AMainViewController.m */,
+				84B612D7186ACB3100BA9E10 /* ACell.h */,
+				84B612D8186ACB3100BA9E10 /* ACell.m */,
+				84B612DD186ACE7900BA9E10 /* ACellItem.h */,
+				84B612DE186ACE7900BA9E10 /* ACellItem.m */,
+				84B612DA186ACD8000BA9E10 /* ATableSection.h */,
+				84B612DB186ACD8000BA9E10 /* ATableSection.m */,
 				84A571A4186AC30C0067C898 /* Images.xcassets */,
 				84A57199186AC30C0067C898 /* Supporting Files */,
 			);
@@ -350,6 +370,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84C29592186AC67C00B59901 /* AFHTTPRequestOperation.m in Sources */,
+				84B612D9186ACB3100BA9E10 /* ACell.m in Sources */,
 				84A571A3186AC30C0067C898 /* AAppDelegate.m in Sources */,
 				84C29559186AC4C700B59901 /* AFeedlyClientAuthentication.m in Sources */,
 				84C2955D186AC4C700B59901 /* AFeedlyClientEntry.m in Sources */,
@@ -365,10 +386,13 @@
 				84C29593186AC67C00B59901 /* AFHTTPRequestOperationManager.m in Sources */,
 				84C2955A186AC4C700B59901 /* AFeedlyClientAuthenticationViewController.m in Sources */,
 				84C29560186AC4C700B59901 /* AFeedlyClientUtility.m in Sources */,
+				84B612D6186AC98E00BA9E10 /* AMainViewController.m in Sources */,
 				84C29596186AC67C00B59901 /* AFSecurityPolicy.m in Sources */,
 				84C29558186AC4C700B59901 /* AFeedlyClient.m in Sources */,
 				84C2955E186AC4C700B59901 /* AFeedlyClientStream.m in Sources */,
 				84C2955C186AC4C700B59901 /* AFeedlyClientConstants.m in Sources */,
+				84B612DF186ACE7900BA9E10 /* ACellItem.m in Sources */,
+				84B612DC186ACD8000BA9E10 /* ATableSection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
