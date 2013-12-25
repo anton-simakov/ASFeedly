@@ -21,8 +21,6 @@
 @property(nonatomic, assign) long engagement;
 
 @property(nonatomic, assign) long long published;
-//@property(nonatomic, strong) NSDate *updated;
-//@property(nonatomic, strong) NSDate *crawled;
 
 - (NSDate *)publishedAsDate;
 
