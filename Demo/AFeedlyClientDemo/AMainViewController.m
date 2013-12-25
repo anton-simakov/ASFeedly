@@ -65,6 +65,12 @@ static NSString *const kCellIdentifier = @"ACell";
     [[self navigationItem] setRightBarButtonItem:_refreshButton];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self refreshButtonAction:nil];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
