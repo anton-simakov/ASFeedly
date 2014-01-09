@@ -7,15 +7,13 @@
 //
 
 #import "AFeedlyClientSubscription.h"
-
-static NSString *const AFeedlyClientSubscriptionUserPrefix = @"user/";
-static NSString *const AFeedlyClientSubscriptionFeedPrefix = @"feed/";
+#import "AFeedlyClientConstants.h"
 
 @implementation AFeedlyClientSubscription
 
 - (NSString *)link
 {
-    return [_ID stringByReplacingOccurrencesOfString:AFeedlyClientSubscriptionFeedPrefix withString:@""];
+    return [_ID stringByReplacingOccurrencesOfString:kFeedlyFeedIDPrefix withString:@""];
 }
 
 - (NSString *)description

@@ -7,7 +7,13 @@
 //
 
 #import "AFeedlyClientStream.h"
+#import "AFeedlyClientConstants.h"
 
 @implementation AFeedlyClientStream
+
+- (NSString *)URLString
+{
+    return [[self ID] stringByReplacingOccurrencesOfString:kFeedlyFeedIDPrefix withString:@""];
+}
 
 @end

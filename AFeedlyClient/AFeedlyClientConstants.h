@@ -14,12 +14,19 @@ extern NSString *const kFeedlyAuthTokenPath;
 extern NSString *const kFeedlyCategoriesPath;
 extern NSString *const kFeedlySubscriptionsPath;
 extern NSString *const kFeedlyStreamsContentsPath;
+extern NSString *const kFeedlyMarkersReadsPath;
+extern NSString *const kFeedlyMarkersPath;
 
+extern NSString *const kFeedlyTypeKey;
 extern NSString *const kFeedlyCodeKey;
 extern NSString *const kFeedlyStateKey;
 extern NSString *const kFeedlyScopeKey;
 extern NSString *const kFeedlyCountKey;
+extern NSString *const kFeedlyActionKey;
 extern NSString *const kFeedlyRankedKey;
+extern NSString *const kFeedlyFeedIDsKey;
+extern NSString *const kFeedlyEntryIDsKey;
+extern NSString *const kFeedlyCategoryIDsKey;
 extern NSString *const kFeedlyStreamIDKey;
 extern NSString *const kFeedlyClientIDKey;
 extern NSString *const kFeedlyNewerThanKey;
@@ -54,6 +61,18 @@ extern NSString *const kFeedlyPlanKey;
 extern NSString *const kFeedlyExpiresInKey;
 extern NSString *const kFeedlyTokenTypeKey;
 extern NSString *const kFeedlyRefreshTokenKey;
+
+extern NSString *const kFeedlyUserIDPrefix;
+extern NSString *const kFeedlyFeedIDPrefix;
+
+extern NSString *const kFeedlyFeedsValue;
+extern NSString *const kFeedlyEntriesValue;
+extern NSString *const kFeedlyCategoriesValue;
+
+extern NSString *const kFeedlyFeedTrueValue;
+extern NSString *const kFeedlyFeedFalseValue;
+extern NSString *const kFeedlyMarkAsReadValue;
+extern NSString *const kFeedlyKeepUnreadValue;
 
 extern NSString *const kFeedlyResponseTypeCode;
 

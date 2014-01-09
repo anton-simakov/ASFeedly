@@ -15,4 +15,6 @@
 + (NSURL *)URLWithPath:(NSString *)path parameters:(NSDictionary *)parameters;
 + (NSURL *)URLWithPath:(NSString *)path parameters:(NSDictionary *)parameters base:(NSString *)base;
 
++ (NSString *)encodeString:(NSString *)string;
+
 @end
