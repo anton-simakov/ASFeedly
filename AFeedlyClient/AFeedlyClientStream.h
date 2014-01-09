@@ -17,4 +17,6 @@
 @property(nonatomic, strong) NSArray *items;
 @property(nonatomic, assign) long long updated;
 
+- (NSString *)URLString;
+
 @end

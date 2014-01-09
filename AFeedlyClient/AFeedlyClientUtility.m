@@ -43,4 +43,13 @@
     return [NSURL URLWithString:[URLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }
 
++ (NSString *)encodeString:(NSString *)string
+{
+    return CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                                     (CFStringRef)string,
+                                                                     NULL,
+                                                                     CFSTR(":/?#[]@!$&’()*+,;="),
+                                                                     kCFStringEncodingUTF8));
+}
+
 @end

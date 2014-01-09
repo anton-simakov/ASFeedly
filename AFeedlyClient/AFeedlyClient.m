@@ -141,12 +141,7 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 - (void)getStream:(NSString *)streamID
 {
-    [self getStream:streamID
-              count:AFeedlyClientStreamEntriesMax
-            ranking:AFeedlyClientRankingNewest
-         unreadOnly:YES
-          newerThan:0
-       continuation:nil];
+    [self getStream:streamID count:0 ranking:AFeedlyClientRankingDefault unreadOnly:YES newerThan:0 continuation:nil];
 }
 
 - (void)getStream:(NSString *)streamID
@@ -156,10 +151,23 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
         newerThan:(long long)newerThan
      continuation:(NSString *)continuation
 {
-    NSMutableDictionary *parameters = [@{kFeedlyStreamIDKey : streamID,
-                                         kFeedlyCountKey : @(count),
-                                         kFeedlyRankedKey : AFeedlyClientRankingString(AFeedlyClientRankingNewest),
-                                         kFeedlyUnreadOnlyKey : @(unreadOnly)} mutableCopy];
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObject:streamID
+                                                                         forKey:kFeedlyStreamIDKey];
+    if (count)
+    {
+        [parameters setValue:@(count) forKey:kFeedlyCountKey];
+    }
+    
+    if (ranking != AFeedlyClientRankingDefault)
+    {
+        [parameters setValue:AFeedlyClientRankingString(AFeedlyClientRankingNewest) forKey:kFeedlyRankedKey];
+    }
+    
+    if (unreadOnly)
+    {
+        [parameters setValue:kFeedlyFeedTrueValue forKey:kFeedlyUnreadOnlyKey];
+    }
+    
     if (newerThan)
     {
         [parameters setValue:@(newerThan + 1) forKey:kFeedlyNewerThanKey];
@@ -186,7 +194,129 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
      }];
 }
 
-#pragma mark - Request
+- (void)getMarkersReads
+{
+    [self getMarkersReadsNewerThan:0];
+}
+
+- (void)getMarkersReadsNewerThan:(long long)newerThan
+{
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    
+    if (newerThan)
+    {
+        [parameters setValue:@(newerThan + 1) forKey:kFeedlyNewerThanKey];
+    }
+    
+    NSURL *URL = [AFeedlyClientUtility URLWithPath:kFeedlyMarkersReadsPath parameters:parameters];
+    
+    __weak __typeof(self)weak = self;
+    [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
+     {
+         if (error)
+         {
+             [weak handleError:error];
+         }
+         else
+         {
+             [weak parseMarkersReads:response];
+         }
+     }];
+}
+
+#pragma mark - Update
+
+- (void)updateCategory:(NSString *)ID withLabel:(NSString *)label
+{
+    NSString *path = [NSString stringWithFormat:@"%@/%@", kFeedlyCategoriesPath, [AFeedlyClientUtility encodeString:ID]];
+    
+    [self makeRequestWithBase:kFeedlyBaseURL path:path parameters:@{kFeedlyLabelKey : label}];
+}
+
+- (void)updateSubscription:(NSString *)ID withTitle:(NSString *)title categories:(NSArray *)categories
+{
+    [self makeRequestWithBase:kFeedlyBaseURL
+                         path:kFeedlySubscriptionsPath
+                   parameters:@{kFeedlyIDKey : ID,
+                                kFeedlyTitleKey : title,
+                                kFeedlyCategoriesKey : categories}];
+}
+
+#pragma mark - Mark
+
+- (void)markEntry:(NSString *)ID read:(BOOL)read
+{
+    [self markEntries:@[ID] read:read];
+}
+
+- (void)markEntries:(NSArray *)IDs read:(BOOL)read
+{
+    [self makeRequestWithPath:kFeedlyMarkersPath parameters:@{kFeedlyActionKey : [self actionForReadState:read],
+                                                              kFeedlyTypeKey : kFeedlyEntriesValue,
+                                                              kFeedlyEntryIDsKey : IDs}];
+}
+
+- (void)markCategory:(NSString *)ID read:(BOOL)read
+{
+    [self markCategories:@[ID] read:YES];
+}
+
+- (void)markCategories:(NSArray *)IDs read:(BOOL)read
+{
+    [self makeRequestWithPath:kFeedlyMarkersPath parameters:@{kFeedlyActionKey : [self actionForReadState:read],
+                                                              kFeedlyTypeKey : kFeedlyCategoriesValue,
+                                                              kFeedlyCategoryIDsKey : IDs}];
+}
+
+- (void)markSubscription:(NSString *)ID read:(BOOL)read
+{
+    [self markSubscriptions:@[ID] read:read];
+}
+
+- (void)markSubscriptions:(NSArray *)IDs read:(BOOL)read
+{
+    [self makeRequestWithPath:kFeedlyMarkersPath parameters:@{kFeedlyActionKey : [self actionForReadState:read],
+                                                              kFeedlyTypeKey : kFeedlyFeedsValue,
+                                                              kFeedlyFeedIDsKey : IDs}];
+}
+
+- (NSString *)actionForReadState:(BOOL)state
+{
+    return state ? kFeedlyMarkAsReadValue : kFeedlyKeepUnreadValue;
+}
+
+#pragma mark - Post requests
+
+- (void)makeRequestWithPath:(NSString *)path parameters:(NSDictionary *)parameters;
+{
+    [self makeRequestWithBase:kFeedlyBaseURL path:path parameters:parameters];
+}
+
+- (void)makeRequestWithBase:(NSString *)base path:(NSString *)path parameters:(NSDictionary *)parameters
+{
+    NSURLRequest *request = [self postRequestWithBase:base path:path parameters:parameters];
+    
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    
+    [operation start];
+}
+
+- (NSURLRequest *)postRequestWithBase:(NSString *)base path:(NSString *)path parameters:(NSDictionary *)parameters
+{
+    AFJSONRequestSerializer *serializer = [AFJSONRequestSerializer new];
+    
+    NSString *URLString = [NSString stringWithFormat:@"%@/%@", base, path];
+    
+    NSMutableURLRequest *request = [serializer requestWithMethod:@"POST"
+                                                       URLString:URLString
+                                                      parameters:parameters
+                                                           error:nil];
+    [self authorizeRequest:request];
+    
+    return request;
+}
+
+#pragma mark - Get requests
 
 - (void)startRequestWithURL:(NSURL *)URL completionBlock:(AFeedlyClientResponseResultBlock)block
 {
@@ -419,7 +549,7 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 {
     AFeedlyClientEntry *entry = [AFeedlyClientEntry new];
     
-    [entry setID:item[kFeedlyClientIDKey]];
+    [entry setID:item[kFeedlyIDKey]];
     [entry setTitle:item[kFeedlyTitleKey]];
     [entry setAuthor:item[kFeedlyAuthorKey]];
     [entry setOriginID:item[kFeedlyOriginIDKey]];
@@ -431,6 +561,11 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
     [entry setPublished:[item[kFeedlyPublishedKey] longLongValue]];
     
     return entry;
+}
+
+- (void)parseMarkersReads:(NSDictionary *)response
+{
+    NSLog(@"%@", response);
 }
 
 - (void)authorizeRequest:(NSMutableURLRequest *)request

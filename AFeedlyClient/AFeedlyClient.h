@@ -15,6 +15,7 @@
 
 typedef NS_ENUM(NSInteger, AFeedlyClientRanking)
 {
+    AFeedlyClientRankingDefault,
     AFeedlyClientRankingNewest,
     AFeedlyClientRankingOldest
 };
@@ -51,5 +52,18 @@ extern const CGFloat AFeedlyClientStreamEntriesMax;
        unreadOnly:(BOOL)unreadOnly
         newerThan:(long long)newerThan
      continuation:(NSString *)continuation;
+
+- (void)getMarkersReads;
+- (void)getMarkersReadsNewerThan:(long long)newerThan;
+
+- (void)updateCategory:(NSString *)ID withLabel:(NSString *)label;
+- (void)updateSubscription:(NSString *)ID withTitle:(NSString *)title categories:(NSArray *)categories;
+
+- (void)markEntry:(NSString *)ID read:(BOOL)read;
+- (void)markEntries:(NSArray *)IDs read:(BOOL)read;
+- (void)markCategory:(NSString *)ID read:(BOOL)read;
+- (void)markCategories:(NSArray *)IDs read:(BOOL)read;
+- (void)markSubscription:(NSString *)ID read:(BOOL)read;
+- (void)markSubscriptions:(NSArray *)IDs read:(BOOL)read;
 
 @end
