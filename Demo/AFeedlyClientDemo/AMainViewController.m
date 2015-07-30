@@ -14,6 +14,9 @@
 #import "AFeedlyClient.h"
 #import "AFeedlyClientAuthenticationViewController.h"
 
+static NSString *const kClientID = @"sandbox"; // Put your Client ID here
+static NSString *const kClientSecret = @""; // Put your Client Secret here
+
 static NSString *const kCellIdentifier = @"ACell";
 
 @interface AMainViewController ()<UITableViewDelegate, UITableViewDataSource, AFeedlyClientDelegate>
@@ -37,9 +40,8 @@ static NSString *const kCellIdentifier = @"ACell";
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        // Put Client Secret here
-        _feedlyClient = [[AFeedlyClient alloc] initWithClientID:@"sandbox"
-                                                   clientSecret:@""];
+        _feedlyClient = [[AFeedlyClient alloc] initWithClientID:kClientID
+                                                   clientSecret:kClientSecret];
         [_feedlyClient setDelegate:self];
         
         _tableSections = [NSMutableArray array];
@@ -61,25 +63,20 @@ static NSString *const kCellIdentifier = @"ACell";
     
     [self setRefreshButton:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                                          target:self
-                                                                         action:@selector(refreshButtonAction:)]];
+                                                                         action:@selector(refresh:)]];
     [[self navigationItem] setRightBarButtonItem:_refreshButton];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self refreshButtonAction:nil];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
 }
 
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
     [_tableView setFrame:[[self view] bounds]];
+}
+
+- (void)reset
+{
+    [_tableSections removeAllObjects];
+    [_tableView reloadData];
 }
 
 #pragma mark - UITableViewDelegate
@@ -202,19 +199,13 @@ static NSString *const kCellIdentifier = @"ACell";
 
 #pragma mark - Action
 
-- (void)refreshButtonAction:(UIBarButtonItem *)button
+- (void)refresh:(id)sender
 {
-    [button setEnabled:NO];
+    self.refreshButton.enabled = NO;
     
-    [self clearTable];
+    [self reset];
     
-    [_feedlyClient loginWithViewController:self];
-}
-
-- (void)clearTable
-{
-    [_tableSections removeAllObjects];
-    [_tableView reloadData];
+    [self.feedlyClient loginWithViewController:self];
 }
 
 @end
