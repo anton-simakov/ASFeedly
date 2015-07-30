@@ -1,4 +1,4 @@
 AFeedlyClient
 =============
 
-Unofficial feedly SDK for iOS.
+An iOS SDK for [The feedly Cloud API](https://developer.feedly.com/).
