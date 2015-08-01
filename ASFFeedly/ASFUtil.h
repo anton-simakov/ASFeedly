@@ -1,6 +1,6 @@
 //
-//  AFeedlyClientUtility.h
-//  AFeedlyClient
+//  ASFUtil.h
+//  ASFFeedly
 //
 //  Created by Anton Simakov on 12/12/13.
 //  Copyright (c) 2013 Anton Simakov. All rights reserved.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface AFeedlyClientUtility : NSObject
+@interface ASFUtil : NSObject
 
 + (NSURLRequest *)requestWithURL:(NSURL *)URL method:(NSString *)method;
 

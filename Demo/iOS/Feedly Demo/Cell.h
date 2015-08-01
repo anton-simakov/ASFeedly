@@ -1,5 +1,5 @@
 //
-//  ACell.h
+//  Cell.h
 //  Feedly Demo
 //
 //  Created by Anton on 11/29/13.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ACell : UITableViewCell
+@interface Cell : UITableViewCell
 
 - (void)setTitle:(NSString *)title;
 - (void)setDate:(NSDate *)date;

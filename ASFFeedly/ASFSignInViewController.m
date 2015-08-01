@@ -1,23 +1,23 @@
 //
-//  AFeedlyClientAuthenticationViewController.m
-//  AFeedlyClient
+//  ASFSignInViewController.m
+//  ASFFeedly
 //
 //  Created by Anton Simakov on 11/1/13.
 //  Copyright (c) 2013 Anton Simakov. All rights reserved.
 //
 
-#import "AFeedlyClientAuthenticationViewController.h"
-#import "AFeedlyClientConstants.h"
-#import "AFeedlyClientUtility.h"
+#import "ASFSignInViewController.h"
+#import "ASFConstants.h"
+#import "ASFUtil.h"
 
-@interface AFeedlyClientAuthenticationViewController ()<UIWebViewDelegate>
+@interface ASFSignInViewController ()<UIWebViewDelegate>
 
 @property(nonatomic, strong) NSString *clientID;
 @property(nonatomic, strong) UIWebView *webView;
 
 @end
 
-@implementation AFeedlyClientAuthenticationViewController
+@implementation ASFSignInViewController
 
 - (id)init
 {
@@ -26,7 +26,7 @@
                                  userInfo:nil];
 }
 
-- (id)initWithCliendID:(NSString *)clientID delegate:(id<AFeedlyClientAuthenticationViewControllerDelegate>)delegate
+- (id)initWithCliendID:(NSString *)clientID delegate:(id<ASFSignInViewControllerDelegate>)delegate
 {
     self = [super init];
     
@@ -68,10 +68,10 @@
 {
     NSString *stringURL = [[request URL] absoluteString];
     
-    if ([stringURL hasPrefix:kFeedlyRedirectURI])
+    if ([stringURL hasPrefix:ASFRedirectURI])
     {
-        NSUInteger codeLocation  = [stringURL rangeOfString:kFeedlyCodeKey].location + 5; // + 5 for "code="
-        NSUInteger stateLocation = [stringURL rangeOfString:kFeedlyStateKey].location - 1; // - 1 for "&"
+        NSUInteger codeLocation  = [stringURL rangeOfString:ASFCodeKey].location + 5; // + 5 for "code="
+        NSUInteger stateLocation = [stringURL rangeOfString:ASFStateKey].location - 1; // - 1 for "&"
         
         NSUInteger codeLength = stateLocation - codeLocation;
         
@@ -90,12 +90,12 @@
 
 - (void)start
 {
-    NSDictionary *parameters = @{kFeedlyClientIDKey : _clientID,
-                                 kFeedlyRedirectURIKey : kFeedlyRedirectURI,
-                                 kFeedlyResponseTypeKey : kFeedlyResponseTypeCode,
-                                 kFeedlyScopeKey : @"https://cloud.feedly.com/subscriptions"};
+    NSDictionary *parameters = @{ASFClientIDKey : _clientID,
+                                 ASFRedirectURIKey : ASFRedirectURI,
+                                 ASFResponseTypeKey : ASFResponseTypeCode,
+                                 ASFScopeKey : @"https://cloud.feedly.com/subscriptions"};
     
-    NSURL *URL = [AFeedlyClientUtility URLWithPath:kFeedlyAuthAuthPath parameters:parameters];
+    NSURL *URL = [ASFUtil URLWithPath:ASFAuthAuthPath parameters:parameters];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
     [_webView loadRequest:request];

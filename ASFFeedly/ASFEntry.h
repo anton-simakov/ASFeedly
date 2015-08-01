@@ -1,6 +1,6 @@
 //
-//  AFeedlyClientEntry.h
-//  AFeedlyClient
+//  ASFEntry.h
+//  ASFFeedly
 //
 //  Created by Anton Simakov on 12/13/13.
 //  Copyright (c) 2013 Anton Simakov. All rights reserved.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface AFeedlyClientEntry : NSObject
+@interface ASFEntry : NSObject
 
 @property(nonatomic, strong) NSString *ID;
 @property(nonatomic, strong) NSString *title;

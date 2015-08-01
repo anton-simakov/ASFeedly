@@ -1,15 +1,15 @@
 //
-//  AFeedlyClientSubscription.h
-//  AFeedlyClient
+//  ASFSubscription.h
+//  ASFFeedly
 //
 //  Created by Anton Simakov on 11/7/13.
 //  Copyright (c) 2013 Anton Simakov. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "AFeedlyClientCategory.h"
+#import "ASFCategory.h"
 
-@interface AFeedlyClientSubscription : NSObject
+@interface ASFSubscription : NSObject
 
 @property(nonatomic, strong) NSString *ID;
 @property(nonatomic, strong) NSString *title;

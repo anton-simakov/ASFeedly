@@ -13,21 +13,21 @@
 		84A57197186AC30C0067C898 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A57196186AC30C0067C898 /* UIKit.framework */; };
 		84A5719D186AC30C0067C898 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84A5719B186AC30C0067C898 /* InfoPlist.strings */; };
 		84A5719F186AC30C0067C898 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A5719E186AC30C0067C898 /* main.m */; };
-		84A571A3186AC30C0067C898 /* AAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A571A2186AC30C0067C898 /* AAppDelegate.m */; };
+		84A571A3186AC30C0067C898 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A571A2186AC30C0067C898 /* AppDelegate.m */; };
 		84A571A5186AC30C0067C898 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84A571A4186AC30C0067C898 /* Images.xcassets */; };
-		84B612D6186AC98E00BA9E10 /* AMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612D5186AC98E00BA9E10 /* AMainViewController.m */; };
-		84B612D9186ACB3100BA9E10 /* ACell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612D8186ACB3100BA9E10 /* ACell.m */; };
-		84B612DC186ACD8000BA9E10 /* ATableSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612DB186ACD8000BA9E10 /* ATableSection.m */; };
-		84B612DF186ACE7900BA9E10 /* ACellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612DE186ACE7900BA9E10 /* ACellItem.m */; };
-		84C29558186AC4C700B59901 /* AFeedlyClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29547186AC4C700B59901 /* AFeedlyClient.m */; };
-		84C29559186AC4C700B59901 /* AFeedlyClientAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29549186AC4C700B59901 /* AFeedlyClientAuthentication.m */; };
-		84C2955A186AC4C700B59901 /* AFeedlyClientAuthenticationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954B186AC4C700B59901 /* AFeedlyClientAuthenticationViewController.m */; };
-		84C2955B186AC4C700B59901 /* AFeedlyClientCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954D186AC4C700B59901 /* AFeedlyClientCategory.m */; };
-		84C2955C186AC4C700B59901 /* AFeedlyClientConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954F186AC4C700B59901 /* AFeedlyClientConstants.m */; };
-		84C2955D186AC4C700B59901 /* AFeedlyClientEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29551186AC4C700B59901 /* AFeedlyClientEntry.m */; };
-		84C2955E186AC4C700B59901 /* AFeedlyClientStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29553186AC4C700B59901 /* AFeedlyClientStream.m */; };
-		84C2955F186AC4C700B59901 /* AFeedlyClientSubscription.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29555186AC4C700B59901 /* AFeedlyClientSubscription.m */; };
-		84C29560186AC4C700B59901 /* AFeedlyClientUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29557186AC4C700B59901 /* AFeedlyClientUtility.m */; };
+		84B612D6186AC98E00BA9E10 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612D5186AC98E00BA9E10 /* RootViewController.m */; };
+		84B612D9186ACB3100BA9E10 /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612D8186ACB3100BA9E10 /* Cell.m */; };
+		84B612DC186ACD8000BA9E10 /* TableSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612DB186ACD8000BA9E10 /* TableSection.m */; };
+		84B612DF186ACE7900BA9E10 /* CellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612DE186ACE7900BA9E10 /* CellItem.m */; };
+		84C29558186AC4C700B59901 /* ASFFeedly.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29547186AC4C700B59901 /* ASFFeedly.m */; };
+		84C29559186AC4C700B59901 /* ASFAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29549186AC4C700B59901 /* ASFAuthentication.m */; };
+		84C2955A186AC4C700B59901 /* ASFSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954B186AC4C700B59901 /* ASFSignInViewController.m */; };
+		84C2955B186AC4C700B59901 /* ASFCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954D186AC4C700B59901 /* ASFCategory.m */; };
+		84C2955C186AC4C700B59901 /* ASFConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954F186AC4C700B59901 /* ASFConstants.m */; };
+		84C2955D186AC4C700B59901 /* ASFEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29551186AC4C700B59901 /* ASFEntry.m */; };
+		84C2955E186AC4C700B59901 /* ASFStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29553186AC4C700B59901 /* ASFStream.m */; };
+		84C2955F186AC4C700B59901 /* ASFSubscription.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29555186AC4C700B59901 /* ASFSubscription.m */; };
+		84C29560186AC4C700B59901 /* ASFUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29557186AC4C700B59901 /* ASFUtil.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,35 +42,35 @@
 		84A5719C186AC30C0067C898 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		84A5719E186AC30C0067C898 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		84A571A0186AC30C0067C898 /* Feedly Demo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Feedly Demo-Prefix.pch"; sourceTree = "<group>"; };
-		84A571A1186AC30C0067C898 /* AAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAppDelegate.h; sourceTree = "<group>"; };
-		84A571A2186AC30C0067C898 /* AAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAppDelegate.m; sourceTree = "<group>"; };
+		84A571A1186AC30C0067C898 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		84A571A2186AC30C0067C898 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		84A571A4186AC30C0067C898 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		84B612D4186AC98E00BA9E10 /* AMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMainViewController.h; sourceTree = "<group>"; };
-		84B612D5186AC98E00BA9E10 /* AMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMainViewController.m; sourceTree = "<group>"; };
-		84B612D7186ACB3100BA9E10 /* ACell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACell.h; sourceTree = "<group>"; };
-		84B612D8186ACB3100BA9E10 /* ACell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACell.m; sourceTree = "<group>"; };
-		84B612DA186ACD8000BA9E10 /* ATableSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATableSection.h; sourceTree = "<group>"; };
-		84B612DB186ACD8000BA9E10 /* ATableSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATableSection.m; sourceTree = "<group>"; };
-		84B612DD186ACE7900BA9E10 /* ACellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACellItem.h; sourceTree = "<group>"; };
-		84B612DE186ACE7900BA9E10 /* ACellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACellItem.m; sourceTree = "<group>"; };
-		84C29546186AC4C700B59901 /* AFeedlyClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFeedlyClient.h; sourceTree = "<group>"; };
-		84C29547186AC4C700B59901 /* AFeedlyClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFeedlyClient.m; sourceTree = "<group>"; };
-		84C29548186AC4C700B59901 /* AFeedlyClientAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFeedlyClientAuthentication.h; sourceTree = "<group>"; };
-		84C29549186AC4C700B59901 /* AFeedlyClientAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFeedlyClientAuthentication.m; sourceTree = "<group>"; };
-		84C2954A186AC4C700B59901 /* AFeedlyClientAuthenticationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFeedlyClientAuthenticationViewController.h; sourceTree = "<group>"; };
-		84C2954B186AC4C700B59901 /* AFeedlyClientAuthenticationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFeedlyClientAuthenticationViewController.m; sourceTree = "<group>"; };
-		84C2954C186AC4C700B59901 /* AFeedlyClientCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFeedlyClientCategory.h; sourceTree = "<group>"; };
-		84C2954D186AC4C700B59901 /* AFeedlyClientCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFeedlyClientCategory.m; sourceTree = "<group>"; };
-		84C2954E186AC4C700B59901 /* AFeedlyClientConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFeedlyClientConstants.h; sourceTree = "<group>"; };
-		84C2954F186AC4C700B59901 /* AFeedlyClientConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFeedlyClientConstants.m; sourceTree = "<group>"; };
-		84C29550186AC4C700B59901 /* AFeedlyClientEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFeedlyClientEntry.h; sourceTree = "<group>"; };
-		84C29551186AC4C700B59901 /* AFeedlyClientEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFeedlyClientEntry.m; sourceTree = "<group>"; };
-		84C29552186AC4C700B59901 /* AFeedlyClientStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFeedlyClientStream.h; sourceTree = "<group>"; };
-		84C29553186AC4C700B59901 /* AFeedlyClientStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFeedlyClientStream.m; sourceTree = "<group>"; };
-		84C29554186AC4C700B59901 /* AFeedlyClientSubscription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFeedlyClientSubscription.h; sourceTree = "<group>"; };
-		84C29555186AC4C700B59901 /* AFeedlyClientSubscription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFeedlyClientSubscription.m; sourceTree = "<group>"; };
-		84C29556186AC4C700B59901 /* AFeedlyClientUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFeedlyClientUtility.h; sourceTree = "<group>"; };
-		84C29557186AC4C700B59901 /* AFeedlyClientUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFeedlyClientUtility.m; sourceTree = "<group>"; };
+		84B612D4186AC98E00BA9E10 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		84B612D5186AC98E00BA9E10 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		84B612D7186ACB3100BA9E10 /* Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cell.h; sourceTree = "<group>"; };
+		84B612D8186ACB3100BA9E10 /* Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cell.m; sourceTree = "<group>"; };
+		84B612DA186ACD8000BA9E10 /* TableSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableSection.h; sourceTree = "<group>"; };
+		84B612DB186ACD8000BA9E10 /* TableSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableSection.m; sourceTree = "<group>"; };
+		84B612DD186ACE7900BA9E10 /* CellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellItem.h; sourceTree = "<group>"; };
+		84B612DE186ACE7900BA9E10 /* CellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellItem.m; sourceTree = "<group>"; };
+		84C29546186AC4C700B59901 /* ASFFeedly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFFeedly.h; sourceTree = "<group>"; };
+		84C29547186AC4C700B59901 /* ASFFeedly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFFeedly.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		84C29548186AC4C700B59901 /* ASFAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFAuthentication.h; sourceTree = "<group>"; };
+		84C29549186AC4C700B59901 /* ASFAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFAuthentication.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		84C2954A186AC4C700B59901 /* ASFSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ASFSignInViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		84C2954B186AC4C700B59901 /* ASFSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFSignInViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		84C2954C186AC4C700B59901 /* ASFCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFCategory.h; sourceTree = "<group>"; };
+		84C2954D186AC4C700B59901 /* ASFCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFCategory.m; sourceTree = "<group>"; };
+		84C2954E186AC4C700B59901 /* ASFConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFConstants.h; sourceTree = "<group>"; };
+		84C2954F186AC4C700B59901 /* ASFConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFConstants.m; sourceTree = "<group>"; };
+		84C29550186AC4C700B59901 /* ASFEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFEntry.h; sourceTree = "<group>"; };
+		84C29551186AC4C700B59901 /* ASFEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFEntry.m; sourceTree = "<group>"; };
+		84C29552186AC4C700B59901 /* ASFStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFStream.h; sourceTree = "<group>"; };
+		84C29553186AC4C700B59901 /* ASFStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFStream.m; sourceTree = "<group>"; };
+		84C29554186AC4C700B59901 /* ASFSubscription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFSubscription.h; sourceTree = "<group>"; };
+		84C29555186AC4C700B59901 /* ASFSubscription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFSubscription.m; sourceTree = "<group>"; };
+		84C29556186AC4C700B59901 /* ASFUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFUtil.h; sourceTree = "<group>"; };
+		84C29557186AC4C700B59901 /* ASFUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFUtil.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,16 +118,16 @@
 		84A57198186AC30C0067C898 /* Feedly Demo */ = {
 			isa = PBXGroup;
 			children = (
-				84A571A1186AC30C0067C898 /* AAppDelegate.h */,
-				84A571A2186AC30C0067C898 /* AAppDelegate.m */,
-				84B612D4186AC98E00BA9E10 /* AMainViewController.h */,
-				84B612D5186AC98E00BA9E10 /* AMainViewController.m */,
-				84B612D7186ACB3100BA9E10 /* ACell.h */,
-				84B612D8186ACB3100BA9E10 /* ACell.m */,
-				84B612DD186ACE7900BA9E10 /* ACellItem.h */,
-				84B612DE186ACE7900BA9E10 /* ACellItem.m */,
-				84B612DA186ACD8000BA9E10 /* ATableSection.h */,
-				84B612DB186ACD8000BA9E10 /* ATableSection.m */,
+				84A571A1186AC30C0067C898 /* AppDelegate.h */,
+				84A571A2186AC30C0067C898 /* AppDelegate.m */,
+				84B612D4186AC98E00BA9E10 /* RootViewController.h */,
+				84B612D5186AC98E00BA9E10 /* RootViewController.m */,
+				84B612D7186ACB3100BA9E10 /* Cell.h */,
+				84B612D8186ACB3100BA9E10 /* Cell.m */,
+				84B612DD186ACE7900BA9E10 /* CellItem.h */,
+				84B612DE186ACE7900BA9E10 /* CellItem.m */,
+				84B612DA186ACD8000BA9E10 /* TableSection.h */,
+				84B612DB186ACD8000BA9E10 /* TableSection.m */,
 				84A571A4186AC30C0067C898 /* Images.xcassets */,
 				84A57199186AC30C0067C898 /* Supporting Files */,
 			);
@@ -148,26 +148,26 @@
 		84C29545186AC4C700B59901 /* ASFFeedly */ = {
 			isa = PBXGroup;
 			children = (
-				84C29546186AC4C700B59901 /* AFeedlyClient.h */,
-				84C29547186AC4C700B59901 /* AFeedlyClient.m */,
-				84C29548186AC4C700B59901 /* AFeedlyClientAuthentication.h */,
-				84C29549186AC4C700B59901 /* AFeedlyClientAuthentication.m */,
-				84C2954A186AC4C700B59901 /* AFeedlyClientAuthenticationViewController.h */,
-				84C2954B186AC4C700B59901 /* AFeedlyClientAuthenticationViewController.m */,
-				84C2954C186AC4C700B59901 /* AFeedlyClientCategory.h */,
-				84C2954D186AC4C700B59901 /* AFeedlyClientCategory.m */,
-				84C2954E186AC4C700B59901 /* AFeedlyClientConstants.h */,
-				84C2954F186AC4C700B59901 /* AFeedlyClientConstants.m */,
-				84C29550186AC4C700B59901 /* AFeedlyClientEntry.h */,
-				84C29551186AC4C700B59901 /* AFeedlyClientEntry.m */,
-				84C29552186AC4C700B59901 /* AFeedlyClientStream.h */,
-				84C29553186AC4C700B59901 /* AFeedlyClientStream.m */,
-				84C29554186AC4C700B59901 /* AFeedlyClientSubscription.h */,
-				84C29555186AC4C700B59901 /* AFeedlyClientSubscription.m */,
-				84C29556186AC4C700B59901 /* AFeedlyClientUtility.h */,
-				84C29557186AC4C700B59901 /* AFeedlyClientUtility.m */,
+				84C29548186AC4C700B59901 /* ASFAuthentication.h */,
+				84C29549186AC4C700B59901 /* ASFAuthentication.m */,
+				84C2954C186AC4C700B59901 /* ASFCategory.h */,
+				84C2954D186AC4C700B59901 /* ASFCategory.m */,
+				84C2954E186AC4C700B59901 /* ASFConstants.h */,
+				84C2954F186AC4C700B59901 /* ASFConstants.m */,
+				84C29550186AC4C700B59901 /* ASFEntry.h */,
+				84C29551186AC4C700B59901 /* ASFEntry.m */,
+				84C29546186AC4C700B59901 /* ASFFeedly.h */,
+				84C29547186AC4C700B59901 /* ASFFeedly.m */,
+				84C2954A186AC4C700B59901 /* ASFSignInViewController.h */,
+				84C2954B186AC4C700B59901 /* ASFSignInViewController.m */,
+				84C29552186AC4C700B59901 /* ASFStream.h */,
+				84C29553186AC4C700B59901 /* ASFStream.m */,
+				84C29554186AC4C700B59901 /* ASFSubscription.h */,
+				84C29555186AC4C700B59901 /* ASFSubscription.m */,
 				3AE9FB091B6BFAC900147959 /* ASFURLConnectionOperation.h */,
 				3AE9FB0A1B6BFAC900147959 /* ASFURLConnectionOperation.m */,
+				84C29556186AC4C700B59901 /* ASFUtil.h */,
+				84C29557186AC4C700B59901 /* ASFUtil.m */,
 				3AE9FB131B6CD07500147959 /* DLog.h */,
 			);
 			name = ASFFeedly;
@@ -238,22 +238,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84B612D9186ACB3100BA9E10 /* ACell.m in Sources */,
-				84A571A3186AC30C0067C898 /* AAppDelegate.m in Sources */,
-				84C29559186AC4C700B59901 /* AFeedlyClientAuthentication.m in Sources */,
-				84C2955D186AC4C700B59901 /* AFeedlyClientEntry.m in Sources */,
+				84B612D9186ACB3100BA9E10 /* Cell.m in Sources */,
+				84A571A3186AC30C0067C898 /* AppDelegate.m in Sources */,
+				84C29559186AC4C700B59901 /* ASFAuthentication.m in Sources */,
+				84C2955D186AC4C700B59901 /* ASFEntry.m in Sources */,
 				84A5719F186AC30C0067C898 /* main.m in Sources */,
 				3AE9FB0B1B6BFAC900147959 /* ASFURLConnectionOperation.m in Sources */,
-				84C2955F186AC4C700B59901 /* AFeedlyClientSubscription.m in Sources */,
-				84C2955B186AC4C700B59901 /* AFeedlyClientCategory.m in Sources */,
-				84C2955A186AC4C700B59901 /* AFeedlyClientAuthenticationViewController.m in Sources */,
-				84C29560186AC4C700B59901 /* AFeedlyClientUtility.m in Sources */,
-				84B612D6186AC98E00BA9E10 /* AMainViewController.m in Sources */,
-				84C29558186AC4C700B59901 /* AFeedlyClient.m in Sources */,
-				84C2955E186AC4C700B59901 /* AFeedlyClientStream.m in Sources */,
-				84C2955C186AC4C700B59901 /* AFeedlyClientConstants.m in Sources */,
-				84B612DF186ACE7900BA9E10 /* ACellItem.m in Sources */,
-				84B612DC186ACD8000BA9E10 /* ATableSection.m in Sources */,
+				84C2955F186AC4C700B59901 /* ASFSubscription.m in Sources */,
+				84C2955B186AC4C700B59901 /* ASFCategory.m in Sources */,
+				84C2955A186AC4C700B59901 /* ASFSignInViewController.m in Sources */,
+				84C29560186AC4C700B59901 /* ASFUtil.m in Sources */,
+				84B612D6186AC98E00BA9E10 /* RootViewController.m in Sources */,
+				84C29558186AC4C700B59901 /* ASFFeedly.m in Sources */,
+				84C2955E186AC4C700B59901 /* ASFStream.m in Sources */,
+				84C2955C186AC4C700B59901 /* ASFConstants.m in Sources */,
+				84B612DF186ACE7900BA9E10 /* CellItem.m in Sources */,
+				84B612DC186ACD8000BA9E10 /* TableSection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

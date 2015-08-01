@@ -1,5 +1,5 @@
 //
-//  AAppDelegate.h
+//  RootViewController.h
 //  Feedly Demo
 //
 //  Created by Anton Simakov on 12/25/13.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AAppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
+@interface RootViewController : UIViewController
 
 @end

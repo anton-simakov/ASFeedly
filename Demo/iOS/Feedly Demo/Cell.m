@@ -1,23 +1,23 @@
 //
-//  ACell.m
+//  Cell.m
 //  Feedly Demo
 //
 //  Created by Anton on 11/29/13.
 //  Copyright (c) 2013 Anton Simakov. All rights reserved.
 //
 
-#import "ACell.h"
+#import "Cell.h"
 
 static const CGFloat kHorizontalInset = 10;
 
-@interface ACell ()
+@interface Cell ()
 
 @property(nonatomic, strong) UILabel *titleLabel;
 @property(nonatomic, strong) UILabel *dateLabel;
 
 @end
 
-@implementation ACell
+@implementation Cell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
