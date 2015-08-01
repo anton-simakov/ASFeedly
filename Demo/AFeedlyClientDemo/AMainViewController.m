@@ -197,7 +197,7 @@ static NSString *const kCellIdentifier = @"ACell";
               withRowAnimation:UITableViewRowAnimationTop];
 }
 
-#pragma mark - Action
+#pragma mark - Actions
 
 - (void)refresh:(id)sender
 {

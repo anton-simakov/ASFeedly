@@ -13,8 +13,7 @@
 #import "AFeedlyClientEntry.h"
 #import "AFeedlyClientAuthentication.h"
 #import "AFeedlyClientAuthenticationViewController.h"
-
-#import "AFNetworking.h"
+#import "ASFURLConnectionOperation.h"
 
 typedef void (^AFeedlyClientResultBlock)(NSError *error);
 typedef void (^AFeedlyClientResponseResultBlock)(id response, NSError *error);
@@ -34,7 +33,8 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 @interface AFeedlyClient ()<AFeedlyClientAuthenticationViewControllerDelegate>
 
-@property(nonatomic, strong) AFeedlyClientAuthentication *authentication;
+@property (nonatomic, strong) NSOperationQueue *queue;
+@property (nonatomic, strong) AFeedlyClientAuthentication *authentication;
 
 @end
 
@@ -53,6 +53,8 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
         _authentication = [AFeedlyClientAuthentication restore];
         _clientID = clientID;
         _clientSecret = clientSecret;
+        _queue = [[NSOperationQueue alloc] init];
+        _queue.maxConcurrentOperationCount = 1;
     }
     return self;
 }
@@ -285,7 +287,36 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
     return state ? kFeedlyMarkAsReadValue : kFeedlyKeepUnreadValue;
 }
 
-#pragma mark - Post requests
+#pragma mark - Requests
+
+- (NSMutableURLRequest *)requestWithMethod:(NSString *)method
+                                 URLString:(NSString *)URLString
+                                parameters:(NSDictionary *)parameters
+                                     error:(NSError *__autoreleasing *)error {
+    
+    NSParameterAssert([method isEqualToString:@"GET"] ||
+                      [method isEqualToString:@"POST"]);
+    
+    NSURL *URL = [NSURL URLWithString:URLString];
+    
+    NSParameterAssert(URL);
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+
+    [request setHTTPMethod:method];
+    
+    if ([method isEqualToString:@"GET"]) {
+        //
+    } else {
+        [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:[self.authentication accessToken] forHTTPHeaderField:@"Authorization"];
+        [request setHTTPBody:[NSJSONSerialization dataWithJSONObject:parameters options:0 error:error]];
+    }
+    
+    return request;
+}
+
+#pragma mark - POST
 
 - (void)makeRequestWithPath:(NSString *)path parameters:(NSDictionary *)parameters;
 {
@@ -294,29 +325,17 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 - (void)makeRequestWithBase:(NSString *)base path:(NSString *)path parameters:(NSDictionary *)parameters
 {
-    NSURLRequest *request = [self postRequestWithBase:base path:path parameters:parameters];
-    
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    
-    [operation start];
-}
-
-- (NSURLRequest *)postRequestWithBase:(NSString *)base path:(NSString *)path parameters:(NSDictionary *)parameters
-{
-    AFJSONRequestSerializer *serializer = [AFJSONRequestSerializer new];
-    
     NSString *URLString = [NSString stringWithFormat:@"%@/%@", base, path];
     
-    NSMutableURLRequest *request = [serializer requestWithMethod:@"POST"
-                                                       URLString:URLString
-                                                      parameters:parameters
-                                                           error:nil];
-    [self authorizeRequest:request];
+    NSURLRequest *request = [self requestWithMethod:@"POST"
+                                          URLString:URLString
+                                         parameters:parameters
+                                              error:nil];
     
-    return request;
+    [self.queue addOperation:[[ASFURLConnectionOperation alloc] initWithRequest:request]];
 }
 
-#pragma mark - Get requests
+#pragma mark - GET
 
 - (void)startRequestWithURL:(NSURL *)URL completionBlock:(AFeedlyClientResponseResultBlock)block
 {
@@ -348,28 +367,16 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 - (void)startRequest:(NSURLRequest *)request completionBlock:(AFeedlyClientResponseResultBlock)block
 {
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    
-    [operation setResponseSerializer:[AFJSONResponseSerializer serializer]];
-    
-    [operation setCompletionBlockWithSuccess:
-     ^(AFHTTPRequestOperation *operation, id responseObject)
+    ASFURLConnectionOperation *operation =
+    [[ASFURLConnectionOperation alloc] initWithRequest:request
+                                            completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
-         if (block)
-         {
-             block(responseObject, nil);
-         }
-     }
-                                     failure:
-     ^(AFHTTPRequestOperation *operation, NSError *error)
-     {
-         if (block)
-         {
-             block(nil, error);
+         if (block) {
+             block(JSON, error);
          }
      }];
     
-    [operation start];
+    [self.queue addOperation:operation];
 }
 
 #pragma mark - Token
