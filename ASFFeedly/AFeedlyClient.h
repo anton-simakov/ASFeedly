@@ -37,7 +37,8 @@ extern const CGFloat AFeedlyClientStreamEntriesMax;
 @property(nonatomic, strong) NSString *clientSecret;
 @property(nonatomic, strong) id<AFeedlyClientDelegate> delegate;
 
-- (instancetype)initWithClientID:(NSString *)clientID clientSecret:(NSString *)clientSecret;
+- (instancetype)initWithClientID:(NSString *)clientID
+                    clientSecret:(NSString *)clientSecret NS_DESIGNATED_INITIALIZER;
 
 - (void)loginWithViewController:(UIViewController *)controller;
 - (void)logout;

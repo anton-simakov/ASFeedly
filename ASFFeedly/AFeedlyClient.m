@@ -14,6 +14,7 @@
 #import "AFeedlyClientAuthentication.h"
 #import "AFeedlyClientAuthenticationViewController.h"
 #import "ASFURLConnectionOperation.h"
+#import "DLog.h"
 
 typedef void (^AFeedlyClientResultBlock)(NSError *error);
 typedef void (^AFeedlyClientResponseResultBlock)(id response, NSError *error);
@@ -40,16 +41,26 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 @implementation AFeedlyClient
 
-- (instancetype)init
-{
-    return [self initWithClientID:nil clientSecret:nil];
+- (instancetype)init {
+    return [self initWithClientID:nil
+                     clientSecret:nil];
 }
 
-- (instancetype)initWithClientID:(NSString *)clientID clientSecret:(NSString *)clientSecret
-{
+- (instancetype)initWithClientID:(NSString *)clientID
+                    clientSecret:(NSString *)clientSecret {
+    
+    if (![clientID length]) {
+        DLog(@"Client ID is empty.");
+        return nil;
+    }
+    
+    if (![clientSecret length]) {
+        DLog(@"Client Secret is empty.");
+        return nil;
+    }
+    
     self = [super init];
-    if (self)
-    {
+    if (self) {
         _authentication = [AFeedlyClientAuthentication restore];
         _clientID = clientID;
         _clientSecret = clientSecret;
