@@ -65,6 +65,7 @@ static NSString *const kCellIdentifier = @"ACell";
                                                                          target:self
                                                                          action:@selector(refresh:)]];
     [[self navigationItem] setRightBarButtonItem:_refreshButton];
+    [[self navigationItem] setTitle:@"Feedly Demo"];
 }
 
 - (void)viewWillLayoutSubviews
