@@ -124,7 +124,7 @@
 				84A571B1186AC30C0067C898 /* AFeedlyClientDemoTests */,
 				84A57191186AC30C0067C898 /* Frameworks */,
 				84A57190186AC30C0067C898 /* Products */,
-				84C29545186AC4C700B59901 /* AFeedlyClient */,
+				84C29545186AC4C700B59901 /* ASFFeedly */,
 			);
 			sourceTree = "<group>";
 		};
@@ -196,7 +196,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		84C29545186AC4C700B59901 /* AFeedlyClient */ = {
+		84C29545186AC4C700B59901 /* ASFFeedly */ = {
 			isa = PBXGroup;
 			children = (
 				84C29546186AC4C700B59901 /* AFeedlyClient.h */,
@@ -221,8 +221,8 @@
 				3AE9FB0A1B6BFAC900147959 /* ASFURLConnectionOperation.m */,
 				3AE9FB131B6CD07500147959 /* DLog.h */,
 			);
-			name = AFeedlyClient;
-			path = ../AFeedlyClient;
+			name = ASFFeedly;
+			path = ../ASFFeedly;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
