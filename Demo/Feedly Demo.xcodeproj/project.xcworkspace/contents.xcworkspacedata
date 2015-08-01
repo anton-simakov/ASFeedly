@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:AFeedlyClientDemo.xcodeproj">
+      location = "self:/Users/anton/Documents/Projects/ASFFeedly/Demo/Feedly Demo.xcodeproj">
    </FileRef>
 </Workspace>

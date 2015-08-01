@@ -1,6 +1,6 @@
 //
 //  ACell.m
-//  Demo
+//  Feedly Demo
 //
 //  Created by Anton on 11/29/13.
 //  Copyright (c) 2013 Anton Simakov. All rights reserved.

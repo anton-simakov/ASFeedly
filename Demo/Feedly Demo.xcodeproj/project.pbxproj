@@ -15,11 +15,6 @@
 		84A5719F186AC30C0067C898 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A5719E186AC30C0067C898 /* main.m */; };
 		84A571A3186AC30C0067C898 /* AAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A571A2186AC30C0067C898 /* AAppDelegate.m */; };
 		84A571A5186AC30C0067C898 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84A571A4186AC30C0067C898 /* Images.xcassets */; };
-		84A571AC186AC30C0067C898 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A571AB186AC30C0067C898 /* XCTest.framework */; };
-		84A571AD186AC30C0067C898 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A57192186AC30C0067C898 /* Foundation.framework */; };
-		84A571AE186AC30C0067C898 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A57196186AC30C0067C898 /* UIKit.framework */; };
-		84A571B6186AC30C0067C898 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84A571B4186AC30C0067C898 /* InfoPlist.strings */; };
-		84A571B8186AC30C0067C898 /* AFeedlyClientDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A571B7186AC30C0067C898 /* AFeedlyClientDemoTests.m */; };
 		84B612D6186AC98E00BA9E10 /* AMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612D5186AC98E00BA9E10 /* AMainViewController.m */; };
 		84B612D9186ACB3100BA9E10 /* ACell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612D8186ACB3100BA9E10 /* ACell.m */; };
 		84B612DC186ACD8000BA9E10 /* ATableSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612DB186ACD8000BA9E10 /* ATableSection.m */; };
@@ -35,36 +30,21 @@
 		84C29560186AC4C700B59901 /* AFeedlyClientUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29557186AC4C700B59901 /* AFeedlyClientUtility.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		84A571AF186AC30C0067C898 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84A57187186AC30C0067C898 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 84A5718E186AC30C0067C898;
-			remoteInfo = AFeedlyClientDemo;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		3AE9FB091B6BFAC900147959 /* ASFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFURLConnectionOperation.h; sourceTree = "<group>"; };
 		3AE9FB0A1B6BFAC900147959 /* ASFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFURLConnectionOperation.m; sourceTree = "<group>"; };
 		3AE9FB131B6CD07500147959 /* DLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLog.h; sourceTree = "<group>"; };
-		84A5718F186AC30C0067C898 /* AFeedlyClientDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AFeedlyClientDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		84A5718F186AC30C0067C898 /* Feedly Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Feedly Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A57192186AC30C0067C898 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		84A57194186AC30C0067C898 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		84A57196186AC30C0067C898 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		84A5719A186AC30C0067C898 /* AFeedlyClientDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AFeedlyClientDemo-Info.plist"; sourceTree = "<group>"; };
+		84A5719A186AC30C0067C898 /* Feedly Demo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Feedly Demo-Info.plist"; sourceTree = "<group>"; };
 		84A5719C186AC30C0067C898 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		84A5719E186AC30C0067C898 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		84A571A0186AC30C0067C898 /* AFeedlyClientDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AFeedlyClientDemo-Prefix.pch"; sourceTree = "<group>"; };
+		84A571A0186AC30C0067C898 /* Feedly Demo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Feedly Demo-Prefix.pch"; sourceTree = "<group>"; };
 		84A571A1186AC30C0067C898 /* AAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAppDelegate.h; sourceTree = "<group>"; };
 		84A571A2186AC30C0067C898 /* AAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAppDelegate.m; sourceTree = "<group>"; };
 		84A571A4186AC30C0067C898 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		84A571AA186AC30C0067C898 /* AFeedlyClientDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AFeedlyClientDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		84A571AB186AC30C0067C898 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		84A571B3186AC30C0067C898 /* AFeedlyClientDemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AFeedlyClientDemoTests-Info.plist"; sourceTree = "<group>"; };
-		84A571B5186AC30C0067C898 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		84A571B7186AC30C0067C898 /* AFeedlyClientDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFeedlyClientDemoTests.m; sourceTree = "<group>"; };
 		84B612D4186AC98E00BA9E10 /* AMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMainViewController.h; sourceTree = "<group>"; };
 		84B612D5186AC98E00BA9E10 /* AMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMainViewController.m; sourceTree = "<group>"; };
 		84B612D7186ACB3100BA9E10 /* ACell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACell.h; sourceTree = "<group>"; };
@@ -104,24 +84,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		84A571A7186AC30C0067C898 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				84A571AC186AC30C0067C898 /* XCTest.framework in Frameworks */,
-				84A571AE186AC30C0067C898 /* UIKit.framework in Frameworks */,
-				84A571AD186AC30C0067C898 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		84A57186186AC30C0067C898 = {
 			isa = PBXGroup;
 			children = (
-				84A57198186AC30C0067C898 /* AFeedlyClientDemo */,
-				84A571B1186AC30C0067C898 /* AFeedlyClientDemoTests */,
+				84A57198186AC30C0067C898 /* Feedly Demo */,
 				84A57191186AC30C0067C898 /* Frameworks */,
 				84A57190186AC30C0067C898 /* Products */,
 				84C29545186AC4C700B59901 /* ASFFeedly */,
@@ -131,8 +100,7 @@
 		84A57190186AC30C0067C898 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				84A5718F186AC30C0067C898 /* AFeedlyClientDemo.app */,
-				84A571AA186AC30C0067C898 /* AFeedlyClientDemoTests.xctest */,
+				84A5718F186AC30C0067C898 /* Feedly Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -143,12 +111,11 @@
 				84A57192186AC30C0067C898 /* Foundation.framework */,
 				84A57194186AC30C0067C898 /* CoreGraphics.framework */,
 				84A57196186AC30C0067C898 /* UIKit.framework */,
-				84A571AB186AC30C0067C898 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		84A57198186AC30C0067C898 /* AFeedlyClientDemo */ = {
+		84A57198186AC30C0067C898 /* Feedly Demo */ = {
 			isa = PBXGroup;
 			children = (
 				84A571A1186AC30C0067C898 /* AAppDelegate.h */,
@@ -164,34 +131,16 @@
 				84A571A4186AC30C0067C898 /* Images.xcassets */,
 				84A57199186AC30C0067C898 /* Supporting Files */,
 			);
-			path = AFeedlyClientDemo;
+			path = "Feedly Demo";
 			sourceTree = "<group>";
 		};
 		84A57199186AC30C0067C898 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				84A5719A186AC30C0067C898 /* AFeedlyClientDemo-Info.plist */,
+				84A5719A186AC30C0067C898 /* Feedly Demo-Info.plist */,
 				84A5719B186AC30C0067C898 /* InfoPlist.strings */,
 				84A5719E186AC30C0067C898 /* main.m */,
-				84A571A0186AC30C0067C898 /* AFeedlyClientDemo-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		84A571B1186AC30C0067C898 /* AFeedlyClientDemoTests */ = {
-			isa = PBXGroup;
-			children = (
-				84A571B7186AC30C0067C898 /* AFeedlyClientDemoTests.m */,
-				84A571B2186AC30C0067C898 /* Supporting Files */,
-			);
-			path = AFeedlyClientDemoTests;
-			sourceTree = "<group>";
-		};
-		84A571B2186AC30C0067C898 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				84A571B3186AC30C0067C898 /* AFeedlyClientDemoTests-Info.plist */,
-				84A571B4186AC30C0067C898 /* InfoPlist.strings */,
+				84A571A0186AC30C0067C898 /* Feedly Demo-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -228,9 +177,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		84A5718E186AC30C0067C898 /* AFeedlyClientDemo */ = {
+		84A5718E186AC30C0067C898 /* Feedly Demo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 84A571BB186AC30D0067C898 /* Build configuration list for PBXNativeTarget "AFeedlyClientDemo" */;
+			buildConfigurationList = 84A571BB186AC30D0067C898 /* Build configuration list for PBXNativeTarget "Feedly Demo" */;
 			buildPhases = (
 				84A5718B186AC30C0067C898 /* Sources */,
 				84A5718C186AC30C0067C898 /* Frameworks */,
@@ -240,28 +189,10 @@
 			);
 			dependencies = (
 			);
-			name = AFeedlyClientDemo;
+			name = "Feedly Demo";
 			productName = AFeedlyClientDemo;
-			productReference = 84A5718F186AC30C0067C898 /* AFeedlyClientDemo.app */;
+			productReference = 84A5718F186AC30C0067C898 /* Feedly Demo.app */;
 			productType = "com.apple.product-type.application";
-		};
-		84A571A9186AC30C0067C898 /* AFeedlyClientDemoTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 84A571BE186AC30D0067C898 /* Build configuration list for PBXNativeTarget "AFeedlyClientDemoTests" */;
-			buildPhases = (
-				84A571A6186AC30C0067C898 /* Sources */,
-				84A571A7186AC30C0067C898 /* Frameworks */,
-				84A571A8186AC30C0067C898 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				84A571B0186AC30C0067C898 /* PBXTargetDependency */,
-			);
-			name = AFeedlyClientDemoTests;
-			productName = AFeedlyClientDemoTests;
-			productReference = 84A571AA186AC30C0067C898 /* AFeedlyClientDemoTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -269,16 +200,11 @@
 		84A57187186AC30C0067C898 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				CLASSPREFIX = A;
+				CLASSPREFIX = "";
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = "Anton Simakov";
-				TargetAttributes = {
-					84A571A9186AC30C0067C898 = {
-						TestTargetID = 84A5718E186AC30C0067C898;
-					};
-				};
 			};
-			buildConfigurationList = 84A5718A186AC30C0067C898 /* Build configuration list for PBXProject "AFeedlyClientDemo" */;
+			buildConfigurationList = 84A5718A186AC30C0067C898 /* Build configuration list for PBXProject "Feedly Demo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -290,8 +216,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				84A5718E186AC30C0067C898 /* AFeedlyClientDemo */,
-				84A571A9186AC30C0067C898 /* AFeedlyClientDemoTests */,
+				84A5718E186AC30C0067C898 /* Feedly Demo */,
 			);
 		};
 /* End PBXProject section */
@@ -303,14 +228,6 @@
 			files = (
 				84A5719D186AC30C0067C898 /* InfoPlist.strings in Resources */,
 				84A571A5186AC30C0067C898 /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84A571A8186AC30C0067C898 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				84A571B6186AC30C0067C898 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,37 +257,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		84A571A6186AC30C0067C898 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				84A571B8186AC30C0067C898 /* AFeedlyClientDemoTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		84A571B0186AC30C0067C898 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 84A5718E186AC30C0067C898 /* AFeedlyClientDemo */;
-			targetProxy = 84A571AF186AC30C0067C898 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		84A5719B186AC30C0067C898 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				84A5719C186AC30C0067C898 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		84A571B4186AC30C0067C898 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				84A571B5186AC30C0067C898 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -456,9 +349,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AFeedlyClientDemo/AFeedlyClientDemo-Prefix.pch";
-				INFOPLIST_FILE = "AFeedlyClientDemo/AFeedlyClientDemo-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Feedly Demo/Feedly Demo-Prefix.pch";
+				INFOPLIST_FILE = "Feedly Demo/Feedly Demo-Info.plist";
+				PRODUCT_NAME = "Feedly Demo";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -469,57 +362,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AFeedlyClientDemo/AFeedlyClientDemo-Prefix.pch";
-				INFOPLIST_FILE = "AFeedlyClientDemo/AFeedlyClientDemo-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Feedly Demo/Feedly Demo-Prefix.pch";
+				INFOPLIST_FILE = "Feedly Demo/Feedly Demo-Info.plist";
+				PRODUCT_NAME = "Feedly Demo";
 				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		84A571BF186AC30D0067C898 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AFeedlyClientDemo.app/AFeedlyClientDemo";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AFeedlyClientDemo/AFeedlyClientDemo-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "AFeedlyClientDemoTests/AFeedlyClientDemoTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		84A571C0186AC30D0067C898 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AFeedlyClientDemo.app/AFeedlyClientDemo";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AFeedlyClientDemo/AFeedlyClientDemo-Prefix.pch";
-				INFOPLIST_FILE = "AFeedlyClientDemoTests/AFeedlyClientDemoTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		84A5718A186AC30C0067C898 /* Build configuration list for PBXProject "AFeedlyClientDemo" */ = {
+		84A5718A186AC30C0067C898 /* Build configuration list for PBXProject "Feedly Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				84A571B9186AC30C0067C898 /* Debug */,
@@ -528,20 +381,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		84A571BB186AC30D0067C898 /* Build configuration list for PBXNativeTarget "AFeedlyClientDemo" */ = {
+		84A571BB186AC30D0067C898 /* Build configuration list for PBXNativeTarget "Feedly Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				84A571BC186AC30D0067C898 /* Debug */,
 				84A571BD186AC30D0067C898 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		84A571BE186AC30D0067C898 /* Build configuration list for PBXNativeTarget "AFeedlyClientDemoTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				84A571BF186AC30D0067C898 /* Debug */,
-				84A571C0186AC30D0067C898 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
