@@ -1,5 +1,5 @@
 //
-//  ATableSection.h
+//  TableSection.h
 //  Feedly Demo
 //
 //  Created by Anton Simakov on 12/25/13.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ATableSection : NSObject
+@interface TableSection : NSObject
 
 @property(nonatomic, strong) NSString *header;
 @property(nonatomic, strong) NSString *footer;

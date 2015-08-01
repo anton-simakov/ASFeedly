@@ -1,14 +1,14 @@
 //
-//  AFeedlyClientEntry.m
-//  AFeedlyClient
+//  ASFEntry.m
+//  ASFFeedly
 //
 //  Created by Anton Simakov on 12/13/13.
 //  Copyright (c) 2013 Anton Simakov. All rights reserved.
 //
 
-#import "AFeedlyClientEntry.h"
+#import "ASFEntry.h"
 
-@implementation AFeedlyClientEntry
+@implementation ASFEntry
 
 - (NSDate *)publishedAsDate
 {

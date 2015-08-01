@@ -1,25 +1,25 @@
 //
-//  AMainViewController.m
+//  RootViewController.m
 //  Feedly Demo
 //
 //  Created by Anton Simakov on 12/25/13.
 //  Copyright (c) 2013 Anton Simakov. All rights reserved.
 //
 
-#import "AMainViewController.h"
-#import "ACell.h"
-#import "ACellItem.h"
-#import "ATableSection.h"
+#import "RootViewController.h"
+#import "Cell.h"
+#import "CellItem.h"
+#import "TableSection.h"
 
-#import "AFeedlyClient.h"
-#import "AFeedlyClientAuthenticationViewController.h"
+#import "ASFFeedly.h"
+#import "ASFSignInViewController.h"
 
-static NSString *const kClientID = @"sandbox"; // Put your Client ID here
-static NSString *const kClientSecret = @""; // Put your Client Secret here
+static NSString *const kClientID = @"sandbox";
+static NSString *const kClientSecret = @""; // Put your client secret here
 
 static NSString *const kCellIdentifier = @"ACell";
 
-@interface AMainViewController ()<UITableViewDelegate, UITableViewDataSource, AFeedlyClientDelegate>
+@interface RootViewController ()<UITableViewDelegate, UITableViewDataSource, ASFDelegate>
 {
     NSInteger _loadCounter;
 }
@@ -29,19 +29,19 @@ static NSString *const kCellIdentifier = @"ACell";
 @property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, strong) NSMutableArray *tableSections;
 
-@property(nonatomic, strong) AFeedlyClient *feedlyClient;
+@property(nonatomic, strong) ASFFeedly *feedlyClient;
 
 @end
 
-@implementation AMainViewController
+@implementation RootViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        _feedlyClient = [[AFeedlyClient alloc] initWithClientID:kClientID
-                                                   clientSecret:kClientSecret];
+        _feedlyClient = [[ASFFeedly alloc] initWithClientID:kClientID
+                                               clientSecret:kClientSecret];
         [_feedlyClient setDelegate:self];
         
         _tableSections = [NSMutableArray array];
@@ -52,13 +52,13 @@ static NSString *const kCellIdentifier = @"ACell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
+    
     [self setTableView:[[UITableView alloc] initWithFrame:[[self view] bounds]
                                                     style:UITableViewStyleGrouped]];
     [_tableView setDelegate:self];
     [_tableView setDataSource:self];
     [_tableView setAllowsSelection:NO];
-    [_tableView registerClass:[ACell class] forCellReuseIdentifier:kCellIdentifier];
+    [_tableView registerClass:[Cell class] forCellReuseIdentifier:kCellIdentifier];
     [[self view] addSubview:_tableView];
     
     [self setRefreshButton:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
@@ -88,13 +88,13 @@ static NSString *const kCellIdentifier = @"ACell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    ATableSection *tableSection = _tableSections[section];
+    TableSection *tableSection = _tableSections[section];
     return [[tableSection items] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ACell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
+    Cell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
     [self setupCell:cell forIndexPath:indexPath];
     return [cell calculateHeight:CGRectGetWidth([_tableView frame])];
 }
@@ -108,40 +108,40 @@ static NSString *const kCellIdentifier = @"ACell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ACell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
+    Cell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
     [self setupCell:cell forIndexPath:indexPath];
     return cell;
 }
 
-- (void)setupCell:(ACell *)cell forIndexPath:(NSIndexPath *)indexPath
+- (void)setupCell:(Cell *)cell forIndexPath:(NSIndexPath *)indexPath
 {
-    ACellItem *cellItem = [self cellItemForIndexPath:indexPath];
+    CellItem *cellItem = [self cellItemForIndexPath:indexPath];
     
     [cell setTitle:[cellItem title]];
     [cell setDate:[cellItem date]];
 }
 
-- (ACellItem *)cellItemForIndexPath:(NSIndexPath *)indexPath
+- (CellItem *)cellItemForIndexPath:(NSIndexPath *)indexPath
 {
-    ATableSection *tableSection = _tableSections[[indexPath section]];
+    TableSection *tableSection = _tableSections[[indexPath section]];
     NSArray *cellItems = [tableSection items];
     return cellItems[[indexPath row]];
 }
 
-#pragma mark - AFeedlyClientDelegate
+#pragma mark - ASFDelegate
 
-- (void)feedlyClientDidFinishLogin:(AFeedlyClient *)client
+- (void)feedlyClientDidFinishLogin:(ASFFeedly *)client
 {
     [client getSubscriptions];
 }
 
-- (void)feedlyClient:(AFeedlyClient *)client didLoadSubscriptions:(NSArray *)subscriptions
+- (void)feedlyClient:(ASFFeedly *)client didLoadSubscriptions:(NSArray *)subscriptions
 {
-    for (AFeedlyClientSubscription *subscription in subscriptions)
+    for (ASFSubscription *subscription in subscriptions)
     {
         [client getStream:[subscription ID]
                     count:10
-                  ranking:AFeedlyClientRankingNewest
+                  ranking:ASFRankingNewest
                unreadOnly:YES
                 newerThan:0
              continuation:nil];
@@ -150,7 +150,7 @@ static NSString *const kCellIdentifier = @"ACell";
     }
 }
 
-- (void)feedlyClient:(AFeedlyClient *)client didLoadStream:(AFeedlyClientStream *)stream
+- (void)feedlyClient:(ASFFeedly *)client didLoadStream:(ASFStream *)stream
 {
     [self updateTableSections:stream];
     [self updateTableView];
@@ -163,20 +163,20 @@ static NSString *const kCellIdentifier = @"ACell";
     }
 }
 
-- (void)updateTableSections:(AFeedlyClientStream *)stream
+- (void)updateTableSections:(ASFStream *)stream
 {
     NSMutableArray *cellItems = [NSMutableArray array];
     
-    for (AFeedlyClientEntry *entry in [stream items])
+    for (ASFEntry *entry in [stream items])
     {
-        ACellItem *cellItem = [ACellItem new];
+        CellItem *cellItem = [CellItem new];
         [cellItem setTitle:[entry title]];
         [cellItem setDate:[entry publishedAsDate]];
         
         [cellItems addObject:cellItem];
     }
     
-    ATableSection *tableSection = [ATableSection new];
+    TableSection *tableSection = [TableSection new];
     
     [tableSection setHeader:[stream title]];
     [tableSection setItems:cellItems];

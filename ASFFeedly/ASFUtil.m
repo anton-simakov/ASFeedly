@@ -1,15 +1,15 @@
 //
-//  AFeedlyClientUtility.m
-//  AFeedlyClient
+//  ASFUtil.m
+//  ASFFeedly
 //
 //  Created by Anton Simakov on 12/12/13.
 //  Copyright (c) 2013 Anton Simakov. All rights reserved.
 //
 
-#import "AFeedlyClientUtility.h"
-#import "AFeedlyClientConstants.h"
+#import "ASFUtil.h"
+#import "ASFConstants.h"
 
-@implementation AFeedlyClientUtility
+@implementation ASFUtil
 
 + (NSURLRequest *)requestWithURL:(NSURL *)URL method:(NSString *)method
 {
@@ -20,7 +20,7 @@
 
 + (NSURL *)URLWithPath:(NSString *)path parameters:(NSDictionary *)parameters
 {
-    return [self URLWithPath:path parameters:parameters base:kFeedlyBaseURL];
+    return [self URLWithPath:path parameters:parameters base:ASFEndpoint];
 }
 
 + (NSURL *)URLWithPath:(NSString *)path parameters:(NSDictionary *)parameters base:(NSString *)base

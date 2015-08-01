@@ -1,19 +1,19 @@
 //
-//  AFeedlyClientSubscription.m
-//  AFeedlyClient
+//  ASFSubscription.m
+//  ASFFeedly
 //
 //  Created by Anton Simakov on 11/7/13.
 //  Copyright (c) 2013 Anton Simakov. All rights reserved.
 //
 
-#import "AFeedlyClientSubscription.h"
-#import "AFeedlyClientConstants.h"
+#import "ASFSubscription.h"
+#import "ASFConstants.h"
 
-@implementation AFeedlyClientSubscription
+@implementation ASFSubscription
 
 - (NSString *)link
 {
-    return [_ID stringByReplacingOccurrencesOfString:kFeedlyFeedIDPrefix withString:@""];
+    return [_ID stringByReplacingOccurrencesOfString:ASFFeedIDPrefix withString:@""];
 }
 
 - (NSString *)description

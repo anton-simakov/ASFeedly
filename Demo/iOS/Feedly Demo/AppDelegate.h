@@ -1,5 +1,5 @@
 //
-//  AMainViewController.h
+//  AppDelegate.h
 //  Feedly Demo
 //
 //  Created by Anton Simakov on 12/25/13.
@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AMainViewController : UIViewController
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
+
+@property (strong, nonatomic) UIWindow *window;
 
 @end

@@ -1,41 +1,41 @@
 //
-//  AFeedlyClient.h
-//  AFeedlyClient
+//  ASFFeedly.h
+//  ASFFeedly
 //
 //  Created by Anton Simakov on 11/1/13.
 //  Copyright (c) 2013 Anton Simakov. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "AFeedlyClientSubscription.h"
-#import "AFeedlyClientStream.h"
-#import "AFeedlyClientEntry.h"
+#import "ASFSubscription.h"
+#import "ASFStream.h"
+#import "ASFEntry.h"
 
-@class AFeedlyClient;
+@class ASFFeedly;
 
-typedef NS_ENUM(NSInteger, AFeedlyClientRanking)
+typedef NS_ENUM(NSInteger, ASFRanking)
 {
-    AFeedlyClientRankingDefault,
-    AFeedlyClientRankingNewest,
-    AFeedlyClientRankingOldest
+    ASFRankingDefault,
+    ASFRankingNewest,
+    ASFRankingOldest
 };
 
-extern const CGFloat AFeedlyClientStreamEntriesMax;
+extern const CGFloat ASFStreamEntriesMax;
 
-@protocol AFeedlyClientDelegate <NSObject>
+@protocol ASFDelegate <NSObject>
 
 @optional
-- (void)feedlyClientDidFinishLogin:(AFeedlyClient *)client;
-- (void)feedlyClient:(AFeedlyClient *)client didLoadSubscriptions:(NSArray *)subscriptions;
-- (void)feedlyClient:(AFeedlyClient *)client didLoadStream:(AFeedlyClientStream *)stream;
+- (void)feedlyClientDidFinishLogin:(ASFFeedly *)client;
+- (void)feedlyClient:(ASFFeedly *)client didLoadSubscriptions:(NSArray *)subscriptions;
+- (void)feedlyClient:(ASFFeedly *)client didLoadStream:(ASFStream *)stream;
 
 @end
 
-@interface AFeedlyClient : NSObject
+@interface ASFFeedly : NSObject
 
 @property(nonatomic, strong) NSString *clientID;
 @property(nonatomic, strong) NSString *clientSecret;
-@property(nonatomic, strong) id<AFeedlyClientDelegate> delegate;
+@property(nonatomic, strong) id<ASFDelegate> delegate;
 
 - (instancetype)initWithClientID:(NSString *)clientID
                     clientSecret:(NSString *)clientSecret NS_DESIGNATED_INITIALIZER;
@@ -49,7 +49,7 @@ extern const CGFloat AFeedlyClientStreamEntriesMax;
 
 - (void)getStream:(NSString *)streamID
             count:(NSInteger)count
-          ranking:(AFeedlyClientRanking)ranking
+          ranking:(ASFRanking)ranking
        unreadOnly:(BOOL)unreadOnly
         newerThan:(long long)newerThan
      continuation:(NSString *)continuation;

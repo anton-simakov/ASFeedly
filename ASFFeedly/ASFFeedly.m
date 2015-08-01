@@ -1,25 +1,25 @@
 //
-//  AFeedlyClient.m
-//  AFeedlyClient
+//  ASFFeedly.m
+//  ASFFeedly
 //
 //  Created by Anton Simakov on 11/1/13.
 //  Copyright (c) 2013 Anton Simakov. All rights reserved.
 //
 
-#import "AFeedlyClient.h"
-#import "AFeedlyClientConstants.h"
-#import "AFeedlyClientUtility.h"
-#import "AFeedlyClientStream.h"
-#import "AFeedlyClientEntry.h"
-#import "AFeedlyClientAuthentication.h"
-#import "AFeedlyClientAuthenticationViewController.h"
+#import "ASFFeedly.h"
+#import "ASFConstants.h"
+#import "ASFUtil.h"
+#import "ASFStream.h"
+#import "ASFEntry.h"
+#import "ASFAuthentication.h"
+#import "ASFSignInViewController.h"
 #import "ASFURLConnectionOperation.h"
 #import "DLog.h"
 
-typedef void (^AFeedlyClientResultBlock)(NSError *error);
-typedef void (^AFeedlyClientResponseResultBlock)(id response, NSError *error);
+typedef void (^ASFResultBlock)(NSError *error);
+typedef void (^ASFResponseResultBlock)(id response, NSError *error);
 
-const CGFloat AFeedlyClientStreamEntriesMax = 10000;
+const CGFloat ASFStreamEntriesMax = 10000;
 
 NSString * rankingStrings[2] =
 {
@@ -27,19 +27,19 @@ NSString * rankingStrings[2] =
     @"oldest"
 };
 
-NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
+NSString * ASFRankingString(ASFRanking ranking)
 {
     return rankingStrings[ranking];
 }
 
-@interface AFeedlyClient ()<AFeedlyClientAuthenticationViewControllerDelegate>
+@interface ASFFeedly ()<ASFSignInViewControllerDelegate>
 
 @property (nonatomic, strong) NSOperationQueue *queue;
-@property (nonatomic, strong) AFeedlyClientAuthentication *authentication;
+@property (nonatomic, strong) ASFAuthentication *authentication;
 
 @end
 
-@implementation AFeedlyClient
+@implementation ASFFeedly
 
 - (instancetype)init {
     return [self initWithClientID:nil
@@ -49,19 +49,19 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 - (instancetype)initWithClientID:(NSString *)clientID
                     clientSecret:(NSString *)clientSecret {
     
-    if (![clientID length]) {
-        DLog(@"Client ID is empty.");
+    if (!clientID || ![clientID length]) {
+        DLog(@"Client ID is nil or empty.");
         return nil;
     }
     
-    if (![clientSecret length]) {
-        DLog(@"Client Secret is empty.");
+    if (!clientSecret || ![clientSecret length]) {
+        DLog(@"Client secret is nil or empty.");
         return nil;
     }
     
     self = [super init];
     if (self) {
-        _authentication = [AFeedlyClientAuthentication restore];
+        _authentication = [ASFAuthentication restore];
         _clientID = clientID;
         _clientSecret = clientSecret;
         _queue = [[NSOperationQueue alloc] init];
@@ -74,8 +74,8 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 {
     if (![_authentication refreshToken])
     {
-        AFeedlyClientAuthenticationViewController *vc = [[AFeedlyClientAuthenticationViewController alloc] initWithCliendID:_clientID
-                                                                                                         delegate:self];
+        ASFSignInViewController *vc = [[ASFSignInViewController alloc] initWithCliendID:_clientID
+                                                                               delegate:self];
         
         UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
         
@@ -90,23 +90,23 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 - (void)logout
 {
-    [AFeedlyClientAuthentication reset];
+    [ASFAuthentication reset];
     [self setAuthentication:nil];
 }
 
-#pragma mark - AFeedlyAuthenticationViewControllerDelegate
+#pragma mark - ASFSignInViewControllerDelegate
 
-- (void)feedlyClientAuthenticationViewController:(AFeedlyClientAuthenticationViewController *)vc
+- (void)feedlyClientAuthenticationViewController:(ASFSignInViewController *)vc
                                didFinishWithCode:(NSString *)code
 {
-    AFeedlyClientAuthentication *authentication = [AFeedlyClientAuthentication authenticationWithCode:code];
+    ASFAuthentication *authentication = [ASFAuthentication authenticationWithCode:code];
     [self finishAuthentication:authentication];
 }
 
-- (void)finishAuthentication:(AFeedlyClientAuthentication *)authentication
+- (void)finishAuthentication:(ASFAuthentication *)authentication
 {
     [self setAuthentication:authentication];
-    [AFeedlyClientAuthentication store:authentication];
+    [ASFAuthentication store:authentication];
     
     if ([_delegate respondsToSelector:@selector(feedlyClientDidFinishLogin:)])
     {
@@ -118,7 +118,7 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 - (void)getCategories
 {
-    NSURL *URL = [AFeedlyClientUtility URLWithPath:@"categories" parameters:nil];
+    NSURL *URL = [ASFUtil URLWithPath:@"categories" parameters:nil];
     
     __weak __typeof(self)weak = self;
     [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
@@ -136,7 +136,7 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 - (void)getSubscriptions
 {
-    NSURL *URL = [AFeedlyClientUtility URLWithPath:kFeedlySubscriptionsPath parameters:nil];
+    NSURL *URL = [ASFUtil URLWithPath:ASFSubscriptionsPath parameters:nil];
     
     __weak __typeof(self)weak = self;
     [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
@@ -154,44 +154,44 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 - (void)getStream:(NSString *)streamID
 {
-    [self getStream:streamID count:0 ranking:AFeedlyClientRankingDefault unreadOnly:YES newerThan:0 continuation:nil];
+    [self getStream:streamID count:0 ranking:ASFRankingDefault unreadOnly:YES newerThan:0 continuation:nil];
 }
 
 - (void)getStream:(NSString *)streamID
             count:(NSInteger)count
-          ranking:(AFeedlyClientRanking)ranking
+          ranking:(ASFRanking)ranking
        unreadOnly:(BOOL)unreadOnly
         newerThan:(long long)newerThan
      continuation:(NSString *)continuation
 {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObject:streamID
-                                                                         forKey:kFeedlyStreamIDKey];
+                                                                         forKey:ASFStreamIDKey];
     if (count)
     {
-        [parameters setValue:@(count) forKey:kFeedlyCountKey];
+        [parameters setValue:@(count) forKey:ASFCountKey];
     }
     
-    if (ranking != AFeedlyClientRankingDefault)
+    if (ranking != ASFRankingDefault)
     {
-        [parameters setValue:AFeedlyClientRankingString(AFeedlyClientRankingNewest) forKey:kFeedlyRankedKey];
+        [parameters setValue:ASFRankingString(ASFRankingNewest) forKey:ASFRankedKey];
     }
     
     if (unreadOnly)
     {
-        [parameters setValue:kFeedlyFeedTrueValue forKey:kFeedlyUnreadOnlyKey];
+        [parameters setValue:ASFFeedTrueValue forKey:ASFUnreadOnlyKey];
     }
     
     if (newerThan)
     {
-        [parameters setValue:@(newerThan + 1) forKey:kFeedlyNewerThanKey];
+        [parameters setValue:@(newerThan + 1) forKey:ASFNewerThanKey];
     }
     
     if (continuation)
     {
-        [parameters setValue:continuation forKey:kFeedlyContinuationKey];
+        [parameters setValue:continuation forKey:ASFContinuationKey];
     }
     
-    NSURL *URL = [AFeedlyClientUtility URLWithPath:kFeedlyStreamsContentsPath parameters:parameters];
+    NSURL *URL = [ASFUtil URLWithPath:ASFStreamsContentsPath parameters:parameters];
     
     __weak __typeof(self)weak = self;
     [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
@@ -218,10 +218,10 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
     
     if (newerThan)
     {
-        [parameters setValue:@(newerThan + 1) forKey:kFeedlyNewerThanKey];
+        [parameters setValue:@(newerThan + 1) forKey:ASFNewerThanKey];
     }
     
-    NSURL *URL = [AFeedlyClientUtility URLWithPath:kFeedlyMarkersReadsPath parameters:parameters];
+    NSURL *URL = [ASFUtil URLWithPath:ASFMarkersReadsPath parameters:parameters];
     
     __weak __typeof(self)weak = self;
     [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
@@ -241,18 +241,18 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 - (void)updateCategory:(NSString *)ID withLabel:(NSString *)label
 {
-    NSString *path = [NSString stringWithFormat:@"%@/%@", kFeedlyCategoriesPath, [AFeedlyClientUtility encodeString:ID]];
+    NSString *path = [NSString stringWithFormat:@"%@/%@", ASFCategoriesPath, [ASFUtil encodeString:ID]];
     
-    [self makeRequestWithBase:kFeedlyBaseURL path:path parameters:@{kFeedlyLabelKey : label}];
+    [self makeRequestWithBase:ASFEndpoint path:path parameters:@{ASFLabelKey : label}];
 }
 
 - (void)updateSubscription:(NSString *)ID withTitle:(NSString *)title categories:(NSArray *)categories
 {
-    [self makeRequestWithBase:kFeedlyBaseURL
-                         path:kFeedlySubscriptionsPath
-                   parameters:@{kFeedlyIDKey : ID,
-                                kFeedlyTitleKey : title,
-                                kFeedlyCategoriesKey : categories}];
+    [self makeRequestWithBase:ASFEndpoint
+                         path:ASFSubscriptionsPath
+                   parameters:@{ASFIDKey : ID,
+                                ASFTitleKey : title,
+                                ASFCategoriesKey : categories}];
 }
 
 #pragma mark - Mark
@@ -264,9 +264,9 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 - (void)markEntries:(NSArray *)IDs read:(BOOL)read
 {
-    [self makeRequestWithPath:kFeedlyMarkersPath parameters:@{kFeedlyActionKey : [self actionForReadState:read],
-                                                              kFeedlyTypeKey : kFeedlyEntriesValue,
-                                                              kFeedlyEntryIDsKey : IDs}];
+    [self makeRequestWithPath:ASFMarkersPath parameters:@{ASFActionKey : [self actionForReadState:read],
+                                                              ASFTypeKey : ASFEntriesValue,
+                                                              ASFEntryIDsKey : IDs}];
 }
 
 - (void)markCategory:(NSString *)ID read:(BOOL)read
@@ -276,9 +276,9 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 - (void)markCategories:(NSArray *)IDs read:(BOOL)read
 {
-    [self makeRequestWithPath:kFeedlyMarkersPath parameters:@{kFeedlyActionKey : [self actionForReadState:read],
-                                                              kFeedlyTypeKey : kFeedlyCategoriesValue,
-                                                              kFeedlyCategoryIDsKey : IDs}];
+    [self makeRequestWithPath:ASFMarkersPath parameters:@{ASFActionKey : [self actionForReadState:read],
+                                                              ASFTypeKey : ASFCategoriesValue,
+                                                              ASFCategoryIDsKey : IDs}];
 }
 
 - (void)markSubscription:(NSString *)ID read:(BOOL)read
@@ -288,14 +288,14 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 - (void)markSubscriptions:(NSArray *)IDs read:(BOOL)read
 {
-    [self makeRequestWithPath:kFeedlyMarkersPath parameters:@{kFeedlyActionKey : [self actionForReadState:read],
-                                                              kFeedlyTypeKey : kFeedlyFeedsValue,
-                                                              kFeedlyFeedIDsKey : IDs}];
+    [self makeRequestWithPath:ASFMarkersPath parameters:@{ASFActionKey : [self actionForReadState:read],
+                                                              ASFTypeKey : ASFFeedsValue,
+                                                              ASFFeedIDsKey : IDs}];
 }
 
 - (NSString *)actionForReadState:(BOOL)state
 {
-    return state ? kFeedlyMarkAsReadValue : kFeedlyKeepUnreadValue;
+    return state ? ASFMarkAsReadValue : ASFKeepUnreadValue;
 }
 
 #pragma mark - Requests
@@ -331,7 +331,7 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 - (void)makeRequestWithPath:(NSString *)path parameters:(NSDictionary *)parameters;
 {
-    [self makeRequestWithBase:kFeedlyBaseURL path:path parameters:parameters];
+    [self makeRequestWithBase:ASFEndpoint path:path parameters:parameters];
 }
 
 - (void)makeRequestWithBase:(NSString *)base path:(NSString *)path parameters:(NSDictionary *)parameters
@@ -348,7 +348,7 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 #pragma mark - GET
 
-- (void)startRequestWithURL:(NSURL *)URL completionBlock:(AFeedlyClientResponseResultBlock)block
+- (void)startRequestWithURL:(NSURL *)URL completionBlock:(ASFResponseResultBlock)block
 {
     __weak __typeof(self)weak = self;
     [self getTokenWithblock:^(NSError *error)
@@ -364,7 +364,7 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
      }];
 }
 
-- (void)startRequestWithURL:(NSURL *)URL authorized:(BOOL)authorized completionBlock:(AFeedlyClientResponseResultBlock)block
+- (void)startRequestWithURL:(NSURL *)URL authorized:(BOOL)authorized completionBlock:(ASFResponseResultBlock)block
 {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
     
@@ -376,7 +376,7 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
     [self startRequest:request completionBlock:block];
 }
 
-- (void)startRequest:(NSURLRequest *)request completionBlock:(AFeedlyClientResponseResultBlock)block
+- (void)startRequest:(NSURLRequest *)request completionBlock:(ASFResponseResultBlock)block
 {
     ASFURLConnectionOperation *operation =
     [[ASFURLConnectionOperation alloc] initWithRequest:request
@@ -392,7 +392,7 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 #pragma mark - Token
 
-- (void)getTokenWithblock:(AFeedlyClientResultBlock)block
+- (void)getTokenWithblock:(ASFResultBlock)block
 {
     if ([_authentication accessToken] == nil)
     {
@@ -411,16 +411,16 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
     }
 }
 
-- (void)getAccessTokenWithBlock:(AFeedlyClientResultBlock)block
+- (void)getAccessTokenWithBlock:(ASFResultBlock)block
 {
-    NSDictionary *parameters = @{kFeedlyCodeKey : [_authentication code],
-                                 kFeedlyClientIDKey : _clientID,
-                                 kFeedlyClientSecretKey : _clientSecret,
-                                 kFeedlyRedirectURIKey : kFeedlyRedirectURI,
-                                 kFeedlyGrantTypeKey : kFeedlyGrantTypeAuthorizationCode};
+    NSDictionary *parameters = @{ASFCodeKey : [_authentication code],
+                                 ASFClientIDKey : _clientID,
+                                 ASFClientSecretKey : _clientSecret,
+                                 ASFRedirectURIKey : ASFRedirectURI,
+                                 ASFGrantTypeKey : ASFGrantTypeAuthorizationCode};
     
-    NSURL *URL = [AFeedlyClientUtility URLWithPath:kFeedlyAuthTokenPath parameters:parameters];
-    NSURLRequest *request = [AFeedlyClientUtility requestWithURL:URL method:@"POST"];
+    NSURL *URL = [ASFUtil URLWithPath:ASFAuthTokenPath parameters:parameters];
+    NSURLRequest *request = [ASFUtil requestWithURL:URL method:@"POST"];
     
     __weak __typeof(self)weak = self;
     [self startRequest:request completionBlock:^(id response, NSError *error)
@@ -437,15 +437,15 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
      }];
 }
 
-- (void)refreshTokenWithBlock:(AFeedlyClientResultBlock)block
+- (void)refreshTokenWithBlock:(ASFResultBlock)block
 {
-    NSDictionary *parameters = @{kFeedlyRefreshTokenKey : [_authentication refreshToken],
-                                 kFeedlyClientIDKey : _clientID,
-                                 kFeedlyClientSecretKey : _clientSecret,
-                                 kFeedlyGrantTypeKey : kFeedlyGrantTypeRefreshToken};
+    NSDictionary *parameters = @{ASFRefreshTokenKey : [_authentication refreshToken],
+                                 ASFClientIDKey : _clientID,
+                                 ASFClientSecretKey : _clientSecret,
+                                 ASFGrantTypeKey : ASFGrantTypeRefreshToken};
     
-    NSURL *URL = [AFeedlyClientUtility URLWithPath:kFeedlyAuthTokenPath parameters:parameters];
-    NSURLRequest *request = [AFeedlyClientUtility requestWithURL:URL method:@"POST"];
+    NSURL *URL = [ASFUtil URLWithPath:ASFAuthTokenPath parameters:parameters];
+    NSURLRequest *request = [ASFUtil requestWithURL:URL method:@"POST"];
     
     __weak __typeof(self)weak = self;
     [self startRequest:request completionBlock:^(id response, NSError *error)
@@ -466,29 +466,29 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 - (void)parseAuthentication:(NSDictionary *)responce
 {
-    NSString *refreshToken = responce[kFeedlyRefreshTokenKey];
+    NSString *refreshToken = responce[ASFRefreshTokenKey];
     
     if (refreshToken)
     {
         [_authentication setRefreshToken:refreshToken];
     }
     
-    NSString *state = responce[kFeedlyStateKey];
+    NSString *state = responce[ASFStateKey];
     
     if (state)
     {
         [_authentication setState:state];
     }
     
-    [_authentication setUserID:responce[kFeedlyIDKey]];
-    [_authentication setAccessToken:responce[kFeedlyAccessTokenKey]];
-    [_authentication setTokenType:responce[kFeedlyTokenTypeKey]];
-    [_authentication setPlan:responce[kFeedlyPlanKey]];
+    [_authentication setUserID:responce[ASFIDKey]];
+    [_authentication setAccessToken:responce[ASFAccessTokenKey]];
+    [_authentication setTokenType:responce[ASFTokenTypeKey]];
+    [_authentication setPlan:responce[ASFPlanKey]];
     
-    NSNumber *timeInterval = responce[kFeedlyExpiresInKey];
+    NSNumber *timeInterval = responce[ASFExpiresInKey];
     [_authentication setExpiresIn:[timeInterval longValue]];
     
-    [AFeedlyClientAuthentication store:_authentication];
+    [ASFAuthentication store:_authentication];
 }
 
 - (void)parseSubscriptions:(NSArray *)response
@@ -497,25 +497,25 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
     
     for (NSDictionary *subscriptionDictionary in response)
     {
-        AFeedlyClientSubscription *subscription = [AFeedlyClientSubscription new];
+        ASFSubscription *subscription = [ASFSubscription new];
         
-        [subscription setID: subscriptionDictionary[kFeedlyIDKey]];
-        [subscription setTitle: subscriptionDictionary[kFeedlyTitleKey]];
-        [subscription setWebsite:subscriptionDictionary[kFeedlyWebsiteKey]];
+        [subscription setID: subscriptionDictionary[ASFIDKey]];
+        [subscription setTitle: subscriptionDictionary[ASFTitleKey]];
+        [subscription setWebsite:subscriptionDictionary[ASFWebsiteKey]];
         
-        NSTimeInterval updated = [subscriptionDictionary[kFeedlyUpdatedKey] longLongValue];
+        NSTimeInterval updated = [subscriptionDictionary[ASFUpdatedKey] longLongValue];
         
         [subscription setUpdated:[NSDate dateWithTimeIntervalSince1970:updated]];
         
         NSMutableArray *categories = [NSMutableArray array];
-        NSArray *categoriesResponse = subscriptionDictionary[kFeedlyCategoriesKey];
+        NSArray *categoriesResponse = subscriptionDictionary[ASFCategoriesKey];
         
         for (NSDictionary *categoryDictionary in categoriesResponse)
         {
-            AFeedlyClientCategory *category = [AFeedlyClientCategory new];
+            ASFCategory *category = [ASFCategory new];
             
-            [category setID:categoryDictionary[kFeedlyIDKey]];
-            [category setLabel:categoryDictionary[kFeedlyLabelKey]];
+            [category setID:categoryDictionary[ASFIDKey]];
+            [category setLabel:categoryDictionary[ASFLabelKey]];
             
             [categories addObject:category];
         }
@@ -533,15 +533,15 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
 
 - (void)parseStream:(NSDictionary *)response
 {
-    AFeedlyClientStream *stream = [AFeedlyClientStream new];
+    ASFStream *stream = [ASFStream new];
     
-    [stream setID:response[kFeedlyIDKey]];
-    [stream setTitle:response[kFeedlyTitleKey]];
-    [stream setDirection:response[kFeedlyDirectionKey]];
-    [stream setContinuation:response[kFeedlyContinuationKey]];
-    [stream setUpdated:[response[kFeedlyUpdatedKey] longLongValue]];
+    [stream setID:response[ASFIDKey]];
+    [stream setTitle:response[ASFTitleKey]];
+    [stream setDirection:response[ASFDirectionKey]];
+    [stream setContinuation:response[ASFContinuationKey]];
+    [stream setUpdated:[response[ASFUpdatedKey] longLongValue]];
     
-    NSArray *items = response[kFeedlyItemsKey];
+    NSArray *items = response[ASFItemsKey];
     [stream setItems:[self parseEntries:items]];
     
     if ([_delegate respondsToSelector:@selector(feedlyClient:didLoadStream:)])
@@ -556,27 +556,27 @@ NSString * AFeedlyClientRankingString(AFeedlyClientRanking ranking)
     
     for (NSDictionary *item in items)
     {
-        AFeedlyClientEntry *entry = [self parseEntry:item];
+        ASFEntry *entry = [self parseEntry:item];
         [entries addObject:entry];
     }
     
     return entries;
 }
 
-- (AFeedlyClientEntry *)parseEntry:(NSDictionary *)item
+- (ASFEntry *)parseEntry:(NSDictionary *)item
 {
-    AFeedlyClientEntry *entry = [AFeedlyClientEntry new];
+    ASFEntry *entry = [ASFEntry new];
     
-    [entry setID:item[kFeedlyIDKey]];
-    [entry setTitle:item[kFeedlyTitleKey]];
-    [entry setAuthor:item[kFeedlyAuthorKey]];
-    [entry setOriginID:item[kFeedlyOriginIDKey]];
+    [entry setID:item[ASFIDKey]];
+    [entry setTitle:item[ASFTitleKey]];
+    [entry setAuthor:item[ASFAuthorKey]];
+    [entry setOriginID:item[ASFOriginIDKey]];
     
-    [entry setContent:item[kFeedlySummaryKey][kFeedlyContentKey]];
-    [entry setUnread:[item[kFeedlyUnreadKey] boolValue]];
-    [entry setEngagement:[item[kFeedlyEngagementKey] longValue]];
-    [entry setImageURLString:item[kFeedlyVisualKey][kFeedlyURLKey]];
-    [entry setPublished:[item[kFeedlyPublishedKey] longLongValue]];
+    [entry setContent:item[ASFSummaryKey][ASFContentKey]];
+    [entry setUnread:[item[ASFUnreadKey] boolValue]];
+    [entry setEngagement:[item[ASFEngagementKey] longValue]];
+    [entry setImageURLString:item[ASFVisualKey][ASFURLKey]];
+    [entry setPublished:[item[ASFPublishedKey] longLongValue]];
     
     return entry;
 }
