@@ -12,7 +12,7 @@
 #import "ASFStream.h"
 #import "ASFEntry.h"
 #import "ASFAuthentication.h"
-#import "ASFSignInViewController.h"
+#import "ASFLogInViewController.h"
 #import "ASFURLConnectionOperation.h"
 #import "DLog.h"
 
@@ -32,7 +32,7 @@ NSString * ASFRankingString(ASFRanking ranking)
     return rankingStrings[ranking];
 }
 
-@interface ASFFeedly ()<ASFSignInViewControllerDelegate>
+@interface ASFFeedly () <ASFLogInViewControllerDelegate>
 
 @property (nonatomic, strong) NSOperationQueue *queue;
 @property (nonatomic, strong) ASFAuthentication *authentication;
@@ -74,8 +74,8 @@ NSString * ASFRankingString(ASFRanking ranking)
 {
     if (![_authentication refreshToken])
     {
-        ASFSignInViewController *vc = [[ASFSignInViewController alloc] initWithCliendID:_clientID
-                                                                               delegate:self];
+        ASFLogInViewController *vc = [[ASFLogInViewController alloc] initWithCliendID:_clientID
+                                                                             delegate:self];
         
         UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
         
@@ -94,9 +94,9 @@ NSString * ASFRankingString(ASFRanking ranking)
     [self setAuthentication:nil];
 }
 
-#pragma mark - ASFSignInViewControllerDelegate
+#pragma mark - ASFLogInViewControllerDelegate
 
-- (void)feedlyClientAuthenticationViewController:(ASFSignInViewController *)vc
+- (void)feedlyClientAuthenticationViewController:(ASFLogInViewController *)vc
                                didFinishWithCode:(NSString *)code
 {
     ASFAuthentication *authentication = [ASFAuthentication authenticationWithCode:code];

@@ -1,23 +1,23 @@
 //
-//  ASFSignInViewController.m
+//  ASFLogInViewController.m
 //  ASFFeedly
 //
 //  Created by Anton Simakov on 11/1/13.
 //  Copyright (c) 2013 Anton Simakov. All rights reserved.
 //
 
-#import "ASFSignInViewController.h"
+#import "ASFLogInViewController.h"
 #import "ASFConstants.h"
 #import "ASFUtil.h"
 
-@interface ASFSignInViewController ()<UIWebViewDelegate>
+@interface ASFLogInViewController ()<UIWebViewDelegate>
 
 @property(nonatomic, strong) NSString *clientID;
 @property(nonatomic, strong) UIWebView *webView;
 
 @end
 
-@implementation ASFSignInViewController
+@implementation ASFLogInViewController
 
 - (id)init
 {
@@ -26,7 +26,7 @@
                                  userInfo:nil];
 }
 
-- (id)initWithCliendID:(NSString *)clientID delegate:(id<ASFSignInViewControllerDelegate>)delegate
+- (id)initWithCliendID:(NSString *)clientID delegate:(id<ASFLogInViewControllerDelegate>)delegate
 {
     self = [super init];
     

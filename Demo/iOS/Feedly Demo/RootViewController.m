@@ -12,7 +12,7 @@
 #import "TableSection.h"
 
 #import "ASFFeedly.h"
-#import "ASFSignInViewController.h"
+#import "ASFLogInViewController.h"
 
 static NSString *const kClientID = @"sandbox";
 static NSString *const kClientSecret = @""; // Put your client secret here

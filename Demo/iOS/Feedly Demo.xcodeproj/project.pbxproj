@@ -21,7 +21,7 @@
 		84B612DF186ACE7900BA9E10 /* CellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612DE186ACE7900BA9E10 /* CellItem.m */; };
 		84C29558186AC4C700B59901 /* ASFFeedly.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29547186AC4C700B59901 /* ASFFeedly.m */; };
 		84C29559186AC4C700B59901 /* ASFAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29549186AC4C700B59901 /* ASFAuthentication.m */; };
-		84C2955A186AC4C700B59901 /* ASFSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954B186AC4C700B59901 /* ASFSignInViewController.m */; };
+		84C2955A186AC4C700B59901 /* ASFLogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954B186AC4C700B59901 /* ASFLogInViewController.m */; };
 		84C2955B186AC4C700B59901 /* ASFCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954D186AC4C700B59901 /* ASFCategory.m */; };
 		84C2955C186AC4C700B59901 /* ASFConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954F186AC4C700B59901 /* ASFConstants.m */; };
 		84C2955D186AC4C700B59901 /* ASFEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29551186AC4C700B59901 /* ASFEntry.m */; };
@@ -57,8 +57,8 @@
 		84C29547186AC4C700B59901 /* ASFFeedly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFFeedly.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		84C29548186AC4C700B59901 /* ASFAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFAuthentication.h; sourceTree = "<group>"; };
 		84C29549186AC4C700B59901 /* ASFAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFAuthentication.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		84C2954A186AC4C700B59901 /* ASFSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ASFSignInViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		84C2954B186AC4C700B59901 /* ASFSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFSignInViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		84C2954A186AC4C700B59901 /* ASFLogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ASFLogInViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		84C2954B186AC4C700B59901 /* ASFLogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFLogInViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		84C2954C186AC4C700B59901 /* ASFCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFCategory.h; sourceTree = "<group>"; };
 		84C2954D186AC4C700B59901 /* ASFCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFCategory.m; sourceTree = "<group>"; };
 		84C2954E186AC4C700B59901 /* ASFConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFConstants.h; sourceTree = "<group>"; };
@@ -158,8 +158,8 @@
 				84C29551186AC4C700B59901 /* ASFEntry.m */,
 				84C29546186AC4C700B59901 /* ASFFeedly.h */,
 				84C29547186AC4C700B59901 /* ASFFeedly.m */,
-				84C2954A186AC4C700B59901 /* ASFSignInViewController.h */,
-				84C2954B186AC4C700B59901 /* ASFSignInViewController.m */,
+				84C2954A186AC4C700B59901 /* ASFLogInViewController.h */,
+				84C2954B186AC4C700B59901 /* ASFLogInViewController.m */,
 				84C29552186AC4C700B59901 /* ASFStream.h */,
 				84C29553186AC4C700B59901 /* ASFStream.m */,
 				84C29554186AC4C700B59901 /* ASFSubscription.h */,
@@ -246,7 +246,7 @@
 				3AE9FB0B1B6BFAC900147959 /* ASFURLConnectionOperation.m in Sources */,
 				84C2955F186AC4C700B59901 /* ASFSubscription.m in Sources */,
 				84C2955B186AC4C700B59901 /* ASFCategory.m in Sources */,
-				84C2955A186AC4C700B59901 /* ASFSignInViewController.m in Sources */,
+				84C2955A186AC4C700B59901 /* ASFLogInViewController.m in Sources */,
 				84C29560186AC4C700B59901 /* ASFUtil.m in Sources */,
 				84B612D6186AC98E00BA9E10 /* RootViewController.m in Sources */,
 				84C29558186AC4C700B59901 /* ASFFeedly.m in Sources */,
