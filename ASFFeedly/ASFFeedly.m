@@ -347,10 +347,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
     
-    if (authorized)
-    {
-        [self authorizeRequest:request];
-    }
+    [request addValue:[_authentication accessToken] forHTTPHeaderField:@"Authorization"];
     
     [self startRequest:request completionBlock:block];
 }
@@ -575,11 +572,6 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 - (void)parseMarkersReads:(NSDictionary *)response
 {
     NSLog(@"%@", response);
-}
-
-- (void)authorizeRequest:(NSMutableURLRequest *)request
-{
-    [request addValue:[_authentication accessToken] forHTTPHeaderField:@"Authorization"];
 }
 
 - (void)handleError:(NSError *)error
