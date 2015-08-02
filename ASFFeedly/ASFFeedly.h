@@ -13,7 +13,7 @@
 
 @class ASFFeedly;
 
-typedef NS_ENUM(NSInteger, ASFRanking) {
+typedef NS_ENUM(NSUInteger, ASFRanking) {
     ASFNewest,
     ASFOldest
 };
