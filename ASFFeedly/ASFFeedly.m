@@ -154,7 +154,7 @@ NSString * ASFRankingString(ASFRanking ranking)
 
 - (void)getStream:(NSString *)streamID
 {
-    [self getStream:streamID count:0 ranking:ASFRankingNewest unreadOnly:YES newerThan:0 continuation:nil];
+    [self getStream:streamID count:0 ranking:ASFNewest unreadOnly:YES newerThan:0 continuation:nil];
 }
 
 - (void)getStream:(NSString *)streamID
@@ -186,7 +186,7 @@ NSString * ASFRankingString(ASFRanking ranking)
         [parameters setValue:continuation forKey:ASFContinuationKey];
     }
     
-    [parameters setValue:ASFRankingString(ASFRankingNewest) forKey:ASFRankedKey];
+    [parameters setValue:ASFRankingString(ASFNewest) forKey:ASFRankedKey];
     
     NSURL *URL = [ASFUtil URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFStreamsContentsPath]
                              parameters:parameters];

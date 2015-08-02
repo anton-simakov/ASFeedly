@@ -13,10 +13,9 @@
 
 @class ASFFeedly;
 
-typedef NS_ENUM(NSInteger, ASFRanking)
-{
-    ASFRankingNewest,
-    ASFRankingOldest
+typedef NS_ENUM(NSInteger, ASFRanking) {
+    ASFNewest,
+    ASFOldest
 };
 
 extern const CGFloat ASFStreamEntriesMax;

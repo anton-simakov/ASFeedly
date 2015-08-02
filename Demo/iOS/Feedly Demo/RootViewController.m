@@ -142,7 +142,7 @@ static NSString *const kCellIdentifier = @"ACell";
     {
         [client getStream:[subscription ID]
                     count:10
-                  ranking:ASFRankingNewest
+                  ranking:ASFNewest
                unreadOnly:YES
                 newerThan:0
              continuation:nil];
