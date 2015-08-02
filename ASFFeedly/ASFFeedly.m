@@ -266,9 +266,13 @@ NSString * ASFRankingString(ASFRanking ranking)
 
 - (void)markEntries:(NSArray *)IDs read:(BOOL)read
 {
-    [self makeRequestWithPath:ASFMarkersPath parameters:@{ASFActionKey : [self actionForReadState:read],
-                                                              ASFTypeKey : ASFEntriesValue,
-                                                              ASFEntryIDsKey : IDs}];
+    NSDictionary *parameters = @{ASFActionKey : [self actionForReadState:read],
+                                 ASFTypeKey : ASFEntriesValue,
+                                 ASFEntryIDsKey : IDs};
+    
+    [self makeRequestWithBase:ASFEndpoint
+                         path:ASFMarkersPath
+                   parameters:parameters];
 }
 
 - (void)markCategory:(NSString *)ID read:(BOOL)read
@@ -278,9 +282,13 @@ NSString * ASFRankingString(ASFRanking ranking)
 
 - (void)markCategories:(NSArray *)IDs read:(BOOL)read
 {
-    [self makeRequestWithPath:ASFMarkersPath parameters:@{ASFActionKey : [self actionForReadState:read],
-                                                              ASFTypeKey : ASFCategoriesValue,
-                                                              ASFCategoryIDsKey : IDs}];
+    NSDictionary *parameters = @{ASFActionKey : [self actionForReadState:read],
+                                 ASFTypeKey : ASFCategoriesValue,
+                                 ASFCategoryIDsKey : IDs};
+    
+    [self makeRequestWithBase:ASFEndpoint
+                         path:ASFMarkersPath
+                   parameters:parameters];
 }
 
 - (void)markSubscription:(NSString *)ID read:(BOOL)read
@@ -290,9 +298,13 @@ NSString * ASFRankingString(ASFRanking ranking)
 
 - (void)markSubscriptions:(NSArray *)IDs read:(BOOL)read
 {
-    [self makeRequestWithPath:ASFMarkersPath parameters:@{ASFActionKey : [self actionForReadState:read],
-                                                              ASFTypeKey : ASFFeedsValue,
-                                                              ASFFeedIDsKey : IDs}];
+    NSDictionary *parameters = @{ASFActionKey : [self actionForReadState:read],
+                                 ASFTypeKey : ASFFeedsValue,
+                                 ASFFeedIDsKey : IDs};
+    
+    [self makeRequestWithBase:ASFEndpoint
+                         path:ASFMarkersPath
+                   parameters:parameters];
 }
 
 - (NSString *)actionForReadState:(BOOL)state
@@ -301,11 +313,6 @@ NSString * ASFRankingString(ASFRanking ranking)
 }
 
 #pragma mark - POST
-
-- (void)makeRequestWithPath:(NSString *)path parameters:(NSDictionary *)parameters;
-{
-    [self makeRequestWithBase:ASFEndpoint path:path parameters:parameters];
-}
 
 - (void)makeRequestWithBase:(NSString *)base path:(NSString *)path parameters:(NSDictionary *)parameters
 {
