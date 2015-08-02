@@ -18,8 +18,6 @@ typedef NS_ENUM(NSUInteger, ASFRanking) {
     ASFOldest
 };
 
-extern const CGFloat ASFStreamEntriesMax;
-
 @protocol ASFDelegate <NSObject>
 
 @optional

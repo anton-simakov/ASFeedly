@@ -78,3 +78,5 @@ extern NSString *const ASFResponseTypeCode;
 
 extern NSString *const ASFGrantTypeRefreshToken;
 extern NSString *const ASFGrantTypeAuthorizationCode;
+
+extern NSUInteger const ASFStreamCountMax;

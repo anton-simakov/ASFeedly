@@ -19,8 +19,6 @@
 typedef void (^ASFResultBlock)(NSError *error);
 typedef void (^ASFResponseResultBlock)(id response, NSError *error);
 
-const CGFloat ASFStreamEntriesMax = 10000;
-
 static NSString *ASFRankingValue(ASFRanking ranking) {
     switch (ranking) {
         case ASFNewest: return @"newest";

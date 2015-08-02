@@ -78,3 +78,5 @@ NSString *const ASFResponseTypeCode     = @"code";
 
 NSString *const ASFGrantTypeRefreshToken      = @"refresh_token";
 NSString *const ASFGrantTypeAuthorizationCode = @"authorization_code";
+
+NSUInteger const ASFStreamCountMax      = 10000;
