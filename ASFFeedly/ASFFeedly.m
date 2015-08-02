@@ -158,6 +158,11 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
         newerThan:(long long)newerThan
      continuation:(NSString *)continuation
 {
+    if (!streamID) {
+        DLog(@"Stream identifier is nil.");
+        return;
+    }
+    
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObject:streamID
                                                                          forKey:ASFStreamIDKey];
     if (count)
