@@ -154,7 +154,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 }
 
 - (void)getStream:(NSString *)streamID
-            count:(NSInteger)count
+            count:(NSUInteger)count
           ranking:(ASFRanking)ranking
        unreadOnly:(BOOL)unreadOnly
         newerThan:(long long)newerThan

@@ -46,7 +46,7 @@ extern const CGFloat ASFStreamEntriesMax;
 - (void)getStream:(NSString *)streamID;
 
 - (void)getStream:(NSString *)streamID
-            count:(NSInteger)count
+            count:(NSUInteger)count
           ranking:(ASFRanking)ranking
        unreadOnly:(BOOL)unreadOnly
         newerThan:(long long)newerThan
