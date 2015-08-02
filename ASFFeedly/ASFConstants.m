@@ -74,7 +74,6 @@ NSString *const ASFFeedFalseValue       = @"false";
 NSString *const ASFMarkAsReadValue      = @"markAsRead";
 NSString *const ASFKeepUnreadValue      = @"keepUnread";
 
-
 NSString *const ASFResponseTypeCode     = @"code";
 
 NSString *const ASFGrantTypeRefreshToken      = @"refresh_token";

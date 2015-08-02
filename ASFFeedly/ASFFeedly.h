@@ -15,7 +15,6 @@
 
 typedef NS_ENUM(NSInteger, ASFRanking)
 {
-    ASFRankingDefault,
     ASFRankingNewest,
     ASFRankingOldest
 };
