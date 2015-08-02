@@ -114,16 +114,10 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 {
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, @"categories"]];
     
-    __weak __typeof(self)weak = self;
     [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
      {
-         if (error)
-         {
-             [weak handleError:error];
-         }
-         else
-         {
-             // parse categories
+         if (error) {
+             DLog(@"%@", error);
          }
      }];
 }
@@ -135,14 +129,10 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     __weak __typeof(self)weak = self;
     [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
      {
-         if (error)
-         {
-             [weak handleError:error];
+         if (error) {
+             DLog(@"%@", error);
          }
-         else
-         {
-             [weak parseSubscriptions:response];
-         }
+         [weak parseSubscriptions:response];
      }];
 }
 
@@ -195,14 +185,10 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     __weak __typeof(self)weak = self;
     [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
      {
-         if (error)
-         {
-             [weak handleError:error];
+         if (error) {
+             DLog(@"%@", error);
          }
-         else
-         {
-             [weak parseStream:response];
-         }
+         [weak parseStream:response];
      }];
 }
 
@@ -226,14 +212,10 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     __weak __typeof(self)weak = self;
     [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
      {
-         if (error)
-         {
-             [weak handleError:error];
+         if (error) {
+             DLog(@"%@", error);
          }
-         else
-         {
-             [weak parseMarkersReads:response];
-         }
+         [weak parseMarkersReads:response];
      }];
 }
 
@@ -332,12 +314,11 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     __weak __typeof(self)weak = self;
     [self getTokenWithblock:^(NSError *error)
      {
-         if (error)
-         {
-             [weak handleError:error];
-         }
-         else
-         {
+         if (error) {
+             if (block) {
+                 block(nil, error);
+             }
+         } else {
              [weak startRequestWithURL:URL authorized:YES completionBlock:block];
          }
      }];
@@ -572,13 +553,6 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 - (void)parseMarkersReads:(NSDictionary *)response
 {
     NSLog(@"%@", response);
-}
-
-- (void)handleError:(NSError *)error
-{
-#ifdef DEBUG
-    NSLog(@"Error occurred: %@", [error localizedDescription]);
-#endif
 }
 
 @end
