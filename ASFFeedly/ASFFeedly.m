@@ -165,6 +165,8 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObject:streamID
                                                                          forKey:ASFStreamIDKey];
+    count = MIN(count, ASFStreamCountMax);
+    
     if (count)
     {
         [parameters setValue:@(count) forKey:ASFCountKey];
