@@ -64,28 +64,21 @@
 
 #pragma mark - UIWebViewDelegate
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    NSString *stringURL = [[request URL] absoluteString];
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    NSURL *URL = [request URL];
+    NSString *absoluteString = [[request URL] absoluteString];
     
-    if ([stringURL hasPrefix:ASFRedirectURI])
-    {
-        NSUInteger codeLocation  = [stringURL rangeOfString:ASFCodeKey].location + 5; // + 5 for "code="
-        NSUInteger stateLocation = [stringURL rangeOfString:ASFStateKey].location - 1; // - 1 for "&"
-        
-        NSUInteger codeLength = stateLocation - codeLocation;
-        
-        NSString *code = [stringURL substringWithRange:NSMakeRange(codeLocation, codeLength)];
-        
-        [_delegate feedlyClientAuthenticationViewController:self
-                                          didFinishWithCode:code];
-        
-        [self dismissViewControllerAnimated:YES completion:NULL];
-
-        return NO;
+    if (![absoluteString hasPrefix:ASFRedirectURI]) {
+        return YES;
     }
-
-    return YES;
+    
+    NSDictionary *parameters = ASFParametersFromQuery(ASFQueryFromURL(URL));
+    
+    [self.delegate feedlyClientAuthenticationViewController:self
+                                          didFinishWithCode:parameters[ASFResponseTypeCode]];
+    [self dismissViewControllerAnimated:YES
+                             completion:NULL];
+    return NO;
 }
 
 - (void)start
