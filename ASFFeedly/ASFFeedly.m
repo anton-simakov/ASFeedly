@@ -118,7 +118,7 @@ NSString * ASFRankingString(ASFRanking ranking)
 
 - (void)getCategories
 {
-    NSURL *URL = [ASFUtil URLWithPath:@"categories" parameters:nil];
+    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, @"categories"]];
     
     __weak __typeof(self)weak = self;
     [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
@@ -136,7 +136,7 @@ NSString * ASFRankingString(ASFRanking ranking)
 
 - (void)getSubscriptions
 {
-    NSURL *URL = [ASFUtil URLWithPath:ASFSubscriptionsPath parameters:nil];
+    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFSubscriptionsPath]];
     
     __weak __typeof(self)weak = self;
     [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
@@ -191,7 +191,8 @@ NSString * ASFRankingString(ASFRanking ranking)
         [parameters setValue:continuation forKey:ASFContinuationKey];
     }
     
-    NSURL *URL = [ASFUtil URLWithPath:ASFStreamsContentsPath parameters:parameters];
+    NSURL *URL = [ASFUtil URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFStreamsContentsPath]
+                             parameters:parameters];
     
     __weak __typeof(self)weak = self;
     [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
@@ -221,7 +222,8 @@ NSString * ASFRankingString(ASFRanking ranking)
         [parameters setValue:@(newerThan + 1) forKey:ASFNewerThanKey];
     }
     
-    NSURL *URL = [ASFUtil URLWithPath:ASFMarkersReadsPath parameters:parameters];
+    NSURL *URL = [ASFUtil URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFMarkersReadsPath]
+                             parameters:parameters];
     
     __weak __typeof(self)weak = self;
     [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
@@ -241,7 +243,7 @@ NSString * ASFRankingString(ASFRanking ranking)
 
 - (void)updateCategory:(NSString *)ID withLabel:(NSString *)label
 {
-    NSString *path = [NSString stringWithFormat:@"%@/%@", ASFCategoriesPath, [ASFUtil encodeString:ID]];
+    NSString *path = [NSString stringWithFormat:@"%@/%@", ASFCategoriesPath, ASFURLEncodedString(ID)];
     
     [self makeRequestWithBase:ASFEndpoint path:path parameters:@{ASFLabelKey : label}];
 }
@@ -298,35 +300,6 @@ NSString * ASFRankingString(ASFRanking ranking)
     return state ? ASFMarkAsReadValue : ASFKeepUnreadValue;
 }
 
-#pragma mark - Requests
-
-- (NSMutableURLRequest *)requestWithMethod:(NSString *)method
-                                 URLString:(NSString *)URLString
-                                parameters:(NSDictionary *)parameters
-                                     error:(NSError *__autoreleasing *)error {
-    
-    NSParameterAssert([method isEqualToString:@"GET"] ||
-                      [method isEqualToString:@"POST"]);
-    
-    NSURL *URL = [NSURL URLWithString:URLString];
-    
-    NSParameterAssert(URL);
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-
-    [request setHTTPMethod:method];
-    
-    if ([method isEqualToString:@"GET"]) {
-        //
-    } else {
-        [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-        [request setValue:[self.authentication accessToken] forHTTPHeaderField:@"Authorization"];
-        [request setHTTPBody:[NSJSONSerialization dataWithJSONObject:parameters options:0 error:error]];
-    }
-    
-    return request;
-}
-
 #pragma mark - POST
 
 - (void)makeRequestWithPath:(NSString *)path parameters:(NSDictionary *)parameters;
@@ -338,10 +311,11 @@ NSString * ASFRankingString(ASFRanking ranking)
 {
     NSString *URLString = [NSString stringWithFormat:@"%@/%@", base, path];
     
-    NSURLRequest *request = [self requestWithMethod:@"POST"
-                                          URLString:URLString
-                                         parameters:parameters
-                                              error:nil];
+    NSURLRequest *request = [ASFUtil requestWithMethod:@"POST"
+                                             URLString:URLString
+                                            parameters:parameters
+                                                 token:self.authentication.accessToken
+                                                 error:nil];
     
     [self.queue addOperation:[[ASFURLConnectionOperation alloc] initWithRequest:request]];
 }
@@ -419,9 +393,15 @@ NSString * ASFRankingString(ASFRanking ranking)
                                  ASFRedirectURIKey : ASFRedirectURI,
                                  ASFGrantTypeKey : ASFGrantTypeAuthorizationCode};
     
-    NSURL *URL = [ASFUtil URLWithPath:ASFAuthTokenPath parameters:parameters];
-    NSURLRequest *request = [ASFUtil requestWithURL:URL method:@"POST"];
+    NSString *URLString = [NSString stringWithFormat:@"%@/%@",
+                           ASFEndpoint,
+                           ASFAuthTokenPath];
     
+    NSURLRequest *request = [ASFUtil requestWithMethod:@"POST"
+                                             URLString:URLString
+                                            parameters:parameters
+                                                 token:nil
+                                                 error:nil];
     __weak __typeof(self)weak = self;
     [self startRequest:request completionBlock:^(id response, NSError *error)
      {
@@ -444,9 +424,15 @@ NSString * ASFRankingString(ASFRanking ranking)
                                  ASFClientSecretKey : _clientSecret,
                                  ASFGrantTypeKey : ASFGrantTypeRefreshToken};
     
-    NSURL *URL = [ASFUtil URLWithPath:ASFAuthTokenPath parameters:parameters];
-    NSURLRequest *request = [ASFUtil requestWithURL:URL method:@"POST"];
+    NSString *URLString = [NSString stringWithFormat:@"%@/%@",
+                           ASFEndpoint,
+                           ASFAuthTokenPath];
     
+    NSURLRequest *request = [ASFUtil requestWithMethod:@"POST"
+                                             URLString:URLString
+                                            parameters:parameters
+                                                 token:nil
+                                                 error:nil];
     __weak __typeof(self)weak = self;
     [self startRequest:request completionBlock:^(id response, NSError *error)
      {

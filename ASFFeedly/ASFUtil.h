@@ -8,13 +8,27 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSURL *ASFURLByAppendingParameters(NSURL *URL, NSDictionary *parameters);
+extern NSString *ASFQueryFromURL(NSURL *URL);
+extern NSString *ASFQueryFromParameters(NSDictionary *parameters);
+extern NSString *ASFURLEncodedString(NSString *string);
+extern NSString *ASFURLDecodedString(NSString *string);
+extern NSDictionary *ASFParametersFromQuery(NSString *query);
+
 @interface ASFUtil : NSObject
 
-+ (NSURLRequest *)requestWithURL:(NSURL *)URL method:(NSString *)method;
++ (NSURL *)URLWithString:(NSString *)URLString
+              parameters:(NSDictionary *)parameters;
 
-+ (NSURL *)URLWithPath:(NSString *)path parameters:(NSDictionary *)parameters;
-+ (NSURL *)URLWithPath:(NSString *)path parameters:(NSDictionary *)parameters base:(NSString *)base;
++ (NSMutableURLRequest *)requestWithMethod:(NSString *)method
+                                 URLString:(NSString *)URLString
+                                parameters:(NSDictionary *)parameters
+                                     token:(NSString *)token
+                                     error:(NSError *__autoreleasing *)error;
 
-+ (NSString *)encodeString:(NSString *)string;
++ (NSMutableURLRequest *)requestWithURL:(NSURL *)URL
+                                 method:(NSString *)method
+                             parameters:(NSDictionary *)parameters
+                                  error:(NSError *__autoreleasing *)error;
 
 @end

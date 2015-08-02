@@ -95,7 +95,9 @@
                                  ASFResponseTypeKey : ASFResponseTypeCode,
                                  ASFScopeKey : @"https://cloud.feedly.com/subscriptions"};
     
-    NSURL *URL = [ASFUtil URLWithPath:ASFAuthAuthPath parameters:parameters];
+    NSURL *URL = [ASFUtil URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFAuthAuthPath]
+                             parameters:parameters];
+    
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
     [_webView loadRequest:request];

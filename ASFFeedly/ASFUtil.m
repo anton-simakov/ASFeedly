@@ -9,47 +9,126 @@
 #import "ASFUtil.h"
 #import "ASFConstants.h"
 
+static NSString *ASFURLEncodedPair(id field, id value) {
+    if (!value || [value isEqual:[NSNull null]]) {
+        return ASFURLEncodedString([field description]);
+    } else {
+        return [NSString stringWithFormat:@"%@=%@",
+                ASFURLEncodedString([field description]),
+                ASFURLEncodedString([value description])];
+    }
+}
+
+NSURL *ASFURLByAppendingParameters(NSURL *URL, NSDictionary *parameters) {
+    if (!parameters || ![parameters count]) {
+        return URL;
+    }
+    
+    NSString *query = ASFQueryFromParameters(parameters);
+    
+    NSString *absoluteString = [URL absoluteString];
+    if ([absoluteString rangeOfString:@"?"].location == NSNotFound) {
+        absoluteString = [NSString stringWithFormat:@"%@?%@", absoluteString, query];
+    } else {
+        absoluteString = [NSString stringWithFormat:@"%@&%@", absoluteString, query];
+    }
+    
+    return [NSURL URLWithString:absoluteString];
+}
+
+NSString *ASFQueryFromURL(NSURL *URL) {
+    NSArray *components = [[URL absoluteString] componentsSeparatedByString:@"?"];
+    return [components lastObject];
+}
+
+NSString *ASFQueryFromParameters(NSDictionary *parameters) {
+    NSMutableArray *pairs = [NSMutableArray array];
+    
+    [parameters enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        [pairs addObject:ASFURLEncodedPair(key, obj)];
+    }];
+    
+    return [pairs componentsJoinedByString:@"&"];
+}
+
+NSString *ASFURLEncodedString(NSString *string) {
+    return CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                                     (__bridge CFStringRef)string,
+                                                                     NULL,
+                                                                     CFSTR("!*'();:@&=+$,/?%#[]"),
+                                                                     kCFStringEncodingUTF8));
+}
+
+NSString *ASFURLDecodedString(NSString *string) {
+    return CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault,
+                                                                                     (__bridge CFStringRef)string,
+                                                                                     CFSTR(""),
+                                                                                     kCFStringEncodingUTF8));
+}
+
+NSDictionary *ASFParametersFromQuery(NSString *query) {
+    NSArray *pairs = [query componentsSeparatedByString:@"&"];
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    
+    for (NSString *pair in pairs) {
+        NSArray *elements = [pair componentsSeparatedByString:@"="];
+        if (elements.count == 2) {
+            parameters[ASFURLDecodedString(elements[0])] = ASFURLDecodedString(elements[1]);
+        }
+    }
+    return parameters;
+}
+
 @implementation ASFUtil
 
-+ (NSURLRequest *)requestWithURL:(NSURL *)URL method:(NSString *)method
-{
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-    [request setHTTPMethod:method];
++ (NSURL *)URLWithString:(NSString *)URLString
+              parameters:(NSDictionary *)parameters {
+    return ASFURLByAppendingParameters([NSURL URLWithString:URLString], parameters);
+}
+
++ (NSMutableURLRequest *)requestWithMethod:(NSString *)method
+                                 URLString:(NSString *)URLString
+                                parameters:(NSDictionary *)parameters
+                                     token:(NSString *)token
+                                     error:(NSError *__autoreleasing *)error {
+    NSURL *URL = [NSURL URLWithString:URLString];
+    
+    NSParameterAssert(URL);
+    
+    NSMutableURLRequest *request = [self requestWithURL:URL
+                                                 method:method
+                                             parameters:parameters
+                                                  error:error];
+    if (token) {
+        [request setValue:token forHTTPHeaderField:@"Authorization"];
+    }
+    
     return request;
 }
 
-+ (NSURL *)URLWithPath:(NSString *)path parameters:(NSDictionary *)parameters
-{
-    return [self URLWithPath:path parameters:parameters base:ASFEndpoint];
-}
-
-+ (NSURL *)URLWithPath:(NSString *)path parameters:(NSDictionary *)parameters base:(NSString *)base
-{
-    NSString *query = [NSString string];
++ (NSMutableURLRequest *)requestWithURL:(NSURL *)URL
+                                 method:(NSString *)method
+                             parameters:(NSDictionary *)parameters
+                                  error:(NSError *__autoreleasing *)error {
     
-    for (NSString *key in [parameters allKeys])
-    {
-        NSString *value = parameters[key];
-        query = [query stringByAppendingString:[NSString stringWithFormat:@"%@=%@&", key, value]];
+    NSParameterAssert([method isEqualToString:@"GET"] ||
+                      [method isEqualToString:@"POST"]);
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    
+    if ([method isEqualToString:@"GET"]) {
+        request.URL = ASFURLByAppendingParameters(URL, parameters);
+    } else {
+        request.URL = URL;
+        request.HTTPMethod = method;
+        request.HTTPBody = [NSJSONSerialization dataWithJSONObject:parameters
+                                                           options:0
+                                                             error:error];
+        
+        [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     }
     
-    if ([query length])
-    {
-        query = [query stringByReplacingCharactersInRange:NSMakeRange([query length] - 1, 1) withString:@""];
-        query = [NSString stringWithFormat:@"?%@", query];
-    }
-    
-    NSString *URLString = [NSString stringWithFormat:@"%@/%@%@", base, path, query];
-    return [NSURL URLWithString:[URLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-}
-
-+ (NSString *)encodeString:(NSString *)string
-{
-    return CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                                                                     (CFStringRef)string,
-                                                                     NULL,
-                                                                     CFSTR(":/?#[]@!$&’()*+,;="),
-                                                                     kCFStringEncodingUTF8));
+    return request;
 }
 
 @end
