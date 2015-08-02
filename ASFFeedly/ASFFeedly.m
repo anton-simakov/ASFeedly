@@ -21,15 +21,11 @@ typedef void (^ASFResponseResultBlock)(id response, NSError *error);
 
 const CGFloat ASFStreamEntriesMax = 10000;
 
-NSString * rankingStrings[2] =
-{
-    @"newest",
-    @"oldest"
-};
-
-NSString * ASFRankingString(ASFRanking ranking)
-{
-    return rankingStrings[ranking];
+static NSString *ASFRankingValue(ASFRanking ranking) {
+    switch (ranking) {
+        case ASFNewest: return @"newest";
+        case ASFOldest: return @"oldest";
+    }
 }
 
 @interface ASFFeedly () <ASFLogInViewControllerDelegate>
@@ -186,7 +182,7 @@ NSString * ASFRankingString(ASFRanking ranking)
         [parameters setValue:continuation forKey:ASFContinuationKey];
     }
     
-    [parameters setValue:ASFRankingString(ASFNewest) forKey:ASFRankedKey];
+    [parameters setValue:ASFRankingValue(ASFNewest) forKey:ASFRankedKey];
     
     NSURL *URL = [ASFUtil URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFStreamsContentsPath]
                              parameters:parameters];
