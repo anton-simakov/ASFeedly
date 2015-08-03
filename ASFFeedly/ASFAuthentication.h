@@ -10,7 +10,6 @@
 
 @interface ASFAuthentication : NSObject<NSCoding>
 
-@property(nonatomic, strong) NSString *code;
 @property(nonatomic, strong) NSString *userID;
 @property(nonatomic, strong) NSString *refreshToken;
 @property(nonatomic, strong) NSString *accessToken;
@@ -18,9 +17,6 @@
 @property(nonatomic, strong) NSString *tokenType;
 @property(nonatomic, strong) NSString *plan;
 @property(nonatomic, strong) NSString *state;
-
-- (id)initWithCode:(NSString *)code;
-+ (ASFAuthentication *)authenticationWithCode:(NSString *)code;
 
 + (void)store:(ASFAuthentication *)authentication;
 + (ASFAuthentication *)restore;

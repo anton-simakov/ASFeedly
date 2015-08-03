@@ -18,6 +18,8 @@
 
 typedef void (^ASFResultBlock)(NSError *error);
 
+static NSString *_code;
+
 static NSString *ASFRankingValue(ASFRanking ranking) {
     switch (ranking) {
         case ASFNewest: return @"newest";
@@ -63,10 +65,12 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     return self;
 }
 
-- (void)loginWithViewController:(UIViewController *)controller
-{
-    if (![_authentication refreshToken])
-    {
+- (void)loginWithViewController:(UIViewController *)controller {
+    if (self.authentication.refreshToken || _code) {
+        if ([self.delegate respondsToSelector:@selector(feedlyClientDidFinishLogin:)]) {
+            [self.delegate feedlyClientDidFinishLogin:self];
+        }
+    } else {
         ASFLogInViewController *vc = [[ASFLogInViewController alloc] initWithCliendID:_clientID
                                                                              delegate:self];
         
@@ -74,10 +78,6 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
         
         [nc setModalPresentationStyle:UIModalPresentationFullScreen];
         [controller presentViewController:nc animated:YES completion:NULL];
-    }
-    else
-    {
-        [self finishAuthentication:_authentication];
     }
 }
 
@@ -90,20 +90,10 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 #pragma mark - ASFLogInViewControllerDelegate
 
 - (void)feedlyClientAuthenticationViewController:(ASFLogInViewController *)vc
-                               didFinishWithCode:(NSString *)code
-{
-    ASFAuthentication *authentication = [ASFAuthentication authenticationWithCode:code];
-    [self finishAuthentication:authentication];
-}
-
-- (void)finishAuthentication:(ASFAuthentication *)authentication
-{
-    [self setAuthentication:authentication];
-    [ASFAuthentication store:authentication];
-    
-    if ([_delegate respondsToSelector:@selector(feedlyClientDidFinishLogin:)])
-    {
-        [_delegate feedlyClientDidFinishLogin:self];
+                               didFinishWithCode:(NSString *)code {
+    _code = code;
+    if ([self.delegate respondsToSelector:@selector(feedlyClientDidFinishLogin:)]) {
+        [self.delegate feedlyClientDidFinishLogin:self];
     }
 }
 
@@ -338,7 +328,9 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 
 - (void)getAccessTokenWithBlock:(ASFResultBlock)block
 {
-    NSDictionary *parameters = @{ASFCodeKey : [_authentication code],
+    NSParameterAssert(block);
+    NSParameterAssert(_code);
+    NSDictionary *parameters = @{ASFCodeKey : _code,
                                  ASFClientIDKey : _clientID,
                                  ASFClientSecretKey : _clientSecret,
                                  ASFRedirectURIKey : ASFRedirectURI,
@@ -353,23 +345,20 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
                                             parameters:parameters
                                                  token:nil
                                                  error:nil];
-    __weak __typeof(self)weak = self;
+    
     [self doRequest:request completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
-         if (!error)
-         {
-             [weak parseAuthentication:JSON];
+         if (!error) {
+             self.authentication = [self authenticationFromDictionary:JSON];
+             [ASFAuthentication store:self.authentication];
          }
-         
-         if (block)
-         {
-             block(error);
-         }
+         block(error);
      }];
 }
 
 - (void)refreshTokenWithBlock:(ASFResultBlock)block
 {
+    NSParameterAssert(block);
     NSDictionary *parameters = @{ASFRefreshTokenKey : [_authentication refreshToken],
                                  ASFClientIDKey : _clientID,
                                  ASFClientSecretKey : _clientSecret,
@@ -384,48 +373,31 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
                                             parameters:parameters
                                                  token:nil
                                                  error:nil];
-    __weak __typeof(self)weak = self;
     [self doRequest:request completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
-         if (!error)
-         {
-             [weak parseAuthentication:JSON];
+         if (!error) {
+             self.authentication = [self authenticationFromDictionary:JSON];
+             [ASFAuthentication store:self.authentication];
          }
-         
-         if (block)
-         {
-             block(error);
-         }
+         block(error);
      }];
 }
 
 #pragma mark - Parse
 
-- (void)parseAuthentication:(NSDictionary *)responce
+- (ASFAuthentication *)authenticationFromDictionary:(NSDictionary *)dictionary
 {
-    NSString *refreshToken = responce[ASFRefreshTokenKey];
+    ASFAuthentication *authentication = [[ASFAuthentication alloc] init];
     
-    if (refreshToken)
-    {
-        [_authentication setRefreshToken:refreshToken];
-    }
+    authentication.accessToken = dictionary[ASFAccessTokenKey];
+    authentication.refreshToken = dictionary[ASFRefreshTokenKey];
+    authentication.state = dictionary[ASFStateKey];
+    authentication.userID = dictionary[ASFIDKey];
+    authentication.tokenType = dictionary[ASFTokenTypeKey];
+    authentication.plan = dictionary[ASFPlanKey];
+    authentication.expiresIn = [dictionary[ASFExpiresInKey] longValue];
     
-    NSString *state = responce[ASFStateKey];
-    
-    if (state)
-    {
-        [_authentication setState:state];
-    }
-    
-    [_authentication setUserID:responce[ASFIDKey]];
-    [_authentication setAccessToken:responce[ASFAccessTokenKey]];
-    [_authentication setTokenType:responce[ASFTokenTypeKey]];
-    [_authentication setPlan:responce[ASFPlanKey]];
-    
-    NSNumber *timeInterval = responce[ASFExpiresInKey];
-    [_authentication setExpiresIn:[timeInterval longValue]];
-    
-    [ASFAuthentication store:_authentication];
+    return authentication;
 }
 
 - (void)parseSubscriptions:(NSArray *)response

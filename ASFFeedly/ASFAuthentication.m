@@ -27,27 +27,11 @@ static NSString *const kAuthenticationKey = @"kAuthenticationKey";
 
 @implementation ASFAuthentication
 
-- (id)initWithCode:(NSString *)code
-{
-    self = [super init];
-    if (self)
-    {
-        _code = code;
-    }
-    return self;
-}
-
-+ (ASFAuthentication *)authenticationWithCode:(NSString *)code
-{
-    return [[ASFAuthentication alloc] initWithCode:code];
-}
-
 - (id)initWithCoder:(NSCoder *)coder
 {
     self = [super init];
     if (self)
     {
-        _code           = [coder decodeObjectForKey:kCodeKey];
         _userID         = [coder decodeObjectForKey:kUserIDKey];
         _refreshToken   = [coder decodeObjectForKey:kRefreshTokenKey];
         _accessToken    = [coder decodeObjectForKey:kAccessTokenKey];
@@ -61,7 +45,6 @@ static NSString *const kAuthenticationKey = @"kAuthenticationKey";
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-    [coder encodeObject:_code           forKey:kCodeKey];
     [coder encodeObject:_userID         forKey:kUserIDKey];
     [coder encodeObject:_refreshToken   forKey:kRefreshTokenKey];
     [coder encodeObject:_accessToken    forKey:kAccessTokenKey];
@@ -74,8 +57,8 @@ static NSString *const kAuthenticationKey = @"kAuthenticationKey";
 - (NSString *)description
 {
     return [NSString stringWithFormat:
-            @"Code: %@, userID: %@, refresh token: %@, access token: %@, expiration date: %@, token type: %@, plan: %@, state: %@",
-            _code, _userID, _refreshToken, _accessToken, _expirationDate, _tokenType, _plan, _state];
+            @"UserID: %@, refresh token: %@, access token: %@, expiration date: %@, token type: %@, plan: %@, state: %@",
+            _userID, _refreshToken, _accessToken, _expirationDate, _tokenType, _plan, _state];
 }
 
 - (void)setExpiresIn:(long)ti
