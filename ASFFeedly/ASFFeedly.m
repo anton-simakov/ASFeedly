@@ -311,7 +311,6 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 
 - (void)startRequestWithURL:(NSURL *)URL completionBlock:(ASFResponseResultBlock)block
 {
-    __weak __typeof(self)weak = self;
     [self getTokenWithblock:^(NSError *error)
      {
          if (error) {
@@ -319,18 +318,13 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
                  block(nil, error);
              }
          } else {
-             [weak startRequestWithURL:URL authorized:YES completionBlock:block];
+             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+             
+             [request addValue:self.authentication.accessToken forHTTPHeaderField:@"Authorization"];
+             
+             [self startRequest:request completionBlock:block];
          }
      }];
-}
-
-- (void)startRequestWithURL:(NSURL *)URL authorized:(BOOL)authorized completionBlock:(ASFResponseResultBlock)block
-{
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-    
-    [request addValue:[_authentication accessToken] forHTTPHeaderField:@"Authorization"];
-    
-    [self startRequest:request completionBlock:block];
 }
 
 - (void)startRequest:(NSURLRequest *)request completionBlock:(ASFResponseResultBlock)block
