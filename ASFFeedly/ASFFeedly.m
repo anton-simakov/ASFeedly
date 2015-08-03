@@ -17,7 +17,6 @@
 #import "DLog.h"
 
 typedef void (^ASFResultBlock)(NSError *error);
-typedef void (^ASFResponseResultBlock)(id response, NSError *error);
 
 static NSString *ASFRankingValue(ASFRanking ranking) {
     switch (ranking) {
@@ -114,7 +113,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 {
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, @"categories"]];
     
-    [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
+    [self startRequestWithURL:URL completionBlock:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
          if (error) {
              DLog(@"%@", error);
@@ -127,12 +126,12 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFSubscriptionsPath]];
     
     __weak __typeof(self)weak = self;
-    [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
+    [self startRequestWithURL:URL completionBlock:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
          if (error) {
              DLog(@"%@", error);
          }
-         [weak parseSubscriptions:response];
+         [weak parseSubscriptions:JSON];
      }];
 }
 
@@ -183,12 +182,12 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
                              parameters:parameters];
     
     __weak __typeof(self)weak = self;
-    [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
+    [self startRequestWithURL:URL completionBlock:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
          if (error) {
              DLog(@"%@", error);
          }
-         [weak parseStream:response];
+         [weak parseStream:JSON];
      }];
 }
 
@@ -210,12 +209,12 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
                              parameters:parameters];
     
     __weak __typeof(self)weak = self;
-    [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
+    [self startRequestWithURL:URL completionBlock:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
          if (error) {
              DLog(@"%@", error);
          }
-         [weak parseMarkersReads:response];
+         [weak parseMarkersReads:JSON];
      }];
 }
 
@@ -309,35 +308,29 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 
 #pragma mark - GET
 
-- (void)startRequestWithURL:(NSURL *)URL completionBlock:(ASFResponseResultBlock)block
+- (void)startRequestWithURL:(NSURL *)URL completionBlock:(ASFURLConnectionOperationCompletion)completion
 {
     [self getTokenWithblock:^(NSError *error)
      {
          if (error) {
-             if (block) {
-                 block(nil, error);
+             if (completion) {
+                 completion(nil, nil, error);
              }
          } else {
              NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
              
              [request addValue:self.authentication.accessToken forHTTPHeaderField:@"Authorization"];
              
-             [self doRequest:request completion:block];
+             [self doRequest:request completion:completion];
          }
      }];
 }
 
-- (void)doRequest:(NSURLRequest *)request completion:(ASFResponseResultBlock)completion
+- (void)doRequest:(NSURLRequest *)request completion:(ASFURLConnectionOperationCompletion)completion
 {
     ASFURLConnectionOperation *operation =
     [[ASFURLConnectionOperation alloc] initWithRequest:request
-                                            completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
-     {
-         if (completion) {
-             completion(JSON, error);
-         }
-     }];
-    
+                                            completion:completion];
     [self.queue addOperation:operation];
 }
 
@@ -380,11 +373,11 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
                                                  token:nil
                                                  error:nil];
     __weak __typeof(self)weak = self;
-    [self doRequest:request completion:^(id response, NSError *error)
+    [self doRequest:request completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
          if (!error)
          {
-             [weak parseAuthentication:response];
+             [weak parseAuthentication:JSON];
          }
          
          if (block)
@@ -411,11 +404,11 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
                                                  token:nil
                                                  error:nil];
     __weak __typeof(self)weak = self;
-    [self doRequest:request completion:^(id response, NSError *error)
+    [self doRequest:request completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
          if (!error)
          {
-             [weak parseAuthentication:response];
+             [weak parseAuthentication:JSON];
          }
          
          if (block)
