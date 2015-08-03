@@ -322,19 +322,19 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
              
              [request addValue:self.authentication.accessToken forHTTPHeaderField:@"Authorization"];
              
-             [self startRequest:request completionBlock:block];
+             [self doRequest:request completion:block];
          }
      }];
 }
 
-- (void)startRequest:(NSURLRequest *)request completionBlock:(ASFResponseResultBlock)block
+- (void)doRequest:(NSURLRequest *)request completion:(ASFResponseResultBlock)completion
 {
     ASFURLConnectionOperation *operation =
     [[ASFURLConnectionOperation alloc] initWithRequest:request
                                             completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
-         if (block) {
-             block(JSON, error);
+         if (completion) {
+             completion(JSON, error);
          }
      }];
     
@@ -380,7 +380,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
                                                  token:nil
                                                  error:nil];
     __weak __typeof(self)weak = self;
-    [self startRequest:request completionBlock:^(id response, NSError *error)
+    [self doRequest:request completion:^(id response, NSError *error)
      {
          if (!error)
          {
@@ -411,7 +411,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
                                                  token:nil
                                                  error:nil];
     __weak __typeof(self)weak = self;
-    [self startRequest:request completionBlock:^(id response, NSError *error)
+    [self doRequest:request completion:^(id response, NSError *error)
      {
          if (!error)
          {
