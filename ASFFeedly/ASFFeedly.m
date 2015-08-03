@@ -111,27 +111,17 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 
 - (void)getCategories
 {
-    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, @"categories"]];
-    
-    [self startRequestWithURL:URL completionBlock:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
-     {
-         if (error) {
-             DLog(@"%@", error);
-         }
-     }];
+    // TODO:
 }
 
 - (void)getSubscriptions
 {
-    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFSubscriptionsPath]];
-    
-    __weak __typeof(self)weak = self;
-    [self startRequestWithURL:URL completionBlock:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
+    [self doRequestWithMethod:@"GET"
+                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFSubscriptionsPath]
+                   parameters:nil
+                   completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
-         if (error) {
-             DLog(@"%@", error);
-         }
-         [weak parseSubscriptions:JSON];
+         [self parseSubscriptions:JSON];
      }];
 }
 
@@ -178,16 +168,12 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     
     [parameters setValue:ASFRankingValue(ASFNewest) forKey:ASFRankedKey];
     
-    NSURL *URL = [ASFUtil URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFStreamsContentsPath]
-                             parameters:parameters];
-    
-    __weak __typeof(self)weak = self;
-    [self startRequestWithURL:URL completionBlock:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
+    [self doRequestWithMethod:@"GET"
+                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFStreamsContentsPath]
+                   parameters:parameters
+                   completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
-         if (error) {
-             DLog(@"%@", error);
-         }
-         [weak parseStream:JSON];
+         [self parseStream:JSON];
      }];
 }
 
@@ -205,16 +191,12 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
         [parameters setValue:@(newerThan + 1) forKey:ASFNewerThanKey];
     }
     
-    NSURL *URL = [ASFUtil URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFMarkersReadsPath]
-                             parameters:parameters];
-    
-    __weak __typeof(self)weak = self;
-    [self startRequestWithURL:URL completionBlock:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
+    [self doRequestWithMethod:@"GET"
+                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFMarkersReadsPath]
+                   parameters:parameters
+                   completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
-         if (error) {
-             DLog(@"%@", error);
-         }
-         [weak parseMarkersReads:JSON];
+         [self parseMarkersReads:JSON];
      }];
 }
 
@@ -222,18 +204,24 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 
 - (void)updateCategory:(NSString *)ID withLabel:(NSString *)label
 {
-    NSString *path = [NSString stringWithFormat:@"%@/%@", ASFCategoriesPath, ASFURLEncodedString(ID)];
+    NSDictionary *parameters = @{ASFLabelKey : label};
     
-    [self makeRequestWithBase:ASFEndpoint path:path parameters:@{ASFLabelKey : label}];
+    [self doRequestWithMethod:@"POST"
+                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFCategoriesPath]
+                   parameters:parameters
+                   completion:nil];
 }
 
 - (void)updateSubscription:(NSString *)ID withTitle:(NSString *)title categories:(NSArray *)categories
 {
-    [self makeRequestWithBase:ASFEndpoint
-                         path:ASFSubscriptionsPath
-                   parameters:@{ASFIDKey : ID,
-                                ASFTitleKey : title,
-                                ASFCategoriesKey : categories}];
+    NSDictionary *parameters = @{ASFIDKey : ID,
+                                 ASFTitleKey : title,
+                                 ASFCategoriesKey : categories};
+    
+    [self doRequestWithMethod:@"POST"
+                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFSubscriptionsPath]
+                   parameters:parameters
+                   completion:nil];
 }
 
 #pragma mark - Mark
@@ -249,9 +237,10 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
                                  ASFTypeKey : ASFEntriesValue,
                                  ASFEntryIDsKey : IDs};
     
-    [self makeRequestWithBase:ASFEndpoint
-                         path:ASFMarkersPath
-                   parameters:parameters];
+    [self doRequestWithMethod:@"POST"
+                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFMarkersPath]
+                   parameters:parameters
+                   completion:nil];
 }
 
 - (void)markCategory:(NSString *)ID read:(BOOL)read
@@ -265,9 +254,10 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
                                  ASFTypeKey : ASFCategoriesValue,
                                  ASFCategoryIDsKey : IDs};
     
-    [self makeRequestWithBase:ASFEndpoint
-                         path:ASFMarkersPath
-                   parameters:parameters];
+    [self doRequestWithMethod:@"POST"
+                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFMarkersPath]
+                   parameters:parameters
+                   completion:nil];
 }
 
 - (void)markSubscription:(NSString *)ID read:(BOOL)read
@@ -281,9 +271,10 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
                                  ASFTypeKey : ASFFeedsValue,
                                  ASFFeedIDsKey : IDs};
     
-    [self makeRequestWithBase:ASFEndpoint
-                         path:ASFMarkersPath
-                   parameters:parameters];
+    [self doRequestWithMethod:@"POST"
+                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFMarkersPath]
+                   parameters:parameters
+                   completion:nil];
 }
 
 - (NSString *)actionForReadState:(BOOL)state
@@ -291,36 +282,26 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     return state ? ASFMarkAsReadValue : ASFKeepUnreadValue;
 }
 
-#pragma mark - POST
+#pragma mark - Request
 
-- (void)makeRequestWithBase:(NSString *)base path:(NSString *)path parameters:(NSDictionary *)parameters
-{
-    NSString *URLString = [NSString stringWithFormat:@"%@/%@", base, path];
+- (void)doRequestWithMethod:(NSString *)method
+                  URLString:(NSString *)URLString
+                 parameters:(NSDictionary *)parameters
+                 completion:(ASFURLConnectionOperationCompletion)completion {
     
-    NSURLRequest *request = [ASFUtil requestWithMethod:@"POST"
-                                             URLString:URLString
-                                            parameters:parameters
-                                                 token:self.authentication.accessToken
-                                                 error:nil];
-    
-    [self.queue addOperation:[[ASFURLConnectionOperation alloc] initWithRequest:request]];
-}
-
-#pragma mark - GET
-
-- (void)startRequestWithURL:(NSURL *)URL completionBlock:(ASFURLConnectionOperationCompletion)completion
-{
     [self getTokenWithblock:^(NSError *error)
      {
          if (error) {
              if (completion) {
                  completion(nil, nil, error);
              }
+             return;
          } else {
-             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-             
-             [request addValue:self.authentication.accessToken forHTTPHeaderField:@"Authorization"];
-             
+             NSMutableURLRequest *request = [ASFUtil requestWithMethod:method
+                                                             URLString:URLString
+                                                            parameters:parameters
+                                                                 token:self.authentication.accessToken
+                                                                 error:nil];
              [self doRequest:request completion:completion];
          }
      }];
