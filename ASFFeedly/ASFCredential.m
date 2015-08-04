@@ -78,9 +78,8 @@ static NSString *const ASFCredentialKey = @"ASFCredential";
     [self setExpiration:[NSDate dateWithTimeIntervalSinceNow:ti]];
 }
 
-- (BOOL)isExpired
-{
-    return [[NSDate date] compare:[self expiration]] != NSOrderedAscending;
+- (BOOL)isExpired {
+    return [self.expiration compare:[NSDate date]] == NSOrderedAscending;
 }
 
 + (void)storeCredential:(ASFCredential *)credential {
