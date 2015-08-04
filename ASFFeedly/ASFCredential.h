@@ -13,7 +13,7 @@
 @property(nonatomic, strong) NSString *userID;
 @property(nonatomic, strong) NSString *refreshToken;
 @property(nonatomic, strong) NSString *accessToken;
-@property(nonatomic, strong, readonly) NSDate *expirationDate;
+@property(nonatomic, strong, readonly) NSDate *expiration;
 @property(nonatomic, strong) NSString *tokenType;
 @property(nonatomic, strong) NSString *plan;
 @property(nonatomic, strong) NSString *state;

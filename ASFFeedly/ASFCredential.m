@@ -12,7 +12,7 @@ static NSString *const kCodeKey           = @"code";
 static NSString *const kUserIDKey         = @"userID";
 static NSString *const kRefreshTokenKey   = @"refreshToken";
 static NSString *const kAccessTokenKey    = @"accessToken";
-static NSString *const kExpirationDateKey = @"expirationDate";
+static NSString *const kExpirationKey     = @"expiration";
 static NSString *const kTokenTypeKey      = @"tokenType";
 static NSString *const kPlanKey           = @"plan";
 static NSString *const kStateKey          = @"state";
@@ -21,7 +21,7 @@ static NSString *const kAuthenticationKey = @"kAuthenticationKey";
 
 @interface ASFCredential ()
 
-@property(nonatomic, strong) NSDate *expirationDate;
+@property (nonatomic, strong) NSDate *expiration;
 
 @end
 
@@ -35,7 +35,7 @@ static NSString *const kAuthenticationKey = @"kAuthenticationKey";
         _userID         = [coder decodeObjectForKey:kUserIDKey];
         _refreshToken   = [coder decodeObjectForKey:kRefreshTokenKey];
         _accessToken    = [coder decodeObjectForKey:kAccessTokenKey];
-        _expirationDate = [coder decodeObjectForKey:kExpirationDateKey];
+        _expiration     = [coder decodeObjectForKey:kExpirationKey];
         _tokenType      = [coder decodeObjectForKey:kTokenTypeKey];
         _plan           = [coder decodeObjectForKey:kPlanKey];
         _state          = [coder decodeObjectForKey:kStateKey];
@@ -48,7 +48,7 @@ static NSString *const kAuthenticationKey = @"kAuthenticationKey";
     [coder encodeObject:_userID         forKey:kUserIDKey];
     [coder encodeObject:_refreshToken   forKey:kRefreshTokenKey];
     [coder encodeObject:_accessToken    forKey:kAccessTokenKey];
-    [coder encodeObject:_expirationDate forKey:kExpirationDateKey];
+    [coder encodeObject:_expiration     forKey:kExpirationKey];
     [coder encodeObject:_tokenType      forKey:kTokenTypeKey];
     [coder encodeObject:_plan           forKey:kPlanKey];
     [coder encodeObject:_state          forKey:kStateKey];
@@ -57,18 +57,18 @@ static NSString *const kAuthenticationKey = @"kAuthenticationKey";
 - (NSString *)description
 {
     return [NSString stringWithFormat:
-            @"UserID: %@, refresh token: %@, access token: %@, expiration date: %@, token type: %@, plan: %@, state: %@",
-            _userID, _refreshToken, _accessToken, _expirationDate, _tokenType, _plan, _state];
+            @"UserID: %@, refresh token: %@, access token: %@, expiration: %@, token type: %@, plan: %@, state: %@",
+            _userID, _refreshToken, _accessToken, _expiration, _tokenType, _plan, _state];
 }
 
 - (void)setExpiresIn:(long)ti
 {
-    [self setExpirationDate:[NSDate dateWithTimeIntervalSinceNow:ti]];
+    [self setExpiration:[NSDate dateWithTimeIntervalSinceNow:ti]];
 }
 
 - (BOOL)isTokenExpired
 {
-    return [[NSDate date] compare:[self expirationDate]] != NSOrderedAscending;
+    return [[NSDate date] compare:[self expiration]] != NSOrderedAscending;
 }
 
 + (void)store:(ASFCredential *)authentication
