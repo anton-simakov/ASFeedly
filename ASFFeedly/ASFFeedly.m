@@ -30,7 +30,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 @interface ASFFeedly () <ASFLogInViewControllerDelegate>
 
 @property (nonatomic, strong) NSOperationQueue *queue;
-@property (nonatomic, strong) ASFCredential *authentication;
+@property (nonatomic, strong) ASFCredential *credential;
 
 @end
 
@@ -56,7 +56,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     
     self = [super init];
     if (self) {
-        _authentication = [ASFCredential restore];
+        _credential = [ASFCredential restore];
         _clientID = clientID;
         _clientSecret = clientSecret;
         _queue = [[NSOperationQueue alloc] init];
@@ -66,7 +66,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 }
 
 - (void)loginWithViewController:(UIViewController *)controller {
-    if (self.authentication.refreshToken || _code) {
+    if (self.credential.refreshToken || _code) {
         if ([self.delegate respondsToSelector:@selector(feedlyClientDidFinishLogin:)]) {
             [self.delegate feedlyClientDidFinishLogin:self];
         }
@@ -84,7 +84,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 - (void)logout
 {
     [ASFCredential reset];
-    [self setAuthentication:nil];
+    self.credential = nil;
 }
 
 #pragma mark - ASFLogInViewControllerDelegate
@@ -290,7 +290,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
              NSMutableURLRequest *request = [ASFUtil requestWithMethod:method
                                                              URLString:URLString
                                                             parameters:parameters
-                                                                 token:self.authentication.accessToken
+                                                                 token:self.credential.accessToken
                                                                  error:nil];
              [self doRequest:request completion:completion];
          }
@@ -309,11 +309,11 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 
 - (void)getTokenWithblock:(ASFResultBlock)block
 {
-    if ([_authentication accessToken] == nil)
+    if ([_credential accessToken] == nil)
     {
         [self getAccessTokenWithBlock:block];
     }
-    else if ([_authentication isTokenExpired])
+    else if ([_credential isTokenExpired])
     {
         [self refreshTokenWithBlock:block];
     }
@@ -349,8 +349,8 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     [self doRequest:request completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
          if (!error) {
-             self.authentication = [self authenticationFromDictionary:JSON];
-             [ASFCredential store:self.authentication];
+             self.credential = [self authenticationFromDictionary:JSON];
+             [ASFCredential store:self.credential];
          }
          block(error);
      }];
@@ -359,7 +359,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 - (void)refreshTokenWithBlock:(ASFResultBlock)block
 {
     NSParameterAssert(block);
-    NSDictionary *parameters = @{ASFRefreshTokenKey : [_authentication refreshToken],
+    NSDictionary *parameters = @{ASFRefreshTokenKey : [_credential refreshToken],
                                  ASFClientIDKey : _clientID,
                                  ASFClientSecretKey : _clientSecret,
                                  ASFGrantTypeKey : ASFGrantTypeRefreshToken};
@@ -376,8 +376,8 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     [self doRequest:request completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
          if (!error) {
-             self.authentication = [self authenticationFromDictionary:JSON];
-             [ASFCredential store:self.authentication];
+             self.credential = [self authenticationFromDictionary:JSON];
+             [ASFCredential store:self.credential];
          }
          block(error);
      }];
