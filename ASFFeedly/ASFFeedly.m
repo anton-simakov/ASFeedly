@@ -349,7 +349,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     [self doRequest:request completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
          if (!error) {
-             self.credential = [self authenticationFromDictionary:JSON];
+             self.credential = [[ASFCredential alloc] initWithDictionary:JSON];
              [ASFCredential store:self.credential];
          }
          block(error);
@@ -376,7 +376,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     [self doRequest:request completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
          if (!error) {
-             self.credential = [self authenticationFromDictionary:JSON];
+             self.credential = [[ASFCredential alloc] initWithDictionary:JSON];
              [ASFCredential store:self.credential];
          }
          block(error);
@@ -384,21 +384,6 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 }
 
 #pragma mark - Parse
-
-- (ASFCredential *)authenticationFromDictionary:(NSDictionary *)dictionary
-{
-    ASFCredential *authentication = [[ASFCredential alloc] init];
-    
-    authentication.accessToken = dictionary[ASFAccessTokenKey];
-    authentication.refreshToken = dictionary[ASFRefreshTokenKey];
-    authentication.state = dictionary[ASFStateKey];
-    authentication.userID = dictionary[ASFIDKey];
-    authentication.tokenType = dictionary[ASFTokenTypeKey];
-    authentication.plan = dictionary[ASFPlanKey];
-    authentication.expiresIn = [dictionary[ASFExpiresInKey] longValue];
-    
-    return authentication;
-}
 
 - (void)parseSubscriptions:(NSArray *)response
 {
