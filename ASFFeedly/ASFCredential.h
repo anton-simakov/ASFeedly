@@ -18,12 +18,13 @@
 @property(nonatomic, strong) NSString *plan;
 @property(nonatomic, strong) NSString *state;
 
+@property (readonly, nonatomic, assign, getter = isExpired) BOOL expired;
+
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 + (void)storeCredential:(ASFCredential *)credential;
 + (ASFCredential *)retrieveCredential;
 
 - (void)setExpiresIn:(long)ti;
-- (BOOL)isTokenExpired;
 
 @end

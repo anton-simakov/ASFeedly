@@ -307,7 +307,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     {
         [self getAccessTokenWithBlock:block];
     }
-    else if ([_credential isTokenExpired])
+    else if ([_credential isExpired])
     {
         [self refreshTokenWithBlock:block];
     }
