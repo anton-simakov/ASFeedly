@@ -8,16 +8,13 @@
 
 #import "ASFCredential.h"
 
-static NSString *const kCodeKey           = @"code";
-static NSString *const kRefreshTokenKey   = @"refreshToken";
-static NSString *const kAccessTokenKey    = @"accessToken";
-static NSString *const kExpirationKey     = @"expiration";
-static NSString *const kTokenTypeKey      = @"tokenType";
-
 static NSString *const ASFCredentialKey = @"ASFCredential";
 
 @interface ASFCredential ()
 
+@property (nonatomic, copy) NSString *accessToken;
+@property (nonatomic, copy) NSString *tokenType;
+@property (nonatomic, copy) NSString *refreshToken;
 @property (nonatomic, strong) NSDate *expiration;
 
 @end
@@ -36,27 +33,6 @@ static NSString *const ASFCredentialKey = @"ASFCredential";
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)coder
-{
-    self = [super init];
-    if (self)
-    {
-        _refreshToken   = [coder decodeObjectForKey:kRefreshTokenKey];
-        _accessToken    = [coder decodeObjectForKey:kAccessTokenKey];
-        _expiration     = [coder decodeObjectForKey:kExpirationKey];
-        _tokenType      = [coder decodeObjectForKey:kTokenTypeKey];
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder
-{
-    [coder encodeObject:_refreshToken   forKey:kRefreshTokenKey];
-    [coder encodeObject:_accessToken    forKey:kAccessTokenKey];
-    [coder encodeObject:_expiration     forKey:kExpirationKey];
-    [coder encodeObject:_tokenType      forKey:kTokenTypeKey];
-}
-
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"Refresh token: %@, access token: %@, expiration: %@, token type: %@",
@@ -72,10 +48,29 @@ static NSString *const ASFCredentialKey = @"ASFCredential";
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:ASFCredentialKey];
 }
 
-+ (ASFCredential *)retrieveCredential
-{
++ (ASFCredential *)retrieveCredential {
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:ASFCredentialKey];
     return data ? [NSKeyedUnarchiver unarchiveObjectWithData:data] : nil;
+}
+
+#pragma mark - NSCoding
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    self = [super init];
+    if (self) {
+        self.accessToken = [decoder decodeObjectForKey:NSStringFromSelector(@selector(accessToken))];
+        self.tokenType = [decoder decodeObjectForKey:NSStringFromSelector(@selector(tokenType))];
+        self.refreshToken = [decoder decodeObjectForKey:NSStringFromSelector(@selector(refreshToken))];
+        self.expiration = [decoder decodeObjectForKey:NSStringFromSelector(@selector(expiration))];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:self.accessToken forKey:NSStringFromSelector(@selector(accessToken))];
+    [coder encodeObject:self.tokenType forKey:NSStringFromSelector(@selector(tokenType))];
+    [coder encodeObject:self.refreshToken forKey:NSStringFromSelector(@selector(refreshToken))];
+    [coder encodeObject:self.expiration forKey:NSStringFromSelector(@selector(expiration))];
 }
 
 @end

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ASFCredential : NSObject<NSCoding>
+@interface ASFCredential : NSObject <NSCoding>
 
 @property (readonly, nonatomic, copy) NSString *accessToken;
 @property (readonly, nonatomic, copy) NSString *tokenType;
