@@ -33,10 +33,8 @@ static NSString *const ASFCredentialKey = @"ASFCredential";
     return self;
 }
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"Refresh token: %@, access token: %@, expiration: %@, token type: %@",
-            _refreshToken, _accessToken, _expiration, _tokenType];
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@ accessToken:\"%@\" tokenType:\"%@\" refreshToken:\"%@\" expiration:\"%@\">", [self class], self.accessToken, self.tokenType, self.refreshToken, self.expiration];
 }
 
 - (BOOL)isExpired {
