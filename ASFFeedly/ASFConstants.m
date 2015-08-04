@@ -19,7 +19,6 @@ NSString *const ASFMarkersPath          = @"markers";
 
 NSString *const ASFTypeKey              = @"type";
 NSString *const ASFCodeKey              = @"code";
-NSString *const ASFStateKey             = @"state";
 NSString *const ASFScopeKey             = @"scope";
 NSString *const ASFCountKey             = @"count";
 NSString *const ASFActionKey            = @"action";
@@ -32,7 +31,6 @@ NSString *const ASFClientIDKey          = @"client_id";
 NSString *const ASFNewerThanKey         = @"newerThan";
 NSString *const ASFUnreadOnlyKey        = @"unreadOnly";
 NSString *const ASFGrantTypeKey         = @"grant_type";
-NSString *const ASFAccessTokenKey       = @"access_token";
 NSString *const ASFRedirectURIKey       = @"redirect_uri";
 NSString *const ASFContinuationKey      = @"continuation";
 NSString *const ASFClientSecretKey      = @"client_secret";
@@ -57,9 +55,6 @@ NSString *const ASFUpdatedKey           = @"updated";
 NSString *const ASFWebsiteKey           = @"website";
 NSString *const ASFCategoriesKey        = @"categories";
 
-NSString *const ASFPlanKey              = @"plan";
-NSString *const ASFExpiresInKey         = @"expires_in";
-NSString *const ASFTokenTypeKey         = @"token_type";
 NSString *const ASFRefreshTokenKey      = @"refresh_token";
 
 NSString *const ASFUserIDPrefix         = @"user/";

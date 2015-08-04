@@ -19,7 +19,6 @@ extern NSString *const ASFMarkersPath;
 
 extern NSString *const ASFTypeKey;
 extern NSString *const ASFCodeKey;
-extern NSString *const ASFStateKey;
 extern NSString *const ASFScopeKey;
 extern NSString *const ASFCountKey;
 extern NSString *const ASFActionKey;
@@ -32,7 +31,6 @@ extern NSString *const ASFClientIDKey;
 extern NSString *const ASFNewerThanKey;
 extern NSString *const ASFUnreadOnlyKey;
 extern NSString *const ASFGrantTypeKey;
-extern NSString *const ASFAccessTokenKey;
 extern NSString *const ASFRedirectURIKey;
 extern NSString *const ASFContinuationKey;
 extern NSString *const ASFClientSecretKey;
@@ -57,9 +55,6 @@ extern NSString *const ASFUpdatedKey;
 extern NSString *const ASFWebsiteKey;
 extern NSString *const ASFCategoriesKey;
 
-extern NSString *const ASFPlanKey;
-extern NSString *const ASFExpiresInKey;
-extern NSString *const ASFTokenTypeKey;
 extern NSString *const ASFRefreshTokenKey;
 
 extern NSString *const ASFUserIDPrefix;
