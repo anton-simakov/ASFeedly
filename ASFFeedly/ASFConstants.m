@@ -18,7 +18,6 @@ NSString *const ASFMarkersReadsPath     = @"markers/reads";
 NSString *const ASFMarkersPath          = @"markers";
 
 NSString *const ASFTypeKey              = @"type";
-NSString *const ASFCodeKey              = @"code";
 NSString *const ASFScopeKey             = @"scope";
 NSString *const ASFCountKey             = @"count";
 NSString *const ASFActionKey            = @"action";
@@ -27,13 +26,9 @@ NSString *const ASFFeedIDsKey           = @"feedIds";
 NSString *const ASFEntryIDsKey          = @"entryIds";
 NSString *const ASFCategoryIDsKey       = @"categoryIds";
 NSString *const ASFStreamIDKey          = @"streamId";
-NSString *const ASFClientIDKey          = @"client_id";
 NSString *const ASFNewerThanKey         = @"newerThan";
 NSString *const ASFUnreadOnlyKey        = @"unreadOnly";
-NSString *const ASFGrantTypeKey         = @"grant_type";
-NSString *const ASFRedirectURIKey       = @"redirect_uri";
 NSString *const ASFContinuationKey      = @"continuation";
-NSString *const ASFClientSecretKey      = @"client_secret";
 NSString *const ASFResponseTypeKey      = @"response_type";
 
 NSString *const ASFAuthorKey            = @"author";
@@ -55,8 +50,6 @@ NSString *const ASFUpdatedKey           = @"updated";
 NSString *const ASFWebsiteKey           = @"website";
 NSString *const ASFCategoriesKey        = @"categories";
 
-NSString *const ASFRefreshTokenKey      = @"refresh_token";
-
 NSString *const ASFUserIDPrefix         = @"user/";
 NSString *const ASFFeedIDPrefix         = @"feed/";
 
@@ -68,10 +61,5 @@ NSString *const ASFFeedTrueValue        = @"true";
 NSString *const ASFFeedFalseValue       = @"false";
 NSString *const ASFMarkAsReadValue      = @"markAsRead";
 NSString *const ASFKeepUnreadValue      = @"keepUnread";
-
-NSString *const ASFResponseTypeCode     = @"code";
-
-NSString *const ASFGrantTypeRefreshToken      = @"refresh_token";
-NSString *const ASFGrantTypeAuthorizationCode = @"authorization_code";
 
 NSUInteger const ASFStreamCountMax      = 10000;

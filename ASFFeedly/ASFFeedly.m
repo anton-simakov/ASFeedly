@@ -273,22 +273,20 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
                  parameters:(NSDictionary *)parameters
                  completion:(ASFURLConnectionOperationCompletion)completion {
     
-    [self getTokenWithblock:^(NSError *error)
-     {
-         if (error) {
-             if (completion) {
-                 completion(nil, nil, error);
-             }
-             return;
-         } else {
-             NSMutableURLRequest *request = [ASFUtil requestWithMethod:method
-                                                             URLString:URLString
-                                                            parameters:parameters
-                                                                 token:self.credential.accessToken
-                                                                 error:nil];
-             [self doRequest:request completion:completion];
-         }
-     }];
+    [self token:^(NSString *token, NSError *error) {
+        if (error) {
+            if (completion) {
+                completion(nil, nil, error);
+            }
+        } else {
+            NSMutableURLRequest *request = [ASFUtil requestWithMethod:method
+                                                            URLString:URLString
+                                                           parameters:parameters
+                                                                token:token
+                                                                error:nil];
+            [self doRequest:request completion:completion];
+        }
+    }];
 }
 
 - (void)doRequest:(NSURLRequest *)request completion:(ASFURLConnectionOperationCompletion)completion
@@ -301,80 +299,57 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 
 #pragma mark - Token
 
-- (void)getTokenWithblock:(ASFResultBlock)block
-{
-    if ([_credential accessToken] == nil)
-    {
-        [self getAccessTokenWithBlock:block];
-    }
-    else if ([_credential isExpired])
-    {
-        [self refreshTokenWithBlock:block];
-    }
-    else
-    {
-        if (block)
-        {
-            block(nil);
+- (void)token:(void(^)(NSString *token, NSError *error))completion {
+    
+    NSParameterAssert(completion);
+    
+    if (self.credential.accessToken) {
+        if (self.credential.isExpired) {
+            NSDictionary *parameters = @{@"refresh_token" : self.credential.refreshToken,
+                                         @"client_id" : self.clientID,
+                                         @"client_secret" : self.clientSecret,
+                                         @"grant_type" : @"refresh_token"};
+            
+            [self tokenWithParameters:parameters
+                           completion:completion];
+        } else {
+            completion(self.credential.accessToken, nil);
         }
+    } else {
+        NSDictionary *parameters = @{@"code" : _code,
+                                     @"client_id" : self.clientID,
+                                     @"client_secret" : self.clientSecret,
+                                     @"redirect_uri" : ASFRedirectURI,
+                                     @"grant_type" : @"authorization_code"};
+        
+        [self tokenWithParameters:parameters
+                       completion:completion];
     }
 }
 
-- (void)getAccessTokenWithBlock:(ASFResultBlock)block
-{
-    NSParameterAssert(block);
-    NSParameterAssert(_code);
-    NSDictionary *parameters = @{ASFCodeKey : _code,
-                                 ASFClientIDKey : _clientID,
-                                 ASFClientSecretKey : _clientSecret,
-                                 ASFRedirectURIKey : ASFRedirectURI,
-                                 ASFGrantTypeKey : ASFGrantTypeAuthorizationCode};
+- (void)tokenWithParameters:(NSDictionary *)parameters
+                 completion:(void(^)(NSString *token, NSError *error))completion {
     
-    NSString *URLString = [NSString stringWithFormat:@"%@/%@",
-                           ASFEndpoint,
-                           ASFAuthTokenPath];
-    
+    NSError *error;
     NSURLRequest *request = [ASFUtil requestWithMethod:@"POST"
-                                             URLString:URLString
+                                             URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFAuthTokenPath]
                                             parameters:parameters
                                                  token:nil
-                                                 error:nil];
+                                                 error:&error];
+    if (error) {
+        completion(nil, error);
+        return;
+    }
     
-    [self doRequest:request completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
-     {
-         if (!error) {
-             self.credential = [[ASFCredential alloc] initWithDictionary:JSON];
-             [ASFCredential storeCredential:self.credential];
-         }
-         block(error);
-     }];
-}
-
-- (void)refreshTokenWithBlock:(ASFResultBlock)block
-{
-    NSParameterAssert(block);
-    NSDictionary *parameters = @{ASFRefreshTokenKey : [_credential refreshToken],
-                                 ASFClientIDKey : _clientID,
-                                 ASFClientSecretKey : _clientSecret,
-                                 ASFGrantTypeKey : ASFGrantTypeRefreshToken};
-    
-    NSString *URLString = [NSString stringWithFormat:@"%@/%@",
-                           ASFEndpoint,
-                           ASFAuthTokenPath];
-    
-    NSURLRequest *request = [ASFUtil requestWithMethod:@"POST"
-                                             URLString:URLString
-                                            parameters:parameters
-                                                 token:nil
-                                                 error:nil];
-    [self doRequest:request completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
-     {
-         if (!error) {
-             self.credential = [[ASFCredential alloc] initWithDictionary:JSON];
-             [ASFCredential storeCredential:self.credential];
-         }
-         block(error);
-     }];
+    [self doRequest:request completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error) {
+        if (error) {
+            completion(nil, error);
+        } else {
+            self.credential = [[ASFCredential alloc] initWithDictionary:JSON];
+            [ASFCredential storeCredential:self.credential];
+            completion(self.credential.accessToken, nil);
+        }
+    }];
 }
 
 #pragma mark - Parse

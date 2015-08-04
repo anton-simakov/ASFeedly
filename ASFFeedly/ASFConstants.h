@@ -18,7 +18,6 @@ extern NSString *const ASFMarkersReadsPath;
 extern NSString *const ASFMarkersPath;
 
 extern NSString *const ASFTypeKey;
-extern NSString *const ASFCodeKey;
 extern NSString *const ASFScopeKey;
 extern NSString *const ASFCountKey;
 extern NSString *const ASFActionKey;
@@ -27,13 +26,9 @@ extern NSString *const ASFFeedIDsKey;
 extern NSString *const ASFEntryIDsKey;
 extern NSString *const ASFCategoryIDsKey;
 extern NSString *const ASFStreamIDKey;
-extern NSString *const ASFClientIDKey;
 extern NSString *const ASFNewerThanKey;
 extern NSString *const ASFUnreadOnlyKey;
-extern NSString *const ASFGrantTypeKey;
-extern NSString *const ASFRedirectURIKey;
 extern NSString *const ASFContinuationKey;
-extern NSString *const ASFClientSecretKey;
 extern NSString *const ASFResponseTypeKey;
 
 extern NSString *const ASFAuthorKey;
@@ -55,8 +50,6 @@ extern NSString *const ASFUpdatedKey;
 extern NSString *const ASFWebsiteKey;
 extern NSString *const ASFCategoriesKey;
 
-extern NSString *const ASFRefreshTokenKey;
-
 extern NSString *const ASFUserIDPrefix;
 extern NSString *const ASFFeedIDPrefix;
 
@@ -68,10 +61,5 @@ extern NSString *const ASFFeedTrueValue;
 extern NSString *const ASFFeedFalseValue;
 extern NSString *const ASFMarkAsReadValue;
 extern NSString *const ASFKeepUnreadValue;
-
-extern NSString *const ASFResponseTypeCode;
-
-extern NSString *const ASFGrantTypeRefreshToken;
-extern NSString *const ASFGrantTypeAuthorizationCode;
 
 extern NSUInteger const ASFStreamCountMax;

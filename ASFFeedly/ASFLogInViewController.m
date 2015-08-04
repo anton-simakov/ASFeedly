@@ -75,7 +75,7 @@
     NSDictionary *parameters = ASFParametersFromQuery(ASFQueryFromURL(URL));
     
     [self.delegate feedlyClientAuthenticationViewController:self
-                                          didFinishWithCode:parameters[ASFResponseTypeCode]];
+                                          didFinishWithCode:parameters[@"code"]];
     [self dismissViewControllerAnimated:YES
                              completion:NULL];
     return NO;
@@ -83,9 +83,9 @@
 
 - (void)start
 {
-    NSDictionary *parameters = @{ASFClientIDKey : _clientID,
-                                 ASFRedirectURIKey : ASFRedirectURI,
-                                 ASFResponseTypeKey : ASFResponseTypeCode,
+    NSDictionary *parameters = @{@"client_id" : _clientID,
+                                 @"redirect_uri" : ASFRedirectURI,
+                                 ASFResponseTypeKey : @"code",
                                  ASFScopeKey : @"https://cloud.feedly.com/subscriptions"};
     
     NSURL *URL = [ASFUtil URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFAuthAuthPath]
