@@ -17,7 +17,7 @@ static NSString *const kTokenTypeKey      = @"tokenType";
 static NSString *const kPlanKey           = @"plan";
 static NSString *const kStateKey          = @"state";
 
-static NSString *const kAuthenticationKey = @"kAuthenticationKey";
+static NSString *const ASFCredentialKey = @"ASFCredential";
 
 @interface ASFCredential ()
 
@@ -87,19 +87,19 @@ static NSString *const kAuthenticationKey = @"kAuthenticationKey";
 {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:credential];
     
-    [[NSUserDefaults standardUserDefaults] setObject:data forKey:kAuthenticationKey];
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:ASFCredentialKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 + (ASFCredential *)retrieveCredential
 {
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kAuthenticationKey];
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:ASFCredentialKey];
     return data ? [NSKeyedUnarchiver unarchiveObjectWithData:data] : nil;
 }
 
 + (void)reset
 {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kAuthenticationKey];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:ASFCredentialKey];
 }
 
 @end
