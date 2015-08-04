@@ -94,9 +94,4 @@ static NSString *const ASFCredentialKey = @"ASFCredential";
     return data ? [NSKeyedUnarchiver unarchiveObjectWithData:data] : nil;
 }
 
-+ (void)reset
-{
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:ASFCredentialKey];
-}
-
 @end

@@ -23,8 +23,6 @@
 + (void)storeCredential:(ASFCredential *)credential;
 + (ASFCredential *)retrieveCredential;
 
-+ (void)reset;
-
 - (void)setExpiresIn:(long)ti;
 - (BOOL)isTokenExpired;
 
