@@ -27,6 +27,18 @@ static NSString *const kAuthenticationKey = @"kAuthenticationKey";
 
 @implementation ASFCredential
 
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super init];
+    if (self) {
+        _accessToken  = dictionary[@"access_token"];
+        _tokenType    = dictionary[@"token_type"];
+        _refreshToken = dictionary[@"refresh_token"];
+        id expiresIn  = dictionary[@"expires_in"];
+        _expiration   = [NSDate dateWithTimeIntervalSinceNow:[expiresIn doubleValue]];
+    }
+    return self;
+}
+
 - (id)initWithCoder:(NSCoder *)coder
 {
     self = [super init];

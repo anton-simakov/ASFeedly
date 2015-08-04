@@ -18,6 +18,8 @@
 @property(nonatomic, strong) NSString *plan;
 @property(nonatomic, strong) NSString *state;
 
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
 + (void)store:(ASFCredential *)authentication;
 + (ASFCredential *)restore;
 
