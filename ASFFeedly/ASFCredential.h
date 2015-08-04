@@ -10,11 +10,9 @@
 
 @interface ASFCredential : NSObject<NSCoding>
 
-@property(nonatomic, strong) NSString *refreshToken;
-@property(nonatomic, strong) NSString *accessToken;
-@property(nonatomic, strong, readonly) NSDate *expiration;
-@property(nonatomic, strong) NSString *tokenType;
-
+@property (readonly, nonatomic, copy) NSString *accessToken;
+@property (readonly, nonatomic, copy) NSString *tokenType;
+@property (readonly, nonatomic, copy) NSString *refreshToken;
 @property (readonly, nonatomic, assign, getter = isExpired) BOOL expired;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
