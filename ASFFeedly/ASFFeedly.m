@@ -56,7 +56,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     
     self = [super init];
     if (self) {
-        _credential = [ASFCredential restore];
+        _credential = [ASFCredential retrieveCredential];
         _clientID = clientID;
         _clientSecret = clientSecret;
         _queue = [[NSOperationQueue alloc] init];
@@ -350,7 +350,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
      {
          if (!error) {
              self.credential = [[ASFCredential alloc] initWithDictionary:JSON];
-             [ASFCredential store:self.credential];
+             [ASFCredential storeCredential:self.credential];
          }
          block(error);
      }];
@@ -377,7 +377,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
      {
          if (!error) {
              self.credential = [[ASFCredential alloc] initWithDictionary:JSON];
-             [ASFCredential store:self.credential];
+             [ASFCredential storeCredential:self.credential];
          }
          block(error);
      }];

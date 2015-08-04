@@ -83,15 +83,15 @@ static NSString *const kAuthenticationKey = @"kAuthenticationKey";
     return [[NSDate date] compare:[self expiration]] != NSOrderedAscending;
 }
 
-+ (void)store:(ASFCredential *)authentication
++ (void)storeCredential:(ASFCredential *)credential
 {
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:authentication];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:credential];
     
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:kAuthenticationKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+ (ASFCredential *)restore
++ (ASFCredential *)retrieveCredential
 {
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kAuthenticationKey];
     return data ? [NSKeyedUnarchiver unarchiveObjectWithData:data] : nil;

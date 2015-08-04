@@ -20,8 +20,8 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
-+ (void)store:(ASFCredential *)authentication;
-+ (ASFCredential *)restore;
++ (void)storeCredential:(ASFCredential *)credential;
++ (ASFCredential *)retrieveCredential;
 
 + (void)reset;
 
