@@ -1,12 +1,12 @@
 //
-//  ASFAuthentication.m
+//  ASFCredential.m
 //  ASFFeedly
 //
 //  Created by Anton Simakov on 11/5/13.
 //  Copyright (c) 2013 Anton Simakov. All rights reserved.
 //
 
-#import "ASFAuthentication.h"
+#import "ASFCredential.h"
 
 static NSString *const kCodeKey           = @"code";
 static NSString *const kUserIDKey         = @"userID";
@@ -19,13 +19,13 @@ static NSString *const kStateKey          = @"state";
 
 static NSString *const kAuthenticationKey = @"kAuthenticationKey";
 
-@interface ASFAuthentication ()
+@interface ASFCredential ()
 
 @property(nonatomic, strong) NSDate *expirationDate;
 
 @end
 
-@implementation ASFAuthentication
+@implementation ASFCredential
 
 - (id)initWithCoder:(NSCoder *)coder
 {
@@ -71,7 +71,7 @@ static NSString *const kAuthenticationKey = @"kAuthenticationKey";
     return [[NSDate date] compare:[self expirationDate]] != NSOrderedAscending;
 }
 
-+ (void)store:(ASFAuthentication *)authentication
++ (void)store:(ASFCredential *)authentication
 {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:authentication];
     
@@ -79,7 +79,7 @@ static NSString *const kAuthenticationKey = @"kAuthenticationKey";
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+ (ASFAuthentication *)restore
++ (ASFCredential *)restore
 {
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kAuthenticationKey];
     return data ? [NSKeyedUnarchiver unarchiveObjectWithData:data] : nil;

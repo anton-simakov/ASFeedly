@@ -1,5 +1,5 @@
 //
-//  ASFAuthentication.h
+//  ASFCredential.h
 //  ASFFeedly
 //
 //  Created by Anton Simakov on 11/5/13.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ASFAuthentication : NSObject<NSCoding>
+@interface ASFCredential : NSObject<NSCoding>
 
 @property(nonatomic, strong) NSString *userID;
 @property(nonatomic, strong) NSString *refreshToken;
@@ -18,8 +18,8 @@
 @property(nonatomic, strong) NSString *plan;
 @property(nonatomic, strong) NSString *state;
 
-+ (void)store:(ASFAuthentication *)authentication;
-+ (ASFAuthentication *)restore;
++ (void)store:(ASFCredential *)authentication;
++ (ASFCredential *)restore;
 
 + (void)reset;
 

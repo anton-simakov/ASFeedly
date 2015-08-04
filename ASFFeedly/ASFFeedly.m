@@ -11,7 +11,7 @@
 #import "ASFUtil.h"
 #import "ASFStream.h"
 #import "ASFEntry.h"
-#import "ASFAuthentication.h"
+#import "ASFCredential.h"
 #import "ASFLogInViewController.h"
 #import "ASFURLConnectionOperation.h"
 #import "DLog.h"
@@ -30,7 +30,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 @interface ASFFeedly () <ASFLogInViewControllerDelegate>
 
 @property (nonatomic, strong) NSOperationQueue *queue;
-@property (nonatomic, strong) ASFAuthentication *authentication;
+@property (nonatomic, strong) ASFCredential *authentication;
 
 @end
 
@@ -56,7 +56,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     
     self = [super init];
     if (self) {
-        _authentication = [ASFAuthentication restore];
+        _authentication = [ASFCredential restore];
         _clientID = clientID;
         _clientSecret = clientSecret;
         _queue = [[NSOperationQueue alloc] init];
@@ -83,7 +83,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 
 - (void)logout
 {
-    [ASFAuthentication reset];
+    [ASFCredential reset];
     [self setAuthentication:nil];
 }
 
@@ -350,7 +350,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
      {
          if (!error) {
              self.authentication = [self authenticationFromDictionary:JSON];
-             [ASFAuthentication store:self.authentication];
+             [ASFCredential store:self.authentication];
          }
          block(error);
      }];
@@ -377,7 +377,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
      {
          if (!error) {
              self.authentication = [self authenticationFromDictionary:JSON];
-             [ASFAuthentication store:self.authentication];
+             [ASFCredential store:self.authentication];
          }
          block(error);
      }];
@@ -385,9 +385,9 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 
 #pragma mark - Parse
 
-- (ASFAuthentication *)authenticationFromDictionary:(NSDictionary *)dictionary
+- (ASFCredential *)authenticationFromDictionary:(NSDictionary *)dictionary
 {
-    ASFAuthentication *authentication = [[ASFAuthentication alloc] init];
+    ASFCredential *authentication = [[ASFCredential alloc] init];
     
     authentication.accessToken = dictionary[ASFAccessTokenKey];
     authentication.refreshToken = dictionary[ASFRefreshTokenKey];

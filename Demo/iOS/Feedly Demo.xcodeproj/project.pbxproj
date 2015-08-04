@@ -20,7 +20,7 @@
 		84B612DC186ACD8000BA9E10 /* TableSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612DB186ACD8000BA9E10 /* TableSection.m */; };
 		84B612DF186ACE7900BA9E10 /* CellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612DE186ACE7900BA9E10 /* CellItem.m */; };
 		84C29558186AC4C700B59901 /* ASFFeedly.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29547186AC4C700B59901 /* ASFFeedly.m */; };
-		84C29559186AC4C700B59901 /* ASFAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29549186AC4C700B59901 /* ASFAuthentication.m */; };
+		84C29559186AC4C700B59901 /* ASFCredential.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29549186AC4C700B59901 /* ASFCredential.m */; };
 		84C2955A186AC4C700B59901 /* ASFLogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954B186AC4C700B59901 /* ASFLogInViewController.m */; };
 		84C2955B186AC4C700B59901 /* ASFCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954D186AC4C700B59901 /* ASFCategory.m */; };
 		84C2955C186AC4C700B59901 /* ASFConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954F186AC4C700B59901 /* ASFConstants.m */; };
@@ -55,8 +55,8 @@
 		84B612DE186ACE7900BA9E10 /* CellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellItem.m; sourceTree = "<group>"; };
 		84C29546186AC4C700B59901 /* ASFFeedly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFFeedly.h; sourceTree = "<group>"; };
 		84C29547186AC4C700B59901 /* ASFFeedly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFFeedly.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		84C29548186AC4C700B59901 /* ASFAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFAuthentication.h; sourceTree = "<group>"; };
-		84C29549186AC4C700B59901 /* ASFAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFAuthentication.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		84C29548186AC4C700B59901 /* ASFCredential.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFCredential.h; sourceTree = "<group>"; };
+		84C29549186AC4C700B59901 /* ASFCredential.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFCredential.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		84C2954A186AC4C700B59901 /* ASFLogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ASFLogInViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		84C2954B186AC4C700B59901 /* ASFLogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFLogInViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		84C2954C186AC4C700B59901 /* ASFCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFCategory.h; sourceTree = "<group>"; };
@@ -148,12 +148,12 @@
 		84C29545186AC4C700B59901 /* ASFFeedly */ = {
 			isa = PBXGroup;
 			children = (
-				84C29548186AC4C700B59901 /* ASFAuthentication.h */,
-				84C29549186AC4C700B59901 /* ASFAuthentication.m */,
 				84C2954C186AC4C700B59901 /* ASFCategory.h */,
 				84C2954D186AC4C700B59901 /* ASFCategory.m */,
 				84C2954E186AC4C700B59901 /* ASFConstants.h */,
 				84C2954F186AC4C700B59901 /* ASFConstants.m */,
+				84C29548186AC4C700B59901 /* ASFCredential.h */,
+				84C29549186AC4C700B59901 /* ASFCredential.m */,
 				84C29550186AC4C700B59901 /* ASFEntry.h */,
 				84C29551186AC4C700B59901 /* ASFEntry.m */,
 				84C29546186AC4C700B59901 /* ASFFeedly.h */,
@@ -240,7 +240,7 @@
 			files = (
 				84B612D9186ACB3100BA9E10 /* Cell.m in Sources */,
 				84A571A3186AC30C0067C898 /* AppDelegate.m in Sources */,
-				84C29559186AC4C700B59901 /* ASFAuthentication.m in Sources */,
+				84C29559186AC4C700B59901 /* ASFCredential.m in Sources */,
 				84C2955D186AC4C700B59901 /* ASFEntry.m in Sources */,
 				84A5719F186AC30C0067C898 /* main.m in Sources */,
 				3AE9FB0B1B6BFAC900147959 /* ASFURLConnectionOperation.m in Sources */,
