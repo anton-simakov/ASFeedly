@@ -37,7 +37,6 @@ typedef NS_ENUM(NSUInteger, ASFRanking) {
                     clientSecret:(NSString *)clientSecret NS_DESIGNATED_INITIALIZER;
 
 - (void)loginWithViewController:(UIViewController *)controller;
-- (void)logout;
 
 - (void)getSubscriptions;
 

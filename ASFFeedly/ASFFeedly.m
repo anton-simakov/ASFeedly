@@ -81,12 +81,6 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     }
 }
 
-- (void)logout
-{
-    [ASFCredential reset];
-    self.credential = nil;
-}
-
 #pragma mark - ASFLogInViewControllerDelegate
 
 - (void)feedlyClientAuthenticationViewController:(ASFLogInViewController *)vc
