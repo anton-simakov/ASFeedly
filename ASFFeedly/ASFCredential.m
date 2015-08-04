@@ -83,12 +83,9 @@ static NSString *const ASFCredentialKey = @"ASFCredential";
     return [[NSDate date] compare:[self expiration]] != NSOrderedAscending;
 }
 
-+ (void)storeCredential:(ASFCredential *)credential
-{
++ (void)storeCredential:(ASFCredential *)credential {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:credential];
-    
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:ASFCredentialKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 + (ASFCredential *)retrieveCredential
