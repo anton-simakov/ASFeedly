@@ -25,19 +25,6 @@ static NSString *_code;
     return _code;
 }
 
-- (id)initWithCliendID:(NSString *)clientID delegate:(id<ASFLogInViewControllerDelegate>)delegate
-{
-    self = [super init];
-    
-    if (self)
-    {
-        _clientID = clientID;
-        _delegate = delegate;
-    }
-    
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
