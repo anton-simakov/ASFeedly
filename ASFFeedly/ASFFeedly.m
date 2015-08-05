@@ -351,12 +351,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
         
         for (NSDictionary *categoryDictionary in categoriesResponse)
         {
-            ASFCategory *category = [ASFCategory new];
-            
-            [category setID:categoryDictionary[ASFIDKey]];
-            [category setLabel:categoryDictionary[ASFLabelKey]];
-            
-            [categories addObject:category];
+            [categories addObject:[[ASFCategory alloc] initWithDictionary:categoryDictionary]];
         }
         
         [subscription setCategories:categories];
