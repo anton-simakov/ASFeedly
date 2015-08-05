@@ -13,9 +13,9 @@
 
 static NSString *_code;
 
-@interface ASFLogInViewController ()<UIWebViewDelegate>
+@interface ASFLogInViewController () <UIWebViewDelegate>
 
-@property(nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) UIWebView *webView;
 
 @end
 
@@ -25,53 +25,21 @@ static NSString *_code;
     return _code;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setWebView:[[UIWebView alloc] initWithFrame:[[self view] frame]]];
+    self.webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     
-    [_webView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-    [_webView setDelegate:self];
+    self.webView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     self.webView.scalesPageToFit = YES;
+    self.webView.delegate = self;
     
-    [[self view] addSubview:_webView];
+    [self.view addSubview:self.webView];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self start];
-}
-
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
-
-#pragma mark - UIWebViewDelegate
-
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    NSURL *URL = [request URL];
-    NSString *absoluteString = [[request URL] absoluteString];
     
-    if (![absoluteString hasPrefix:ASFRedirectURI]) {
-        return YES;
-    }
-    
-    NSDictionary *parameters = ASFParametersFromQuery(ASFQueryFromURL(URL));
-    
-    _code = parameters[@"code"];
-    
-    if ([self.delegate respondsToSelector:@selector(logInViewController:didFinish:)]) {
-        [self.delegate logInViewController:self didFinish:nil];
-    }
-    
-    return NO;
-}
-
-- (void)start
-{
     NSDictionary *parameters = @{@"client_id" : _clientID,
                                  @"redirect_uri" : ASFRedirectURI,
                                  @"response_type" : @"code",
@@ -82,7 +50,33 @@ static NSString *_code;
     
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
-    [_webView loadRequest:request];
+    [self.webView loadRequest:request];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+#pragma mark - UIWebViewDelegate
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    
+    NSURL *URL = [request URL];
+    if ([[URL absoluteString] hasPrefix:ASFRedirectURI]) {
+        
+        NSString *query = ASFQueryFromURL(URL);
+        NSDictionary *parameters = ASFParametersFromQuery(query);
+        
+        _code = parameters[@"code"];
+        
+        if ([self.delegate respondsToSelector:@selector(logInViewController:didFinish:)]) {
+            [self.delegate logInViewController:self didFinish:nil];
+        }
+        
+        return NO;
+    }
+    
+    return YES;
 }
 
 @end
