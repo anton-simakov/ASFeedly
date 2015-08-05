@@ -93,13 +93,33 @@ static NSString *const kCellIdentifier = @"ACell";
     [self presentViewController:logInViewController animated:animated completion:nil];
 }
 
+- (void)loadSubscriptions {
+    [self.client subscriptions:^(NSArray *subscriptions, NSError *error) {
+        if (error) {
+            // TODO:
+        } else {
+            for (ASFSubscription *subscription in subscriptions)
+            {
+                [self.client getStream:[subscription ID]
+                                 count:10
+                               ranking:ASFNewest
+                            unreadOnly:YES
+                             newerThan:0
+                          continuation:nil];
+                
+                _loadCounter++;
+            }
+        }
+    }];
+}
+
 #pragma mark - Actions
 
 - (IBAction)refresh:(id)sender {
     self.refreshButton.enabled = NO;
     [self.tableSections removeAllObjects];
     [self.tableView reloadData];
-    [self.client getSubscriptions];
+    [self loadSubscriptions];
 }
 
 #pragma mark - ASFLogInViewControllerDelegate
@@ -161,21 +181,6 @@ static NSString *const kCellIdentifier = @"ACell";
 }
 
 #pragma mark - ASFDelegate
-
-- (void)feedlyClient:(ASFFeedly *)client didLoadSubscriptions:(NSArray *)subscriptions
-{
-    for (ASFSubscription *subscription in subscriptions)
-    {
-        [client getStream:[subscription ID]
-                    count:10
-                  ranking:ASFNewest
-               unreadOnly:YES
-                newerThan:0
-             continuation:nil];
-        
-        _loadCounter++;
-    }
-}
 
 - (void)feedlyClient:(ASFFeedly *)client didLoadStream:(ASFStream *)stream
 {

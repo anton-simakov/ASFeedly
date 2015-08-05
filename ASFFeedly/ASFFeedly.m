@@ -67,21 +67,17 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     return [ASFLogInViewController code] || self.credential;
 }
 
-#pragma mark - Get
-
-- (void)getCategories
-{
-    // TODO:
-}
-
-- (void)getSubscriptions
-{
+- (void)subscriptions:(void(^)(NSArray *subscriptions, NSError *error))completion {
     [self doRequestWithMethod:@"GET"
                     URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFSubscriptionsPath]
                    parameters:nil
                    completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
-         [self parseSubscriptions:JSON];
+         if (error) {
+             completion(nil, error);
+         } else {
+             completion([self subscriptionsFromDictionary:JSON], nil);
+         }
      }];
 }
 
@@ -330,7 +326,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 
 #pragma mark - Parse
 
-- (void)parseSubscriptions:(NSArray *)response
+- (NSArray *)subscriptionsFromDictionary:(NSArray *)response
 {
     NSMutableArray *subscriptions = [NSMutableArray array];
     
@@ -364,10 +360,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
         [subscriptions addObject:subscription];
     }
     
-    if ([_delegate respondsToSelector:@selector(feedlyClient:didLoadSubscriptions:)])
-    {
-        [_delegate feedlyClient:self didLoadSubscriptions:subscriptions];
-    }
+    return subscriptions;
 }
 
 - (void)parseStream:(NSDictionary *)response

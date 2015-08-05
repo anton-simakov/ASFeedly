@@ -21,7 +21,6 @@ typedef NS_ENUM(NSUInteger, ASFRanking) {
 @protocol ASFDelegate <NSObject>
 
 @optional
-- (void)feedlyClient:(ASFFeedly *)client didLoadSubscriptions:(NSArray *)subscriptions;
 - (void)feedlyClient:(ASFFeedly *)client didLoadStream:(ASFStream *)stream;
 
 @end
@@ -37,7 +36,7 @@ typedef NS_ENUM(NSUInteger, ASFRanking) {
 
 - (BOOL)isAuthorized;
 
-- (void)getSubscriptions;
+- (void)subscriptions:(void(^)(NSArray *subscriptions, NSError *error))completion;
 
 - (void)getStream:(NSString *)streamID;
 
