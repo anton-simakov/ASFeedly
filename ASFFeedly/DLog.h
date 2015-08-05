@@ -7,7 +7,7 @@
 //
 
 #ifdef DEBUG
-#   define DLog(format, ...) NSLog((@"%s [Line %d] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#   define DLog(format, ...) NSLog((@"%s (%@:%d): " format), __PRETTY_FUNCTION__, [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, ##__VA_ARGS__)
 #else
 #   define DLog(...)
 #endif
