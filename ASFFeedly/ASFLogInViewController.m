@@ -73,8 +73,8 @@ static NSString *_code;
 {
     NSDictionary *parameters = @{@"client_id" : _clientID,
                                  @"redirect_uri" : ASFRedirectURI,
-                                 ASFResponseTypeKey : @"code",
-                                 ASFScopeKey : @"https://cloud.feedly.com/subscriptions"};
+                                 @"response_type" : @"code",
+                                 @"scope" : @"https://cloud.feedly.com/subscriptions"};
     
     NSURL *URL = [ASFUtil URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFAuthAuthPath]
                              parameters:parameters];
