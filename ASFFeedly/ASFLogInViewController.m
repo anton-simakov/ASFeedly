@@ -66,8 +66,6 @@ static NSString *_code;
         [self.delegate logInViewController:self didFinish:nil];
     }
     
-    [self dismissViewControllerAnimated:YES
-                             completion:NULL];
     return NO;
 }
 
