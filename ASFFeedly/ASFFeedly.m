@@ -63,6 +63,10 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     return self;
 }
 
+- (BOOL)isAuthorized {
+    return [ASFLogInViewController code] || self.credential;
+}
+
 - (void)loginWithViewController:(UIViewController *)controller {
     if (self.credential.refreshToken || [ASFLogInViewController code]) {
         if ([self.delegate respondsToSelector:@selector(feedlyClientDidFinishLogin:)]) {

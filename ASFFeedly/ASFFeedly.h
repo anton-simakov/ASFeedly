@@ -36,6 +36,8 @@ typedef NS_ENUM(NSUInteger, ASFRanking) {
 - (instancetype)initWithClientID:(NSString *)clientID
                     clientSecret:(NSString *)clientSecret NS_DESIGNATED_INITIALIZER;
 
+- (BOOL)isAuthorized;
+
 - (void)loginWithViewController:(UIViewController *)controller;
 
 - (void)getSubscriptions;
