@@ -25,7 +25,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     }
 }
 
-@interface ASFFeedly () <ASFLogInViewControllerDelegate>
+@interface ASFFeedly ()
 
 @property (nonatomic, strong) NSOperationQueue *queue;
 @property (nonatomic, strong) ASFCredential *credential;
@@ -65,30 +65,6 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 
 - (BOOL)isAuthorized {
     return [ASFLogInViewController code] || self.credential;
-}
-
-- (void)loginWithViewController:(UIViewController *)controller {
-    if (self.credential.refreshToken || [ASFLogInViewController code]) {
-        if ([self.delegate respondsToSelector:@selector(feedlyClientDidFinishLogin:)]) {
-            [self.delegate feedlyClientDidFinishLogin:self];
-        }
-    } else {
-        ASFLogInViewController *vc = [[ASFLogInViewController alloc] initWithCliendID:_clientID
-                                                                             delegate:self];
-        
-        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
-        
-        [nc setModalPresentationStyle:UIModalPresentationFullScreen];
-        [controller presentViewController:nc animated:YES completion:NULL];
-    }
-}
-
-#pragma mark - ASFLogInViewControllerDelegate
-
-- (void)logInViewController:(ASFLogInViewController *)logInViewController didFinish:(NSError *)error {
-    if ([self.delegate respondsToSelector:@selector(feedlyClientDidFinishLogin:)]) {
-        [self.delegate feedlyClientDidFinishLogin:self];
-    }
 }
 
 #pragma mark - Get

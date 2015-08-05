@@ -21,7 +21,6 @@ typedef NS_ENUM(NSUInteger, ASFRanking) {
 @protocol ASFDelegate <NSObject>
 
 @optional
-- (void)feedlyClientDidFinishLogin:(ASFFeedly *)client;
 - (void)feedlyClient:(ASFFeedly *)client didLoadSubscriptions:(NSArray *)subscriptions;
 - (void)feedlyClient:(ASFFeedly *)client didLoadStream:(ASFStream *)stream;
 
@@ -37,8 +36,6 @@ typedef NS_ENUM(NSUInteger, ASFRanking) {
                     clientSecret:(NSString *)clientSecret NS_DESIGNATED_INITIALIZER;
 
 - (BOOL)isAuthorized;
-
-- (void)loginWithViewController:(UIViewController *)controller;
 
 - (void)getSubscriptions;
 
