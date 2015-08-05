@@ -7,7 +7,9 @@
 //
 
 #import "ASFLogInViewController.h"
+#import "ASFFeedly_Protected.h"
 #import "ASFConstants.h"
+#import "ASFFeedly.h"
 #import "ASFUtil.h"
 
 @interface ASFLogInViewController ()<UIWebViewDelegate>
@@ -74,8 +76,12 @@
     
     NSDictionary *parameters = ASFParametersFromQuery(ASFQueryFromURL(URL));
     
-    [self.delegate feedlyClientAuthenticationViewController:self
-                                          didFinishWithCode:parameters[@"code"]];
+    [ASFFeedly setCode:parameters[@"code"]];
+    
+    if ([self.delegate respondsToSelector:@selector(logInViewController:didFinish:)]) {
+        [self.delegate logInViewController:self didFinish:nil];
+    }
+    
     [self dismissViewControllerAnimated:YES
                              completion:NULL];
     return NO;

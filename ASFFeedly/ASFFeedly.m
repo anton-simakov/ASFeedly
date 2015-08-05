@@ -92,9 +92,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 
 #pragma mark - ASFLogInViewControllerDelegate
 
-- (void)feedlyClientAuthenticationViewController:(ASFLogInViewController *)vc
-                               didFinishWithCode:(NSString *)code {
-    _code = code;
+- (void)logInViewController:(ASFLogInViewController *)logInViewController didFinish:(NSError *)error {
     if ([self.delegate respondsToSelector:@selector(feedlyClientDidFinishLogin:)]) {
         [self.delegate feedlyClientDidFinishLogin:self];
     }
