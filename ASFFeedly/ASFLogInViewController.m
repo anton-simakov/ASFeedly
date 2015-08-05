@@ -25,13 +25,6 @@ static NSString *_code;
     return _code;
 }
 
-- (id)init
-{
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:@"You cannot init this class directly. Instead, use the designated initializer"
-                                 userInfo:nil];
-}
-
 - (id)initWithCliendID:(NSString *)clientID delegate:(id<ASFLogInViewControllerDelegate>)delegate
 {
     self = [super init];
