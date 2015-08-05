@@ -15,7 +15,6 @@ static NSString *_code;
 
 @interface ASFLogInViewController ()<UIWebViewDelegate>
 
-@property(nonatomic, strong) NSString *clientID;
 @property(nonatomic, strong) UIWebView *webView;
 
 @end
