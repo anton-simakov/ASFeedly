@@ -336,27 +336,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     
     for (NSDictionary *subscriptionDictionary in response)
     {
-        ASFSubscription *subscription = [ASFSubscription new];
-        
-        [subscription setID: subscriptionDictionary[ASFIDKey]];
-        [subscription setTitle: subscriptionDictionary[ASFTitleKey]];
-        [subscription setWebsite:subscriptionDictionary[ASFWebsiteKey]];
-        
-        NSTimeInterval updated = [subscriptionDictionary[ASFUpdatedKey] longLongValue];
-        
-        [subscription setUpdated:[NSDate dateWithTimeIntervalSince1970:updated]];
-        
-        NSMutableArray *categories = [NSMutableArray array];
-        NSArray *categoriesResponse = subscriptionDictionary[ASFCategoriesKey];
-        
-        for (NSDictionary *categoryDictionary in categoriesResponse)
-        {
-            [categories addObject:[[ASFCategory alloc] initWithDictionary:categoryDictionary]];
-        }
-        
-        [subscription setCategories:categories];
-        
-        [subscriptions addObject:subscription];
+        [subscriptions addObject:[[ASFSubscription alloc] initWithDictionary:subscriptionDictionary]];
     }
     
     if ([_delegate respondsToSelector:@selector(feedlyClient:didLoadSubscriptions:)])

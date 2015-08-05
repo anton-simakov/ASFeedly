@@ -7,18 +7,35 @@
 //
 
 #import "ASFSubscription.h"
-#import "ASFConstants.h"
+#import "ASFCategory.h"
 
 @implementation ASFSubscription
 
-- (NSString *)link
-{
-    return [_ID stringByReplacingOccurrencesOfString:ASFFeedIDPrefix withString:@""];
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super init];
+    if (self) {
+        _ID = dictionary[@"id"];
+        _title = dictionary[@"title"];
+        _website = dictionary[@"website"];
+        
+        NSNumber *updated = dictionary[@"updated"];
+        if (updated) {
+            _updated = [NSDate dateWithTimeIntervalSince1970:[updated doubleValue]];
+        }
+        
+        NSMutableArray *categories = [NSMutableArray array];
+        
+        for (NSDictionary *category in dictionary[@"categories"]) {
+            [categories addObject:[[ASFCategory alloc] initWithDictionary:category]];
+        }
+        
+        _categories = categories;
+    }
+    return self;
 }
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"Feed ID: %@, title: %@, website: %@, updated: %@, categories: %@", _ID, _title, _website, _updated, _categories];
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@ ID \"%@\" title \"%@\" website \"%@\" updated \"%@\" categories \"%@\">", [self class], self.ID, self.title, self.website, self.updated, self.categories];
 }
 
 @end
