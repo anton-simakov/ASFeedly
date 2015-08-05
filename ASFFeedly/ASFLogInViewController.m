@@ -33,6 +33,7 @@ static NSString *_code;
     
     [_webView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     [_webView setDelegate:self];
+    self.webView.scalesPageToFit = YES;
     
     [[self view] addSubview:_webView];
 }
