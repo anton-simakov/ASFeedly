@@ -19,17 +19,18 @@ static NSString *const kClientSecret = @""; // Put your client secret here
 
 static NSString *const kCellIdentifier = @"ACell";
 
-@interface RootViewController ()<UITableViewDelegate, UITableViewDataSource, ASFDelegate>
+@interface RootViewController () <UITableViewDelegate, UITableViewDataSource, ASFDelegate, ASFLogInViewControllerDelegate>
 {
     NSInteger _loadCounter;
 }
 
-@property(nonatomic, strong) UIBarButtonItem *refreshButton;
+@property (nonatomic, strong) UIBarButtonItem *refreshButton;
 
-@property(nonatomic, strong) UITableView *tableView;
-@property(nonatomic, strong) NSMutableArray *tableSections;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *tableSections;
 
-@property(nonatomic, strong) ASFFeedly *feedlyClient;
+@property (nonatomic, assign) BOOL presentedLogInViewController;
+@property (nonatomic, strong) ASFFeedly *client;
 
 @end
 
@@ -40,9 +41,9 @@ static NSString *const kCellIdentifier = @"ACell";
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        _feedlyClient = [[ASFFeedly alloc] initWithClientID:kClientID
-                                               clientSecret:kClientSecret];
-        [_feedlyClient setDelegate:self];
+        _client = [[ASFFeedly alloc] initWithClientID:kClientID
+                                         clientSecret:kClientSecret];
+        [_client setDelegate:self];
         
         _tableSections = [NSMutableArray array];
     }
@@ -74,10 +75,40 @@ static NSString *const kCellIdentifier = @"ACell";
     [_tableView setFrame:[[self view] bounds]];
 }
 
-- (void)reset
-{
-    [_tableSections removeAllObjects];
-    [_tableView reloadData];
+- (void)viewDidAppear:(BOOL)animated {
+    if (![self.client isAuthorized]) {
+        [self presentLogInViewController:animated];
+    }
+}
+
+- (void)presentLogInViewController:(BOOL)animated {
+    if (self.presentedLogInViewController) {
+        return;
+    }
+    
+    self.presentedLogInViewController = YES;
+    ASFLogInViewController *logInViewController = [[ASFLogInViewController alloc] init];
+    logInViewController.delegate = self;
+    logInViewController.clientID = kClientID;
+    [self presentViewController:logInViewController animated:animated completion:nil];
+}
+
+#pragma mark - Actions
+
+- (IBAction)refresh:(id)sender {
+    self.refreshButton.enabled = NO;
+    [self.tableSections removeAllObjects];
+    [self.tableView reloadData];
+    [self.client getSubscriptions];
+}
+
+#pragma mark - ASFLogInViewControllerDelegate
+
+- (void)logInViewController:(ASFLogInViewController *)logInViewController didFinish:(NSError *)error {
+    if (self.presentedLogInViewController) {
+        self.presentedLogInViewController = NO;
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -130,11 +161,6 @@ static NSString *const kCellIdentifier = @"ACell";
 }
 
 #pragma mark - ASFDelegate
-
-- (void)feedlyClientDidFinishLogin:(ASFFeedly *)client
-{
-    [client getSubscriptions];
-}
 
 - (void)feedlyClient:(ASFFeedly *)client didLoadSubscriptions:(NSArray *)subscriptions
 {
@@ -196,17 +222,6 @@ static NSString *const kCellIdentifier = @"ACell";
     
     [_tableView insertSections:indexSet
               withRowAnimation:UITableViewRowAnimationTop];
-}
-
-#pragma mark - Actions
-
-- (void)refresh:(id)sender
-{
-    self.refreshButton.enabled = NO;
-    
-    [self reset];
-    
-    [self.feedlyClient loginWithViewController:self];
 }
 
 @end

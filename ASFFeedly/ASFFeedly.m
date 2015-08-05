@@ -18,8 +18,6 @@
 
 typedef void (^ASFResultBlock)(NSError *error);
 
-static NSString *_code;
-
 static NSString *ASFRankingValue(ASFRanking ranking) {
     switch (ranking) {
         case ASFNewest: return @"newest";
@@ -27,7 +25,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     }
 }
 
-@interface ASFFeedly () <ASFLogInViewControllerDelegate>
+@interface ASFFeedly ()
 
 @property (nonatomic, strong) NSOperationQueue *queue;
 @property (nonatomic, strong) ASFCredential *credential;
@@ -65,30 +63,8 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     return self;
 }
 
-- (void)loginWithViewController:(UIViewController *)controller {
-    if (self.credential.refreshToken || _code) {
-        if ([self.delegate respondsToSelector:@selector(feedlyClientDidFinishLogin:)]) {
-            [self.delegate feedlyClientDidFinishLogin:self];
-        }
-    } else {
-        ASFLogInViewController *vc = [[ASFLogInViewController alloc] initWithCliendID:_clientID
-                                                                             delegate:self];
-        
-        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
-        
-        [nc setModalPresentationStyle:UIModalPresentationFullScreen];
-        [controller presentViewController:nc animated:YES completion:NULL];
-    }
-}
-
-#pragma mark - ASFLogInViewControllerDelegate
-
-- (void)feedlyClientAuthenticationViewController:(ASFLogInViewController *)vc
-                               didFinishWithCode:(NSString *)code {
-    _code = code;
-    if ([self.delegate respondsToSelector:@selector(feedlyClientDidFinishLogin:)]) {
-        [self.delegate feedlyClientDidFinishLogin:self];
-    }
+- (BOOL)isAuthorized {
+    return [ASFLogInViewController code] || self.credential;
 }
 
 #pragma mark - Get
@@ -316,7 +292,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
             completion(self.credential.accessToken, nil);
         }
     } else {
-        NSDictionary *parameters = @{@"code" : _code,
+        NSDictionary *parameters = @{@"code" : [ASFLogInViewController code],
                                      @"client_id" : self.clientID,
                                      @"client_secret" : self.clientSecret,
                                      @"redirect_uri" : ASFRedirectURI,

@@ -8,22 +8,21 @@
 
 #import "ASFLogInViewController.h"
 #import "ASFConstants.h"
+#import "ASFFeedly.h"
 #import "ASFUtil.h"
+
+static NSString *_code;
 
 @interface ASFLogInViewController ()<UIWebViewDelegate>
 
-@property(nonatomic, strong) NSString *clientID;
 @property(nonatomic, strong) UIWebView *webView;
 
 @end
 
 @implementation ASFLogInViewController
 
-- (id)init
-{
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:@"You cannot init this class directly. Instead, use the designated initializer"
-                                 userInfo:nil];
++ (NSString *)code {
+    return _code;
 }
 
 - (id)initWithCliendID:(NSString *)clientID delegate:(id<ASFLogInViewControllerDelegate>)delegate
@@ -74,8 +73,12 @@
     
     NSDictionary *parameters = ASFParametersFromQuery(ASFQueryFromURL(URL));
     
-    [self.delegate feedlyClientAuthenticationViewController:self
-                                          didFinishWithCode:parameters[@"code"]];
+    _code = parameters[@"code"];
+    
+    if ([self.delegate respondsToSelector:@selector(logInViewController:didFinish:)]) {
+        [self.delegate logInViewController:self didFinish:nil];
+    }
+    
     [self dismissViewControllerAnimated:YES
                              completion:NULL];
     return NO;

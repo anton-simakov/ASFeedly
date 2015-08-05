@@ -8,18 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
-@class ASFLogInViewController;
-
-@protocol ASFLogInViewControllerDelegate<NSObject>
-
-- (void)feedlyClientAuthenticationViewController:(ASFLogInViewController *)vc
-                               didFinishWithCode:(NSString *)authentication;
-@end
+@protocol ASFLogInViewControllerDelegate;
 
 @interface ASFLogInViewController : UIViewController
 
-@property(nonatomic, weak) id<ASFLogInViewControllerDelegate> delegate;
+@property (nonatomic, strong) NSString *clientID;
+@property (nonatomic, weak) id<ASFLogInViewControllerDelegate> delegate;
 
 - (id)initWithCliendID:(NSString *)clientID delegate:(id<ASFLogInViewControllerDelegate>)delegate;
+
++ (NSString *)code;
+
+@end
+
+@protocol ASFLogInViewControllerDelegate <NSObject>
+
+@optional
+- (void)logInViewController:(ASFLogInViewController *)logInViewController didFinish:(NSError *)error;
+- (void)logInViewControllerDidCancelLogIn:(ASFLogInViewController *)logInViewController;
 
 @end
