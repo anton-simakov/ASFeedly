@@ -18,7 +18,6 @@ NSString *const ASFMarkersReadsPath     = @"markers/reads";
 NSString *const ASFMarkersPath          = @"markers";
 
 NSString *const ASFTypeKey              = @"type";
-NSString *const ASFScopeKey             = @"scope";
 NSString *const ASFCountKey             = @"count";
 NSString *const ASFActionKey            = @"action";
 NSString *const ASFRankedKey            = @"ranked";
@@ -29,7 +28,6 @@ NSString *const ASFStreamIDKey          = @"streamId";
 NSString *const ASFNewerThanKey         = @"newerThan";
 NSString *const ASFUnreadOnlyKey        = @"unreadOnly";
 NSString *const ASFContinuationKey      = @"continuation";
-NSString *const ASFResponseTypeKey      = @"response_type";
 
 NSString *const ASFAuthorKey            = @"author";
 NSString *const ASFOriginIDKey          = @"originId";

@@ -18,7 +18,6 @@ extern NSString *const ASFMarkersReadsPath;
 extern NSString *const ASFMarkersPath;
 
 extern NSString *const ASFTypeKey;
-extern NSString *const ASFScopeKey;
 extern NSString *const ASFCountKey;
 extern NSString *const ASFActionKey;
 extern NSString *const ASFRankedKey;
@@ -29,7 +28,6 @@ extern NSString *const ASFStreamIDKey;
 extern NSString *const ASFNewerThanKey;
 extern NSString *const ASFUnreadOnlyKey;
 extern NSString *const ASFContinuationKey;
-extern NSString *const ASFResponseTypeKey;
 
 extern NSString *const ASFAuthorKey;
 extern NSString *const ASFOriginIDKey;

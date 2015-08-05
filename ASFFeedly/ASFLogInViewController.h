@@ -15,8 +15,6 @@
 @property (nonatomic, strong) NSString *clientID;
 @property (nonatomic, weak) id<ASFLogInViewControllerDelegate> delegate;
 
-- (id)initWithCliendID:(NSString *)clientID delegate:(id<ASFLogInViewControllerDelegate>)delegate;
-
 + (NSString *)code;
 
 @end
