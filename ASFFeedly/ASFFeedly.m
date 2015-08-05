@@ -7,6 +7,7 @@
 //
 
 #import "ASFFeedly.h"
+#import "ASFFeedly_Protected.h"
 #import "ASFConstants.h"
 #import "ASFUtil.h"
 #import "ASFStream.h"
@@ -35,6 +36,14 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 @end
 
 @implementation ASFFeedly
+
++ (void)setCode:(NSString *)code {
+    _code = code;
+}
+
++ (NSString *)code {
+    return _code;
+}
 
 - (instancetype)init {
     return [self initWithClientID:nil
