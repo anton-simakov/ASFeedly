@@ -29,7 +29,7 @@ static NSString *const kCellIdentifier = @"ACell";
 @property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, strong) NSMutableArray *tableSections;
 
-@property(nonatomic, strong) ASFFeedly *feedlyClient;
+@property(nonatomic, strong) ASFFeedly *client;
 
 @end
 
@@ -40,9 +40,9 @@ static NSString *const kCellIdentifier = @"ACell";
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        _feedlyClient = [[ASFFeedly alloc] initWithClientID:kClientID
-                                               clientSecret:kClientSecret];
-        [_feedlyClient setDelegate:self];
+        _client = [[ASFFeedly alloc] initWithClientID:kClientID
+                                         clientSecret:kClientSecret];
+        [_client setDelegate:self];
         
         _tableSections = [NSMutableArray array];
     }
@@ -206,7 +206,7 @@ static NSString *const kCellIdentifier = @"ACell";
     
     [self reset];
     
-    [self.feedlyClient loginWithViewController:self];
+    [self.client loginWithViewController:self];
 }
 
 @end
