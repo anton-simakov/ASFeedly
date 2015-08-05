@@ -7,10 +7,11 @@
 //
 
 #import "ASFLogInViewController.h"
-#import "ASFFeedly_Protected.h"
 #import "ASFConstants.h"
 #import "ASFFeedly.h"
 #import "ASFUtil.h"
+
+static NSString *_code;
 
 @interface ASFLogInViewController ()<UIWebViewDelegate>
 
@@ -20,6 +21,10 @@
 @end
 
 @implementation ASFLogInViewController
+
++ (NSString *)code {
+    return _code;
+}
 
 - (id)init
 {
@@ -76,7 +81,7 @@
     
     NSDictionary *parameters = ASFParametersFromQuery(ASFQueryFromURL(URL));
     
-    [ASFFeedly setCode:parameters[@"code"]];
+    _code = parameters[@"code"];
     
     if ([self.delegate respondsToSelector:@selector(logInViewController:didFinish:)]) {
         [self.delegate logInViewController:self didFinish:nil];

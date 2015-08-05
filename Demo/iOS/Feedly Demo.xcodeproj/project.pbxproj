@@ -31,7 +31,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3ABDC3CF1B71D7E9001336D6 /* ASFFeedly_Protected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFFeedly_Protected.h; sourceTree = "<group>"; };
 		3AE9FB091B6BFAC900147959 /* ASFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFURLConnectionOperation.h; sourceTree = "<group>"; };
 		3AE9FB0A1B6BFAC900147959 /* ASFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFURLConnectionOperation.m; sourceTree = "<group>"; };
 		3AE9FB131B6CD07500147959 /* DLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLog.h; sourceTree = "<group>"; };
@@ -157,7 +156,6 @@
 				84C29549186AC4C700B59901 /* ASFCredential.m */,
 				84C29550186AC4C700B59901 /* ASFEntry.h */,
 				84C29551186AC4C700B59901 /* ASFEntry.m */,
-				3ABDC3CF1B71D7E9001336D6 /* ASFFeedly_Protected.h */,
 				84C29546186AC4C700B59901 /* ASFFeedly.h */,
 				84C29547186AC4C700B59901 /* ASFFeedly.m */,
 				84C2954A186AC4C700B59901 /* ASFLogInViewController.h */,

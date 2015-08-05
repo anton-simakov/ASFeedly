@@ -16,6 +16,8 @@
 
 - (id)initWithCliendID:(NSString *)clientID delegate:(id<ASFLogInViewControllerDelegate>)delegate;
 
++ (NSString *)code;
+
 @end
 
 @protocol ASFLogInViewControllerDelegate <NSObject>

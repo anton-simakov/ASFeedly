@@ -7,7 +7,6 @@
 //
 
 #import "ASFFeedly.h"
-#import "ASFFeedly_Protected.h"
 #import "ASFConstants.h"
 #import "ASFUtil.h"
 #import "ASFStream.h"
@@ -18,8 +17,6 @@
 #import "DLog.h"
 
 typedef void (^ASFResultBlock)(NSError *error);
-
-static NSString *_code;
 
 static NSString *ASFRankingValue(ASFRanking ranking) {
     switch (ranking) {
@@ -36,14 +33,6 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 @end
 
 @implementation ASFFeedly
-
-+ (void)setCode:(NSString *)code {
-    _code = code;
-}
-
-+ (NSString *)code {
-    return _code;
-}
 
 - (instancetype)init {
     return [self initWithClientID:nil
@@ -75,7 +64,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 }
 
 - (void)loginWithViewController:(UIViewController *)controller {
-    if (self.credential.refreshToken || _code) {
+    if (self.credential.refreshToken || [ASFLogInViewController code]) {
         if ([self.delegate respondsToSelector:@selector(feedlyClientDidFinishLogin:)]) {
             [self.delegate feedlyClientDidFinishLogin:self];
         }
@@ -323,7 +312,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
             completion(self.credential.accessToken, nil);
         }
     } else {
-        NSDictionary *parameters = @{@"code" : _code,
+        NSDictionary *parameters = @{@"code" : [ASFLogInViewController code],
                                      @"client_id" : self.clientID,
                                      @"client_secret" : self.clientSecret,
                                      @"redirect_uri" : ASFRedirectURI,
