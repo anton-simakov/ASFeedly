@@ -18,18 +18,10 @@ typedef NS_ENUM(NSUInteger, ASFRanking) {
     ASFOldest
 };
 
-@protocol ASFDelegate <NSObject>
-
-@optional
-- (void)feedlyClient:(ASFFeedly *)client didLoadStream:(ASFStream *)stream;
-
-@end
-
 @interface ASFFeedly : NSObject
 
 @property(nonatomic, strong) NSString *clientID;
 @property(nonatomic, strong) NSString *clientSecret;
-@property(nonatomic, strong) id<ASFDelegate> delegate;
 
 - (instancetype)initWithClientID:(NSString *)clientID
                     clientSecret:(NSString *)clientSecret NS_DESIGNATED_INITIALIZER;

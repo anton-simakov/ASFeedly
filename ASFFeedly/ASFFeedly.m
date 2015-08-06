@@ -333,11 +333,6 @@ typedef void (^ASFResultBlock)(NSError *error);
     NSArray *items = response[ASFItemsKey];
     [stream setItems:[self parseEntries:items]];
     
-    if ([_delegate respondsToSelector:@selector(feedlyClient:didLoadStream:)])
-    {
-        [_delegate feedlyClient:self didLoadStream:stream];
-    }
-    
     return stream;
 }
 
