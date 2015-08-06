@@ -85,7 +85,7 @@ typedef void (^ASFResultBlock)(NSError *error);
          if (error) {
              completion(nil, error);
          } else {
-             completion([self parseStream:JSON], nil);
+             completion([[ASFStream alloc] initWithDictionary:JSON], nil);
          }
      }];
 }
@@ -293,34 +293,6 @@ typedef void (^ASFResultBlock)(NSError *error);
     }
     
     return subscriptions;
-}
-
-- (ASFStream *)parseStream:(NSDictionary *)response
-{
-    ASFStream *stream = [ASFStream new];
-    
-    [stream setID:response[ASFIDKey]];
-    [stream setTitle:response[ASFTitleKey]];
-    [stream setDirection:response[ASFDirectionKey]];
-    [stream setContinuation:response[ASFContinuationKey]];
-    [stream setUpdated:[response[ASFUpdatedKey] longLongValue]];
-    
-    NSArray *items = response[ASFItemsKey];
-    [stream setItems:[self parseEntries:items]];
-    
-    return stream;
-}
-
-- (NSArray *)parseEntries:(NSArray *)items
-{
-    NSMutableArray *entries = [NSMutableArray array];
-    
-    for (NSDictionary *item in items)
-    {
-        [entries addObject:[[ASFEntry alloc] initWithDictionary:item]];
-    }
-    
-    return entries;
 }
 
 - (void)parseMarkersReads:(NSDictionary *)response

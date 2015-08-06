@@ -10,13 +10,13 @@
 
 @interface ASFStream : NSObject
 
-@property(nonatomic, strong) NSString *ID;
-@property(nonatomic, strong) NSString *direction;
-@property(nonatomic, strong) NSString *title;
-@property(nonatomic, strong) NSString *continuation;
-@property(nonatomic, strong) NSArray *items;
-@property(nonatomic, assign) long long updated;
+@property (readonly, nonatomic, copy) NSString *ID;
+@property (readonly, nonatomic, copy) NSString *direction;
+@property (readonly, nonatomic, copy) NSString *title;
+@property (readonly, nonatomic, copy) NSString *continuation;
+@property (readonly, nonatomic, strong) NSArray *items;
+@property (readonly, nonatomic, strong) NSDate *updated;
 
-- (NSString *)URLString;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end
