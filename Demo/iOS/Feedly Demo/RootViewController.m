@@ -197,7 +197,7 @@ static NSString *const kCellIdentifier = @"ACell";
     {
         CellItem *cellItem = [CellItem new];
         [cellItem setTitle:[entry title]];
-        [cellItem setDate:[entry publishedAsDate]];
+        [cellItem setDate:[entry published]];
         
         [cellItems addObject:cellItem];
     }

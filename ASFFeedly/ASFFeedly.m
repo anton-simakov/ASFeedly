@@ -317,29 +317,10 @@ typedef void (^ASFResultBlock)(NSError *error);
     
     for (NSDictionary *item in items)
     {
-        ASFEntry *entry = [self parseEntry:item];
-        [entries addObject:entry];
+        [entries addObject:[[ASFEntry alloc] initWithDictionary:item]];
     }
     
     return entries;
-}
-
-- (ASFEntry *)parseEntry:(NSDictionary *)item
-{
-    ASFEntry *entry = [ASFEntry new];
-    
-    [entry setID:item[ASFIDKey]];
-    [entry setTitle:item[ASFTitleKey]];
-    [entry setAuthor:item[ASFAuthorKey]];
-    [entry setOriginID:item[ASFOriginIDKey]];
-    
-    [entry setContent:item[ASFSummaryKey][ASFContentKey]];
-    [entry setUnread:[item[ASFUnreadKey] boolValue]];
-    [entry setEngagement:[item[ASFEngagementKey] longValue]];
-    [entry setImageURLString:item[ASFVisualKey][ASFURLKey]];
-    [entry setPublished:[item[ASFPublishedKey] longLongValue]];
-    
-    return entry;
 }
 
 - (void)parseMarkersReads:(NSDictionary *)response

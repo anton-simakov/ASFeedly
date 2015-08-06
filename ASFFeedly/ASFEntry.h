@@ -10,18 +10,13 @@
 
 @interface ASFEntry : NSObject
 
-@property(nonatomic, strong) NSString *ID;
-@property(nonatomic, strong) NSString *title;
-@property(nonatomic, strong) NSString *author;
-@property(nonatomic, strong) NSString *content;
-@property(nonatomic, strong) NSString *originID;
-@property(nonatomic, strong) NSString *imageURLString;
+@property (readonly, nonatomic, copy) NSString *ID;
+@property (readonly, nonatomic, copy) NSString *title;
+@property (readonly, nonatomic, copy) NSString *author;
+@property (readonly, nonatomic, copy) NSString *originID;
+@property (readonly, nonatomic, strong) NSDate *published;
+@property (readonly, nonatomic, assign, getter = isUnread) BOOL unread;
 
-@property(nonatomic, assign) BOOL unread;
-@property(nonatomic, assign) long engagement;
-
-@property(nonatomic, assign) long long published;
-
-- (NSDate *)publishedAsDate;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end
