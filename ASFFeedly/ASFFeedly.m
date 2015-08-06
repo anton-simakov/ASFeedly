@@ -30,8 +30,7 @@ typedef void (^ASFResultBlock)(NSError *error);
 @implementation ASFFeedly
 
 - (instancetype)init {
-    return [self initWithClientID:nil
-                     clientSecret:nil];
+    return [self initWithClientID:nil clientSecret:nil];
 }
 
 - (instancetype)initWithClientID:(NSString *)clientID

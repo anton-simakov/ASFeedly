@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "ASFSubscription.h"
+#import "ASFCategory.h"
 #import "ASFStream.h"
 #import "ASFEntry.h"
 
