@@ -20,7 +20,7 @@
         
         NSNumber *updated = dictionary[@"updated"];
         if (updated) {
-            _updated = [NSDate dateWithTimeIntervalSince1970:[updated doubleValue]];
+            _updated = [NSDate dateWithTimeIntervalSince1970:[updated longValue]/1000.0];
         }
         
         NSMutableArray *categories = [NSMutableArray array];
