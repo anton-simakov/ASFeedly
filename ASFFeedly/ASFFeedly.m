@@ -81,6 +81,22 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
      }];
 }
 
+- (void)stream:(NSString *)streamID completion:(void(^)(ASFStream *stream, NSError *error))completion {
+    
+    NSDictionary *parameters = @{ASFStreamIDKey : streamID};
+    [self doRequestWithMethod:@"GET"
+                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFStreamsContentsPath]
+                   parameters:parameters
+                   completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
+     {
+         if (error) {
+             completion(nil, error);
+         } else {
+             completion([self parseStream:JSON], nil);
+         }
+     }];
+}
+
 - (void)getStream:(NSString *)streamID
 {
     [self getStream:streamID count:0 ranking:ASFNewest unreadOnly:YES newerThan:0 continuation:nil];
@@ -363,7 +379,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     return subscriptions;
 }
 
-- (void)parseStream:(NSDictionary *)response
+- (ASFStream *)parseStream:(NSDictionary *)response
 {
     ASFStream *stream = [ASFStream new];
     
@@ -380,6 +396,8 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     {
         [_delegate feedlyClient:self didLoadStream:stream];
     }
+    
+    return stream;
 }
 
 - (NSArray *)parseEntries:(NSArray *)items

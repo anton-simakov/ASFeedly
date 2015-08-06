@@ -37,6 +37,7 @@ typedef NS_ENUM(NSUInteger, ASFRanking) {
 - (BOOL)isAuthorized;
 
 - (void)subscriptions:(void(^)(NSArray *subscriptions, NSError *error))completion;
+- (void)stream:(NSString *)streamID completion:(void(^)(ASFStream *stream, NSError *error))completion;
 
 - (void)getStream:(NSString *)streamID;
 
