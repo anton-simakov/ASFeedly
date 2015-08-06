@@ -20,6 +20,8 @@ typedef void (^ASFResultBlock)(NSError *error);
 
 @interface ASFFeedly ()
 
+@property (nonatomic, copy) NSString *clientID;
+@property (nonatomic, copy) NSString *clientSecret;
 @property (nonatomic, strong) NSOperationQueue *queue;
 @property (nonatomic, strong) ASFCredential *credential;
 

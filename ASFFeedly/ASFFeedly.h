@@ -20,9 +20,6 @@ typedef NS_ENUM(NSUInteger, ASFRanking) {
 
 @interface ASFFeedly : NSObject
 
-@property(nonatomic, strong) NSString *clientID;
-@property(nonatomic, strong) NSString *clientSecret;
-
 - (instancetype)initWithClientID:(NSString *)clientID
                     clientSecret:(NSString *)clientSecret NS_DESIGNATED_INITIALIZER;
 
