@@ -18,13 +18,6 @@
 
 typedef void (^ASFResultBlock)(NSError *error);
 
-static NSString *ASFRankingValue(ASFRanking ranking) {
-    switch (ranking) {
-        case ASFNewest: return @"newest";
-        case ASFOldest: return @"oldest";
-    }
-}
-
 @interface ASFFeedly ()
 
 @property (nonatomic, strong) NSOperationQueue *queue;
@@ -94,58 +87,6 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
          } else {
              completion([self parseStream:JSON], nil);
          }
-     }];
-}
-
-- (void)getStream:(NSString *)streamID
-{
-    [self getStream:streamID count:0 ranking:ASFNewest unreadOnly:YES newerThan:0 continuation:nil];
-}
-
-- (void)getStream:(NSString *)streamID
-            count:(NSUInteger)count
-          ranking:(ASFRanking)ranking
-       unreadOnly:(BOOL)unreadOnly
-        newerThan:(long long)newerThan
-     continuation:(NSString *)continuation
-{
-    if (!streamID) {
-        DLog(@"Stream identifier is nil.");
-        return;
-    }
-    
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObject:streamID
-                                                                         forKey:ASFStreamIDKey];
-    count = MIN(count, ASFStreamCountMax);
-    
-    if (count)
-    {
-        [parameters setValue:@(count) forKey:ASFCountKey];
-    }
-    
-    if (unreadOnly)
-    {
-        [parameters setValue:ASFFeedTrueValue forKey:ASFUnreadOnlyKey];
-    }
-    
-    if (newerThan)
-    {
-        [parameters setValue:@(newerThan + 1) forKey:ASFNewerThanKey];
-    }
-    
-    if (continuation)
-    {
-        [parameters setValue:continuation forKey:ASFContinuationKey];
-    }
-    
-    [parameters setValue:ASFRankingValue(ASFNewest) forKey:ASFRankedKey];
-    
-    [self doRequestWithMethod:@"GET"
-                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFStreamsContentsPath]
-                   parameters:parameters
-                   completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
-     {
-         [self parseStream:JSON];
      }];
 }
 

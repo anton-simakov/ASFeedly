@@ -39,15 +39,6 @@ typedef NS_ENUM(NSUInteger, ASFRanking) {
 - (void)subscriptions:(void(^)(NSArray *subscriptions, NSError *error))completion;
 - (void)stream:(NSString *)streamID completion:(void(^)(ASFStream *stream, NSError *error))completion;
 
-- (void)getStream:(NSString *)streamID;
-
-- (void)getStream:(NSString *)streamID
-            count:(NSUInteger)count
-          ranking:(ASFRanking)ranking
-       unreadOnly:(BOOL)unreadOnly
-        newerThan:(long long)newerThan
-     continuation:(NSString *)continuation;
-
 - (void)getMarkersReads;
 - (void)getMarkersReadsNewerThan:(long long)newerThan;
 
