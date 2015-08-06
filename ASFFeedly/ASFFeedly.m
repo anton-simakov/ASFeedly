@@ -61,11 +61,7 @@ typedef void (^ASFResultBlock)(NSError *error);
 }
 
 - (void)subscriptions:(void(^)(NSArray *subscriptions, NSError *error))completion {
-    [self doRequest:@"GET"
-               path:ASFSubscriptionsPath
-         parameters:nil
-         completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
-     {
+    [self GET:ASFSubscriptionsPath parameters:nil completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error) {
          if (error) {
              completion(nil, error);
          } else {
@@ -83,11 +79,7 @@ typedef void (^ASFResultBlock)(NSError *error);
     
     NSDictionary *parameters = @{ASFStreamIDKey : streamID};
     
-    [self doRequest:@"GET"
-               path:ASFStreamsContentsPath
-         parameters:parameters
-         completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
-     {
+    [self GET:ASFStreamsContentsPath parameters:parameters completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error) {
          if (error) {
              completion(nil, error);
          } else {
@@ -110,11 +102,7 @@ typedef void (^ASFResultBlock)(NSError *error);
         [parameters setValue:@(newerThan + 1) forKey:ASFNewerThanKey];
     }
     
-    [self doRequest:@"GET"
-               path:ASFMarkersReadsPath
-         parameters:parameters
-         completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
-     {
+    [self GET:ASFMarkersReadsPath parameters:parameters completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error) {
          // TODO:
      }];
 }
@@ -125,10 +113,7 @@ typedef void (^ASFResultBlock)(NSError *error);
 {
     NSDictionary *parameters = @{ASFLabelKey : label};
     
-    [self doRequest:@"POST"
-               path:ASFCategoriesPath
-         parameters:parameters
-         completion:nil];
+    [self POST:ASFCategoriesPath parameters:parameters completion:nil];
 }
 
 - (void)updateSubscription:(NSString *)ID withTitle:(NSString *)title categories:(NSArray *)categories
@@ -136,10 +121,8 @@ typedef void (^ASFResultBlock)(NSError *error);
     NSDictionary *parameters = @{ASFIDKey : ID,
                                  ASFTitleKey : title,
                                  ASFCategoriesKey : categories};
-    [self doRequest:@"POST"
-               path:ASFSubscriptionsPath
-         parameters:parameters
-         completion:nil];
+    
+    [self POST:ASFSubscriptionsPath parameters:parameters completion:nil];
 }
 
 #pragma mark - Mark
@@ -154,10 +137,8 @@ typedef void (^ASFResultBlock)(NSError *error);
     NSDictionary *parameters = @{ASFActionKey : [self actionForReadState:read],
                                  ASFTypeKey : ASFEntriesValue,
                                  ASFEntryIDsKey : IDs};
-    [self doRequest:@"POST"
-               path:ASFMarkersPath
-         parameters:parameters
-         completion:nil];
+    
+    [self POST:ASFMarkersPath parameters:parameters completion:nil];
 }
 
 - (void)markCategory:(NSString *)ID read:(BOOL)read
@@ -171,10 +152,7 @@ typedef void (^ASFResultBlock)(NSError *error);
                                  ASFTypeKey : ASFCategoriesValue,
                                  ASFCategoryIDsKey : IDs};
     
-    [self doRequest:@"POST"
-               path:ASFMarkersPath
-         parameters:parameters
-         completion:nil];
+    [self POST:ASFMarkersPath parameters:parameters completion:nil];
 }
 
 - (void)markSubscription:(NSString *)ID read:(BOOL)read
@@ -188,10 +166,7 @@ typedef void (^ASFResultBlock)(NSError *error);
                                  ASFTypeKey : ASFFeedsValue,
                                  ASFFeedIDsKey : IDs};
     
-    [self doRequest:@"POST"
-               path:ASFMarkersPath
-         parameters:parameters
-         completion:nil];
+    [self POST:ASFMarkersPath parameters:parameters completion:nil];
 }
 
 - (NSString *)actionForReadState:(BOOL)state
@@ -200,6 +175,20 @@ typedef void (^ASFResultBlock)(NSError *error);
 }
 
 #pragma mark - Request
+
+- (void)GET:(NSString *)path
+ parameters:(NSDictionary *)parameters
+ completion:(ASFURLConnectionOperationCompletion)completion {
+    
+    [self doRequest:@"GET" path:path parameters:parameters completion:completion];
+}
+
+- (void)POST:(NSString *)path
+  parameters:(NSDictionary *)parameters
+  completion:(ASFURLConnectionOperationCompletion)completion {
+    
+    [self doRequest:@"POST" path:path parameters:parameters completion:completion];
+}
 
 - (void)doRequest:(NSString *)method
              path:(NSString *)path
