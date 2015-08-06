@@ -61,10 +61,10 @@ typedef void (^ASFResultBlock)(NSError *error);
 }
 
 - (void)subscriptions:(void(^)(NSArray *subscriptions, NSError *error))completion {
-    [self doRequestWithMethod:@"GET"
-                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFSubscriptionsPath]
-                   parameters:nil
-                   completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
+    [self doRequest:@"GET"
+               path:ASFSubscriptionsPath
+         parameters:nil
+         completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
          if (error) {
              completion(nil, error);
@@ -82,10 +82,11 @@ typedef void (^ASFResultBlock)(NSError *error);
 - (void)stream:(NSString *)streamID completion:(void(^)(ASFStream *stream, NSError *error))completion {
     
     NSDictionary *parameters = @{ASFStreamIDKey : streamID};
-    [self doRequestWithMethod:@"GET"
-                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFStreamsContentsPath]
-                   parameters:parameters
-                   completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
+    
+    [self doRequest:@"GET"
+               path:ASFStreamsContentsPath
+         parameters:parameters
+         completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
          if (error) {
              completion(nil, error);
@@ -109,10 +110,10 @@ typedef void (^ASFResultBlock)(NSError *error);
         [parameters setValue:@(newerThan + 1) forKey:ASFNewerThanKey];
     }
     
-    [self doRequestWithMethod:@"GET"
-                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFMarkersReadsPath]
-                   parameters:parameters
-                   completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
+    [self doRequest:@"GET"
+               path:ASFMarkersReadsPath
+         parameters:parameters
+         completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
          // TODO:
      }];
@@ -124,10 +125,10 @@ typedef void (^ASFResultBlock)(NSError *error);
 {
     NSDictionary *parameters = @{ASFLabelKey : label};
     
-    [self doRequestWithMethod:@"POST"
-                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFCategoriesPath]
-                   parameters:parameters
-                   completion:nil];
+    [self doRequest:@"POST"
+               path:ASFCategoriesPath
+         parameters:parameters
+         completion:nil];
 }
 
 - (void)updateSubscription:(NSString *)ID withTitle:(NSString *)title categories:(NSArray *)categories
@@ -135,11 +136,10 @@ typedef void (^ASFResultBlock)(NSError *error);
     NSDictionary *parameters = @{ASFIDKey : ID,
                                  ASFTitleKey : title,
                                  ASFCategoriesKey : categories};
-    
-    [self doRequestWithMethod:@"POST"
-                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFSubscriptionsPath]
-                   parameters:parameters
-                   completion:nil];
+    [self doRequest:@"POST"
+               path:ASFSubscriptionsPath
+         parameters:parameters
+         completion:nil];
 }
 
 #pragma mark - Mark
@@ -154,11 +154,10 @@ typedef void (^ASFResultBlock)(NSError *error);
     NSDictionary *parameters = @{ASFActionKey : [self actionForReadState:read],
                                  ASFTypeKey : ASFEntriesValue,
                                  ASFEntryIDsKey : IDs};
-    
-    [self doRequestWithMethod:@"POST"
-                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFMarkersPath]
-                   parameters:parameters
-                   completion:nil];
+    [self doRequest:@"POST"
+               path:ASFMarkersPath
+         parameters:parameters
+         completion:nil];
 }
 
 - (void)markCategory:(NSString *)ID read:(BOOL)read
@@ -172,10 +171,10 @@ typedef void (^ASFResultBlock)(NSError *error);
                                  ASFTypeKey : ASFCategoriesValue,
                                  ASFCategoryIDsKey : IDs};
     
-    [self doRequestWithMethod:@"POST"
-                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFMarkersPath]
-                   parameters:parameters
-                   completion:nil];
+    [self doRequest:@"POST"
+               path:ASFMarkersPath
+         parameters:parameters
+         completion:nil];
 }
 
 - (void)markSubscription:(NSString *)ID read:(BOOL)read
@@ -189,10 +188,10 @@ typedef void (^ASFResultBlock)(NSError *error);
                                  ASFTypeKey : ASFFeedsValue,
                                  ASFFeedIDsKey : IDs};
     
-    [self doRequestWithMethod:@"POST"
-                    URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFMarkersPath]
-                   parameters:parameters
-                   completion:nil];
+    [self doRequest:@"POST"
+               path:ASFMarkersPath
+         parameters:parameters
+         completion:nil];
 }
 
 - (NSString *)actionForReadState:(BOOL)state
@@ -202,10 +201,10 @@ typedef void (^ASFResultBlock)(NSError *error);
 
 #pragma mark - Request
 
-- (void)doRequestWithMethod:(NSString *)method
-                  URLString:(NSString *)URLString
-                 parameters:(NSDictionary *)parameters
-                 completion:(ASFURLConnectionOperationCompletion)completion {
+- (void)doRequest:(NSString *)method
+             path:(NSString *)path
+       parameters:(NSDictionary *)parameters
+       completion:(ASFURLConnectionOperationCompletion)completion {
     
     [self token:^(NSString *token, NSError *error) {
         if (error) {
@@ -214,7 +213,7 @@ typedef void (^ASFResultBlock)(NSError *error);
             }
         } else {
             NSMutableURLRequest *request = [ASFUtil requestWithMethod:method
-                                                            URLString:URLString
+                                                            URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", path]
                                                            parameters:parameters
                                                                 token:token
                                                                 error:nil];
