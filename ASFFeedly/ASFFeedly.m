@@ -69,7 +69,12 @@ typedef void (^ASFResultBlock)(NSError *error);
          if (error) {
              completion(nil, error);
          } else {
-             completion([self subscriptionsFromDictionary:JSON], nil);
+             NSMutableArray *subscriptions = [NSMutableArray array];
+             for (NSDictionary *subscription in JSON) {
+                 [subscriptions addObject:[[ASFSubscription alloc] initWithDictionary:subscription]];
+             }
+             
+             completion(subscriptions, nil);
          }
      }];
 }
@@ -109,7 +114,7 @@ typedef void (^ASFResultBlock)(NSError *error);
                    parameters:parameters
                    completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
-         [self parseMarkersReads:JSON];
+         // TODO:
      }];
 }
 
@@ -279,25 +284,6 @@ typedef void (^ASFResultBlock)(NSError *error);
             completion(self.credential.accessToken, nil);
         }
     }];
-}
-
-#pragma mark - Parse
-
-- (NSArray *)subscriptionsFromDictionary:(NSArray *)response
-{
-    NSMutableArray *subscriptions = [NSMutableArray array];
-    
-    for (NSDictionary *subscriptionDictionary in response)
-    {
-        [subscriptions addObject:[[ASFSubscription alloc] initWithDictionary:subscriptionDictionary]];
-    }
-    
-    return subscriptions;
-}
-
-- (void)parseMarkersReads:(NSDictionary *)response
-{
-    NSLog(@"%@", response);
 }
 
 @end
