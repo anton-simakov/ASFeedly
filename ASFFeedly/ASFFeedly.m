@@ -18,13 +18,6 @@
 
 typedef void (^ASFResultBlock)(NSError *error);
 
-static NSString *ASFRankingValue(ASFRanking ranking) {
-    switch (ranking) {
-        case ASFNewest: return @"newest";
-        case ASFOldest: return @"oldest";
-    }
-}
-
 @interface ASFFeedly ()
 
 @property (nonatomic, strong) NSOperationQueue *queue;
@@ -67,73 +60,33 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     return [ASFLogInViewController code] || self.credential;
 }
 
-#pragma mark - Get
-
-- (void)getCategories
-{
-    // TODO:
-}
-
-- (void)getSubscriptions
-{
+- (void)subscriptions:(void(^)(NSArray *subscriptions, NSError *error))completion {
     [self doRequestWithMethod:@"GET"
                     URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFSubscriptionsPath]
                    parameters:nil
                    completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
-         [self parseSubscriptions:JSON];
+         if (error) {
+             completion(nil, error);
+         } else {
+             completion([self subscriptionsFromDictionary:JSON], nil);
+         }
      }];
 }
 
-- (void)getStream:(NSString *)streamID
-{
-    [self getStream:streamID count:0 ranking:ASFNewest unreadOnly:YES newerThan:0 continuation:nil];
-}
-
-- (void)getStream:(NSString *)streamID
-            count:(NSUInteger)count
-          ranking:(ASFRanking)ranking
-       unreadOnly:(BOOL)unreadOnly
-        newerThan:(long long)newerThan
-     continuation:(NSString *)continuation
-{
-    if (!streamID) {
-        DLog(@"Stream identifier is nil.");
-        return;
-    }
+- (void)stream:(NSString *)streamID completion:(void(^)(ASFStream *stream, NSError *error))completion {
     
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObject:streamID
-                                                                         forKey:ASFStreamIDKey];
-    count = MIN(count, ASFStreamCountMax);
-    
-    if (count)
-    {
-        [parameters setValue:@(count) forKey:ASFCountKey];
-    }
-    
-    if (unreadOnly)
-    {
-        [parameters setValue:ASFFeedTrueValue forKey:ASFUnreadOnlyKey];
-    }
-    
-    if (newerThan)
-    {
-        [parameters setValue:@(newerThan + 1) forKey:ASFNewerThanKey];
-    }
-    
-    if (continuation)
-    {
-        [parameters setValue:continuation forKey:ASFContinuationKey];
-    }
-    
-    [parameters setValue:ASFRankingValue(ASFNewest) forKey:ASFRankedKey];
-    
+    NSDictionary *parameters = @{ASFStreamIDKey : streamID};
     [self doRequestWithMethod:@"GET"
                     URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFStreamsContentsPath]
                    parameters:parameters
                    completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
      {
-         [self parseStream:JSON];
+         if (error) {
+             completion(nil, error);
+         } else {
+             completion([self parseStream:JSON], nil);
+         }
      }];
 }
 
@@ -330,7 +283,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
 
 #pragma mark - Parse
 
-- (void)parseSubscriptions:(NSArray *)response
+- (NSArray *)subscriptionsFromDictionary:(NSArray *)response
 {
     NSMutableArray *subscriptions = [NSMutableArray array];
     
@@ -339,13 +292,10 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
         [subscriptions addObject:[[ASFSubscription alloc] initWithDictionary:subscriptionDictionary]];
     }
     
-    if ([_delegate respondsToSelector:@selector(feedlyClient:didLoadSubscriptions:)])
-    {
-        [_delegate feedlyClient:self didLoadSubscriptions:subscriptions];
-    }
+    return subscriptions;
 }
 
-- (void)parseStream:(NSDictionary *)response
+- (ASFStream *)parseStream:(NSDictionary *)response
 {
     ASFStream *stream = [ASFStream new];
     
@@ -358,10 +308,7 @@ static NSString *ASFRankingValue(ASFRanking ranking) {
     NSArray *items = response[ASFItemsKey];
     [stream setItems:[self parseEntries:items]];
     
-    if ([_delegate respondsToSelector:@selector(feedlyClient:didLoadStream:)])
-    {
-        [_delegate feedlyClient:self didLoadStream:stream];
-    }
+    return stream;
 }
 
 - (NSArray *)parseEntries:(NSArray *)items

@@ -19,7 +19,7 @@ static NSString *const kClientSecret = @""; // Put your client secret here
 
 static NSString *const kCellIdentifier = @"ACell";
 
-@interface RootViewController () <UITableViewDelegate, UITableViewDataSource, ASFDelegate, ASFLogInViewControllerDelegate>
+@interface RootViewController () <UITableViewDelegate, UITableViewDataSource, ASFLogInViewControllerDelegate>
 {
     NSInteger _loadCounter;
 }
@@ -43,8 +43,6 @@ static NSString *const kCellIdentifier = @"ACell";
     {
         _client = [[ASFFeedly alloc] initWithClientID:kClientID
                                          clientSecret:kClientSecret];
-        [_client setDelegate:self];
-        
         _tableSections = [NSMutableArray array];
     }
     return self;
@@ -94,13 +92,43 @@ static NSString *const kCellIdentifier = @"ACell";
     [self presentViewController:logInViewController animated:animated completion:nil];
 }
 
+- (void)loadSubscriptions {
+    [self.client subscriptions:^(NSArray *subscriptions, NSError *error) {
+        if (error) {
+            // TODO:
+        } else {
+            for (ASFSubscription *subscription in subscriptions) {
+                [self loadStream:subscription.ID];
+            }
+        }
+    }];
+}
+
+- (void)loadStream:(NSString *)streamID {
+    [self.client stream:streamID completion:^(ASFStream *stream, NSError *error) {
+        if (error) {
+            // TODO:
+        } else {
+            [self updateTableSections:stream];
+            [self updateTableView];
+            
+            _loadCounter--;
+            
+            if (_loadCounter == 0) {
+                self.refreshButton.enabled = YES;
+            }
+        }
+    }];
+    _loadCounter++;
+}
+
 #pragma mark - Actions
 
 - (IBAction)refresh:(id)sender {
     self.refreshButton.enabled = NO;
     [self.tableSections removeAllObjects];
     [self.tableView reloadData];
-    [self.client getSubscriptions];
+    [self loadSubscriptions];
 }
 
 #pragma mark - ASFLogInViewControllerDelegate
@@ -159,36 +187,6 @@ static NSString *const kCellIdentifier = @"ACell";
     TableSection *tableSection = _tableSections[[indexPath section]];
     NSArray *cellItems = [tableSection items];
     return cellItems[[indexPath row]];
-}
-
-#pragma mark - ASFDelegate
-
-- (void)feedlyClient:(ASFFeedly *)client didLoadSubscriptions:(NSArray *)subscriptions
-{
-    for (ASFSubscription *subscription in subscriptions)
-    {
-        [client getStream:[subscription ID]
-                    count:10
-                  ranking:ASFNewest
-               unreadOnly:YES
-                newerThan:0
-             continuation:nil];
-        
-        _loadCounter++;
-    }
-}
-
-- (void)feedlyClient:(ASFFeedly *)client didLoadStream:(ASFStream *)stream
-{
-    [self updateTableSections:stream];
-    [self updateTableView];
-    
-    _loadCounter--;
-    
-    if (_loadCounter == 0)
-    {
-        [_refreshButton setEnabled:YES];
-    }
 }
 
 - (void)updateTableSections:(ASFStream *)stream

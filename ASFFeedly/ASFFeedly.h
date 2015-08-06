@@ -18,35 +18,18 @@ typedef NS_ENUM(NSUInteger, ASFRanking) {
     ASFOldest
 };
 
-@protocol ASFDelegate <NSObject>
-
-@optional
-- (void)feedlyClient:(ASFFeedly *)client didLoadSubscriptions:(NSArray *)subscriptions;
-- (void)feedlyClient:(ASFFeedly *)client didLoadStream:(ASFStream *)stream;
-
-@end
-
 @interface ASFFeedly : NSObject
 
 @property(nonatomic, strong) NSString *clientID;
 @property(nonatomic, strong) NSString *clientSecret;
-@property(nonatomic, strong) id<ASFDelegate> delegate;
 
 - (instancetype)initWithClientID:(NSString *)clientID
                     clientSecret:(NSString *)clientSecret NS_DESIGNATED_INITIALIZER;
 
 - (BOOL)isAuthorized;
 
-- (void)getSubscriptions;
-
-- (void)getStream:(NSString *)streamID;
-
-- (void)getStream:(NSString *)streamID
-            count:(NSUInteger)count
-          ranking:(ASFRanking)ranking
-       unreadOnly:(BOOL)unreadOnly
-        newerThan:(long long)newerThan
-     continuation:(NSString *)continuation;
+- (void)subscriptions:(void(^)(NSArray *subscriptions, NSError *error))completion;
+- (void)stream:(NSString *)streamID completion:(void(^)(ASFStream *stream, NSError *error))completion;
 
 - (void)getMarkersReads;
 - (void)getMarkersReadsNewerThan:(long long)newerThan;
