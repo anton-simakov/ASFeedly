@@ -125,7 +125,7 @@ NSDictionary *ASFParametersFromQuery(NSString *query) {
                                                            options:0
                                                              error:error];
         
-        [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     }
     
     return request;
