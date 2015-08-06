@@ -11,13 +11,6 @@
 #import "ASFStream.h"
 #import "ASFEntry.h"
 
-@class ASFFeedly;
-
-typedef NS_ENUM(NSUInteger, ASFRanking) {
-    ASFNewest,
-    ASFOldest
-};
-
 @interface ASFFeedly : NSObject
 
 - (instancetype)initWithClientID:(NSString *)clientID
