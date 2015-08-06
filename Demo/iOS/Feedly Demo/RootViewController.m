@@ -75,7 +75,9 @@ static NSString *const kCellIdentifier = @"ACell";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (![self.client isAuthorized]) {
+    if ([self.client isAuthorized]) {
+        [self refresh:self];
+    } else {
         [self presentLogInViewController:animated];
     }
 }
