@@ -23,9 +23,4 @@ extern NSDictionary *ASFParametersFromQuery(NSString *query);
                                      token:(NSString *)token
                                      error:(NSError *__autoreleasing *)error;
 
-+ (NSMutableURLRequest *)requestWithURL:(NSURL *)URL
-                                 method:(NSString *)method
-                             parameters:(NSDictionary *)parameters
-                                  error:(NSError *__autoreleasing *)error;
-
 @end
