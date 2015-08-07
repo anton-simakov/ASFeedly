@@ -41,7 +41,7 @@ static NSString *_code;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    NSDictionary *parameters = @{@"client_id" : _clientID,
+    NSDictionary *parameters = @{@"client_id" : self.clientID,
                                  @"redirect_uri" : ASFRedirectURI,
                                  @"response_type" : @"code",
                                  @"scope" : @"https://cloud.feedly.com/subscriptions"};
