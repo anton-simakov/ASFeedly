@@ -7,9 +7,8 @@
 //
 
 #import "RootViewController.h"
+
 #import "Cell.h"
-#import "CellItem.h"
-#import "TableSection.h"
 
 #import "ASFFeedly.h"
 #import "ASFLogInViewController.h"
@@ -24,12 +23,10 @@ static NSString *const kCellIdentifier = @"ACell";
     NSInteger _loadCounter;
 }
 
-@property (nonatomic, strong) UIBarButtonItem *refreshButton;
-
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *tableSections;
-
 @property (nonatomic, assign) BOOL presentedLogInViewController;
+@property (nonatomic, strong) UIBarButtonItem *refreshButton;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *streams;
 @property (nonatomic, strong) ASFFeedly *client;
 
 @end
@@ -43,7 +40,7 @@ static NSString *const kCellIdentifier = @"ACell";
     {
         _client = [[ASFFeedly alloc] initWithClientID:kClientID
                                          clientSecret:kClientSecret];
-        _tableSections = [NSMutableArray array];
+        _streams = [NSMutableArray array];
     }
     return self;
 }
@@ -111,8 +108,7 @@ static NSString *const kCellIdentifier = @"ACell";
         if (error) {
             // TODO:
         } else {
-            [self updateTableSections:stream];
-            [self updateTableView];
+            [self addStream:stream];
             
             _loadCounter--;
             
@@ -124,11 +120,21 @@ static NSString *const kCellIdentifier = @"ACell";
     _loadCounter++;
 }
 
+- (void)addStream:(ASFStream *)stream {
+    [self.streams addObject:stream];
+    [self insertStream:stream];
+}
+
+- (void)insertStream:(ASFStream *)stream {
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:self.streams.count - 1];
+    [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
 #pragma mark - Actions
 
 - (IBAction)refresh:(id)sender {
     self.refreshButton.enabled = NO;
-    [self.tableSections removeAllObjects];
+    [self.streams removeAllObjects];
     [self.tableView reloadData];
     [self loadSubscriptions];
 }
@@ -144,21 +150,17 @@ static NSString *const kCellIdentifier = @"ACell";
 
 #pragma mark - UITableViewDelegate
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return [_tableSections count];
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return self.streams.count;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    TableSection *tableSection = _tableSections[section];
-    return [[tableSection items] count];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    ASFStream *stream = self.streams[section];
+    return stream.items.count;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    Cell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
-    [self setupCell:cell forIndexPath:indexPath];
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    Cell *cell = (Cell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
     return [cell calculateHeight:CGRectGetWidth([_tableView frame])];
 }
 
@@ -166,63 +168,21 @@ static NSString *const kCellIdentifier = @"ACell";
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return [_tableSections[section] header];
+    ASFStream *stream = self.streams[section];
+    return stream.title;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     Cell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
-    [self setupCell:cell forIndexPath:indexPath];
+    
+    ASFStream *stream = self.streams[indexPath.section];
+    ASFEntry *entry = stream.items[indexPath.row];
+    
+    cell.title = entry.title;
+    cell.date = entry.published;
+    
     return cell;
-}
-
-- (void)setupCell:(Cell *)cell forIndexPath:(NSIndexPath *)indexPath
-{
-    CellItem *cellItem = [self cellItemForIndexPath:indexPath];
-    
-    [cell setTitle:[cellItem title]];
-    [cell setDate:[cellItem date]];
-}
-
-- (CellItem *)cellItemForIndexPath:(NSIndexPath *)indexPath
-{
-    TableSection *tableSection = _tableSections[[indexPath section]];
-    NSArray *cellItems = [tableSection items];
-    return cellItems[[indexPath row]];
-}
-
-- (void)updateTableSections:(ASFStream *)stream
-{
-    NSMutableArray *cellItems = [NSMutableArray array];
-    
-    for (ASFEntry *entry in [stream items])
-    {
-        CellItem *cellItem = [CellItem new];
-        [cellItem setTitle:[entry title]];
-        [cellItem setDate:[entry published]];
-        
-        [cellItems addObject:cellItem];
-    }
-    
-    TableSection *tableSection = [TableSection new];
-    
-    [tableSection setHeader:[stream title]];
-    [tableSection setItems:cellItems];
-    
-    [_tableSections addObject:tableSection];
-}
-
-- (void)updateTableView
-{
-    if (![_tableSections count])
-    {
-        return;
-    }
-    
-    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[_tableSections count] - 1];
-    
-    [_tableView insertSections:indexSet
-              withRowAnimation:UITableViewRowAnimationTop];
 }
 
 @end

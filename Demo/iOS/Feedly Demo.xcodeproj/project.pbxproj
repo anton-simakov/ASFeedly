@@ -17,8 +17,6 @@
 		84A571A5186AC30C0067C898 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84A571A4186AC30C0067C898 /* Images.xcassets */; };
 		84B612D6186AC98E00BA9E10 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612D5186AC98E00BA9E10 /* RootViewController.m */; };
 		84B612D9186ACB3100BA9E10 /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612D8186ACB3100BA9E10 /* Cell.m */; };
-		84B612DC186ACD8000BA9E10 /* TableSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612DB186ACD8000BA9E10 /* TableSection.m */; };
-		84B612DF186ACE7900BA9E10 /* CellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612DE186ACE7900BA9E10 /* CellItem.m */; };
 		84C29558186AC4C700B59901 /* ASFFeedly.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29547186AC4C700B59901 /* ASFFeedly.m */; };
 		84C29559186AC4C700B59901 /* ASFCredential.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29549186AC4C700B59901 /* ASFCredential.m */; };
 		84C2955A186AC4C700B59901 /* ASFLogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954B186AC4C700B59901 /* ASFLogInViewController.m */; };
@@ -49,10 +47,6 @@
 		84B612D5186AC98E00BA9E10 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		84B612D7186ACB3100BA9E10 /* Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cell.h; sourceTree = "<group>"; };
 		84B612D8186ACB3100BA9E10 /* Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cell.m; sourceTree = "<group>"; };
-		84B612DA186ACD8000BA9E10 /* TableSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableSection.h; sourceTree = "<group>"; };
-		84B612DB186ACD8000BA9E10 /* TableSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableSection.m; sourceTree = "<group>"; };
-		84B612DD186ACE7900BA9E10 /* CellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellItem.h; sourceTree = "<group>"; };
-		84B612DE186ACE7900BA9E10 /* CellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellItem.m; sourceTree = "<group>"; };
 		84C29546186AC4C700B59901 /* ASFFeedly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFFeedly.h; sourceTree = "<group>"; };
 		84C29547186AC4C700B59901 /* ASFFeedly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFFeedly.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		84C29548186AC4C700B59901 /* ASFCredential.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFCredential.h; sourceTree = "<group>"; };
@@ -124,10 +118,6 @@
 				84B612D5186AC98E00BA9E10 /* RootViewController.m */,
 				84B612D7186ACB3100BA9E10 /* Cell.h */,
 				84B612D8186ACB3100BA9E10 /* Cell.m */,
-				84B612DD186ACE7900BA9E10 /* CellItem.h */,
-				84B612DE186ACE7900BA9E10 /* CellItem.m */,
-				84B612DA186ACD8000BA9E10 /* TableSection.h */,
-				84B612DB186ACD8000BA9E10 /* TableSection.m */,
 				84A571A4186AC30C0067C898 /* Images.xcassets */,
 				84A57199186AC30C0067C898 /* Supporting Files */,
 			);
@@ -252,8 +242,6 @@
 				84C29558186AC4C700B59901 /* ASFFeedly.m in Sources */,
 				84C2955E186AC4C700B59901 /* ASFStream.m in Sources */,
 				84C2955C186AC4C700B59901 /* ASFConstants.m in Sources */,
-				84B612DF186ACE7900BA9E10 /* CellItem.m in Sources */,
-				84B612DC186ACD8000BA9E10 /* TableSection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
