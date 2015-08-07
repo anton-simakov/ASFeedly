@@ -202,11 +202,11 @@ typedef void (^ASFResultBlock)(NSError *error);
                 completion(nil, nil, error);
             }
         } else {
-            NSMutableURLRequest *request = [ASFRequestBuilder requestWithMethod:method
-                                                            URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", path]
-                                                           parameters:parameters
-                                                                token:token
-                                                                error:nil];
+            NSURLRequest *request = [ASFRequestBuilder requestWithMethod:method
+                                                               URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", path]
+                                                              parameters:parameters
+                                                                   token:token
+                                                                   error:nil];
             [self doRequest:request completion:completion];
         }
     }];

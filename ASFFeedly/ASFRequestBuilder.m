@@ -81,11 +81,11 @@ NSDictionary *ASFParametersFromQuery(NSString *query) {
 
 @implementation ASFRequestBuilder
 
-+ (NSMutableURLRequest *)requestWithMethod:(NSString *)method
-                                 URLString:(NSString *)URLString
-                                parameters:(NSDictionary *)parameters
-                                     token:(NSString *)token
-                                     error:(NSError *__autoreleasing *)error {
++ (NSURLRequest *)requestWithMethod:(NSString *)method
+                          URLString:(NSString *)URLString
+                         parameters:(NSDictionary *)parameters
+                              token:(NSString *)token
+                              error:(NSError *__autoreleasing *)error {
     NSURL *URL = [NSURL URLWithString:URLString];
     
     NSParameterAssert(URL);
