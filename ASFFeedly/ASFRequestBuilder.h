@@ -17,9 +17,6 @@ extern NSDictionary *ASFParametersFromQuery(NSString *query);
 
 @interface ASFRequestBuilder : NSObject
 
-+ (NSURL *)URLWithString:(NSString *)URLString
-              parameters:(NSDictionary *)parameters;
-
 + (NSMutableURLRequest *)requestWithMethod:(NSString *)method
                                  URLString:(NSString *)URLString
                                 parameters:(NSDictionary *)parameters
