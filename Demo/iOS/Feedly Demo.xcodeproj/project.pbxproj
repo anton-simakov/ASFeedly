@@ -27,7 +27,7 @@
 		84C2955D186AC4C700B59901 /* ASFEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29551186AC4C700B59901 /* ASFEntry.m */; };
 		84C2955E186AC4C700B59901 /* ASFStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29553186AC4C700B59901 /* ASFStream.m */; };
 		84C2955F186AC4C700B59901 /* ASFSubscription.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29555186AC4C700B59901 /* ASFSubscription.m */; };
-		84C29560186AC4C700B59901 /* ASFUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29557186AC4C700B59901 /* ASFUtil.m */; };
+		84C29560186AC4C700B59901 /* ASFRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29557186AC4C700B59901 /* ASFRequestBuilder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,8 +69,8 @@
 		84C29553186AC4C700B59901 /* ASFStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFStream.m; sourceTree = "<group>"; };
 		84C29554186AC4C700B59901 /* ASFSubscription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFSubscription.h; sourceTree = "<group>"; };
 		84C29555186AC4C700B59901 /* ASFSubscription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFSubscription.m; sourceTree = "<group>"; };
-		84C29556186AC4C700B59901 /* ASFUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFUtil.h; sourceTree = "<group>"; };
-		84C29557186AC4C700B59901 /* ASFUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFUtil.m; sourceTree = "<group>"; };
+		84C29556186AC4C700B59901 /* ASFRequestBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFRequestBuilder.h; sourceTree = "<group>"; };
+		84C29557186AC4C700B59901 /* ASFRequestBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFRequestBuilder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,14 +160,14 @@
 				84C29547186AC4C700B59901 /* ASFFeedly.m */,
 				84C2954A186AC4C700B59901 /* ASFLogInViewController.h */,
 				84C2954B186AC4C700B59901 /* ASFLogInViewController.m */,
+				84C29556186AC4C700B59901 /* ASFRequestBuilder.h */,
+				84C29557186AC4C700B59901 /* ASFRequestBuilder.m */,
 				84C29552186AC4C700B59901 /* ASFStream.h */,
 				84C29553186AC4C700B59901 /* ASFStream.m */,
 				84C29554186AC4C700B59901 /* ASFSubscription.h */,
 				84C29555186AC4C700B59901 /* ASFSubscription.m */,
 				3AE9FB091B6BFAC900147959 /* ASFURLConnectionOperation.h */,
 				3AE9FB0A1B6BFAC900147959 /* ASFURLConnectionOperation.m */,
-				84C29556186AC4C700B59901 /* ASFUtil.h */,
-				84C29557186AC4C700B59901 /* ASFUtil.m */,
 				3AE9FB131B6CD07500147959 /* DLog.h */,
 			);
 			name = ASFFeedly;
@@ -247,7 +247,7 @@
 				84C2955F186AC4C700B59901 /* ASFSubscription.m in Sources */,
 				84C2955B186AC4C700B59901 /* ASFCategory.m in Sources */,
 				84C2955A186AC4C700B59901 /* ASFLogInViewController.m in Sources */,
-				84C29560186AC4C700B59901 /* ASFUtil.m in Sources */,
+				84C29560186AC4C700B59901 /* ASFRequestBuilder.m in Sources */,
 				84B612D6186AC98E00BA9E10 /* RootViewController.m in Sources */,
 				84C29558186AC4C700B59901 /* ASFFeedly.m in Sources */,
 				84C2955E186AC4C700B59901 /* ASFStream.m in Sources */,

@@ -1,5 +1,5 @@
 //
-//  ASFUtil.h
+//  ASFRequestBuilder.h
 //  ASFFeedly
 //
 //  Created by Anton Simakov on 12/12/13.
@@ -15,7 +15,7 @@ extern NSString *ASFURLEncodedString(NSString *string);
 extern NSString *ASFURLDecodedString(NSString *string);
 extern NSDictionary *ASFParametersFromQuery(NSString *query);
 
-@interface ASFUtil : NSObject
+@interface ASFRequestBuilder : NSObject
 
 + (NSURL *)URLWithString:(NSString *)URLString
               parameters:(NSDictionary *)parameters;

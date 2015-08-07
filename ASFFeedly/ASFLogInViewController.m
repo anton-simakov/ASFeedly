@@ -9,7 +9,7 @@
 #import "ASFLogInViewController.h"
 #import "ASFConstants.h"
 #import "ASFFeedly.h"
-#import "ASFUtil.h"
+#import "ASFRequestBuilder.h"
 
 static NSString *_code;
 
@@ -45,7 +45,7 @@ static NSString *_code;
                                  @"response_type" : @"code",
                                  @"scope" : @"https://cloud.feedly.com/subscriptions"};
     
-    NSURL *URL = [ASFUtil URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFAuthAuthPath]
+    NSURL *URL = [ASFRequestBuilder URLWithString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFAuthAuthPath]
                              parameters:parameters];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];

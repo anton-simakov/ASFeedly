@@ -8,7 +8,7 @@
 
 #import "ASFFeedly.h"
 #import "ASFConstants.h"
-#import "ASFUtil.h"
+#import "ASFRequestBuilder.h"
 #import "ASFStream.h"
 #import "ASFEntry.h"
 #import "ASFCredential.h"
@@ -202,7 +202,7 @@ typedef void (^ASFResultBlock)(NSError *error);
                 completion(nil, nil, error);
             }
         } else {
-            NSMutableURLRequest *request = [ASFUtil requestWithMethod:method
+            NSMutableURLRequest *request = [ASFRequestBuilder requestWithMethod:method
                                                             URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", path]
                                                            parameters:parameters
                                                                 token:token
@@ -254,7 +254,7 @@ typedef void (^ASFResultBlock)(NSError *error);
                  completion:(void(^)(NSString *token, NSError *error))completion {
     
     NSError *error;
-    NSURLRequest *request = [ASFUtil requestWithMethod:@"POST"
+    NSURLRequest *request = [ASFRequestBuilder requestWithMethod:@"POST"
                                              URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFAuthTokenPath]
                                             parameters:parameters
                                                  token:nil

@@ -1,12 +1,12 @@
 //
-//  ASFUtil.m
+//  ASFRequestBuilder.m
 //  ASFFeedly
 //
 //  Created by Anton Simakov on 12/12/13.
 //  Copyright (c) 2013 Anton Simakov. All rights reserved.
 //
 
-#import "ASFUtil.h"
+#import "ASFRequestBuilder.h"
 #import "ASFConstants.h"
 
 static NSString *ASFURLEncodedPair(id field, id value) {
@@ -79,7 +79,7 @@ NSDictionary *ASFParametersFromQuery(NSString *query) {
     return parameters;
 }
 
-@implementation ASFUtil
+@implementation ASFRequestBuilder
 
 + (NSURL *)URLWithString:(NSString *)URLString
               parameters:(NSDictionary *)parameters {
