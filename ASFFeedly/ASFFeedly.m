@@ -9,8 +9,6 @@
 #import "ASFFeedly.h"
 #import "ASFConstants.h"
 #import "ASFRequestBuilder.h"
-#import "ASFStream.h"
-#import "ASFEntry.h"
 #import "ASFCredential.h"
 #import "ASFLogInViewController.h"
 #import "ASFURLConnectionOperation.h"
