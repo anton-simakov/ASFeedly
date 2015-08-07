@@ -81,7 +81,7 @@ NSDictionary *ASFParametersFromQuery(NSString *query) {
 
 @implementation ASFRequestBuilder
 
-+ (NSURLRequest *)requestWithMethod:(NSString *)method
+- (NSURLRequest *)requestWithMethod:(NSString *)method
                           URLString:(NSString *)URLString
                          parameters:(NSDictionary *)parameters
                               token:(NSString *)token
@@ -101,7 +101,7 @@ NSDictionary *ASFParametersFromQuery(NSString *query) {
     return request;
 }
 
-+ (NSMutableURLRequest *)requestWithURL:(NSURL *)URL
+- (NSMutableURLRequest *)requestWithURL:(NSURL *)URL
                                  method:(NSString *)method
                              parameters:(NSDictionary *)parameters
                                   error:(NSError *__autoreleasing *)error {

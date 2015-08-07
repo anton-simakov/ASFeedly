@@ -24,6 +24,7 @@ typedef void (^ASFResultBlock)(NSError *error);
 @property (nonatomic, copy) NSString *clientSecret;
 @property (nonatomic, strong) NSOperationQueue *queue;
 @property (nonatomic, strong) ASFCredential *credential;
+@property (nonatomic, strong) ASFRequestBuilder *builder;
 
 @end
 
@@ -49,6 +50,7 @@ typedef void (^ASFResultBlock)(NSError *error);
     self = [super init];
     if (self) {
         _credential = [ASFCredential retrieveCredential];
+        _builder = [[ASFRequestBuilder alloc] init];
         _clientID = clientID;
         _clientSecret = clientSecret;
         _queue = [[NSOperationQueue alloc] init];
@@ -202,11 +204,11 @@ typedef void (^ASFResultBlock)(NSError *error);
                 completion(nil, nil, error);
             }
         } else {
-            NSURLRequest *request = [ASFRequestBuilder requestWithMethod:method
-                                                               URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", path]
-                                                              parameters:parameters
-                                                                   token:token
-                                                                   error:nil];
+            NSURLRequest *request = [self.builder requestWithMethod:method
+                                                          URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", path]
+                                                         parameters:parameters
+                                                              token:token
+                                                              error:nil];
             [self doRequest:request completion:completion];
         }
     }];
@@ -254,11 +256,11 @@ typedef void (^ASFResultBlock)(NSError *error);
                  completion:(void(^)(NSString *token, NSError *error))completion {
     
     NSError *error;
-    NSURLRequest *request = [ASFRequestBuilder requestWithMethod:@"POST"
-                                             URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFAuthTokenPath]
-                                            parameters:parameters
-                                                 token:nil
-                                                 error:&error];
+    NSURLRequest *request = [self.builder requestWithMethod:@"POST"
+                                                  URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFAuthTokenPath]
+                                                 parameters:parameters
+                                                      token:nil
+                                                      error:&error];
     if (error) {
         completion(nil, error);
         return;

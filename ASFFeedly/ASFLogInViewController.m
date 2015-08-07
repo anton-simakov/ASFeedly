@@ -16,6 +16,7 @@ static NSString *_code;
 @interface ASFLogInViewController () <UIWebViewDelegate>
 
 @property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) ASFRequestBuilder *builder;
 
 @end
 
@@ -45,11 +46,11 @@ static NSString *_code;
                                  @"response_type" : @"code",
                                  @"scope" : @"https://cloud.feedly.com/subscriptions"};
     
-    NSURLRequest *request = [ASFRequestBuilder requestWithMethod:@"GET"
-                                                       URLString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFAuthAuthPath]
-                                                      parameters:parameters
-                                                           token:nil
-                                                           error:nil];
+    NSURLRequest *request = [self.builder requestWithMethod:@"GET"
+                                                  URLString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFAuthAuthPath]
+                                                 parameters:parameters
+                                                      token:nil
+                                                      error:nil];
     [self.webView loadRequest:request];
 }
 
