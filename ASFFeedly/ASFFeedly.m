@@ -7,11 +7,13 @@
 //
 
 #import "ASFFeedly.h"
-#import "ASFConstants.h"
+
+#import "ASFURLConnectionOperation.h"
+#import "ASFLogInViewController.h"
 #import "ASFRequestBuilder.h"
 #import "ASFCredential.h"
-#import "ASFLogInViewController.h"
-#import "ASFURLConnectionOperation.h"
+#import "ASFConstants.h"
+
 #import "DLog.h"
 
 typedef void (^ASFResultBlock)(NSError *error);
