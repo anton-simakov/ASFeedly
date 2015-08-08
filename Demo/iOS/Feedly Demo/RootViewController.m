@@ -7,22 +7,17 @@
 //
 
 #import "RootViewController.h"
-
 #import "Cell.h"
 
 #import "ASFFeedly.h"
 #import "ASFLogInViewController.h"
 
 static NSString *const kClientID = @"sandbox";
-static NSString *const kClientSecret = @""; // Put your client secret here
-
-static NSString *const kCellIdentifier = @"ACell";
+static NSString *const kClientSecret = @""; // Client Secret
 
 @interface RootViewController () <UITableViewDelegate, UITableViewDataSource, ASFLogInViewControllerDelegate>
-{
-    NSInteger _loadCounter;
-}
 
+@property (nonatomic, assign) NSUInteger loadCount;
 @property (nonatomic, assign) BOOL presentedLogInViewController;
 @property (nonatomic, strong) UIBarButtonItem *refreshButton;
 @property (nonatomic, strong) UITableView *tableView;
@@ -33,11 +28,9 @@ static NSString *const kCellIdentifier = @"ACell";
 
 @implementation RootViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
-    {
+    if (self) {
         _client = [[ASFFeedly alloc] initWithClientID:kClientID
                                          clientSecret:kClientSecret];
         _streams = [NSMutableArray array];
@@ -45,29 +38,33 @@ static NSString *const kCellIdentifier = @"ACell";
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setTableView:[[UITableView alloc] initWithFrame:[[self view] bounds]
-                                                    style:UITableViewStyleGrouped]];
-    [_tableView setDelegate:self];
-    [_tableView setDataSource:self];
-    [_tableView setAllowsSelection:NO];
-    [_tableView registerClass:[Cell class] forCellReuseIdentifier:kCellIdentifier];
-    [[self view] addSubview:_tableView];
+    self.navigationItem.title = NSLocalizedString(@"Feedly Demo", nil);
     
-    [self setRefreshButton:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-                                                                         target:self
-                                                                         action:@selector(refresh:)]];
-    [[self navigationItem] setRightBarButtonItem:_refreshButton];
-    [[self navigationItem] setTitle:@"Feedly Demo"];
+    self.refreshButton =
+    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                                  target:self
+                                                  action:@selector(refresh:)];
+    
+    self.navigationItem.rightBarButtonItem = self.refreshButton;
+    
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds
+                                                  style:UITableViewStyleGrouped];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.allowsSelection = NO;
+    
+    [self.tableView registerClass:[Cell class]
+           forCellReuseIdentifier:NSStringFromClass([Cell class])];
+    
+    [self.view addSubview:self.tableView];
 }
 
-- (void)viewWillLayoutSubviews
-{
+- (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
-    [_tableView setFrame:[[self view] bounds]];
+    self.tableView.frame = self.view.frame;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -110,14 +107,12 @@ static NSString *const kCellIdentifier = @"ACell";
         } else {
             [self addStream:stream];
             
-            _loadCounter--;
-            
-            if (_loadCounter == 0) {
+            if (!--self.loadCount) {
                 self.refreshButton.enabled = YES;
             }
         }
     }];
-    _loadCounter++;
+    self.loadCount++;
 }
 
 - (void)addStream:(ASFStream *)stream {
@@ -166,15 +161,14 @@ static NSString *const kCellIdentifier = @"ACell";
 
 #pragma mark - UITableViewDataSource
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     ASFStream *stream = self.streams[section];
     return stream.title;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    Cell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
+    Cell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([Cell class])];
     
     ASFStream *stream = self.streams[indexPath.section];
     ASFEntry *entry = stream.items[indexPath.row];
