@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "RootViewController.h"
+#import "SubscriptionsViewController.h"
 
 @implementation AppDelegate
 
@@ -16,7 +16,7 @@
     CGRect bounds = [[UIScreen mainScreen] bounds];
     [self setWindow:[[UIWindow alloc] initWithFrame:bounds]];
     
-    RootViewController *vc = [[RootViewController alloc] init];
+    SubscriptionsViewController *vc = [[SubscriptionsViewController alloc] init];
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
     
     [[self window] setRootViewController:nc];

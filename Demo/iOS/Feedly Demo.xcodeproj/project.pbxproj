@@ -15,7 +15,7 @@
 		84A5719F186AC30C0067C898 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A5719E186AC30C0067C898 /* main.m */; };
 		84A571A3186AC30C0067C898 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A571A2186AC30C0067C898 /* AppDelegate.m */; };
 		84A571A5186AC30C0067C898 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84A571A4186AC30C0067C898 /* Images.xcassets */; };
-		84B612D6186AC98E00BA9E10 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612D5186AC98E00BA9E10 /* RootViewController.m */; };
+		84B612D6186AC98E00BA9E10 /* SubscriptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612D5186AC98E00BA9E10 /* SubscriptionsViewController.m */; };
 		84B612D9186ACB3100BA9E10 /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612D8186ACB3100BA9E10 /* Cell.m */; };
 		84C29558186AC4C700B59901 /* ASFFeedly.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29547186AC4C700B59901 /* ASFFeedly.m */; };
 		84C29559186AC4C700B59901 /* ASFCredential.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29549186AC4C700B59901 /* ASFCredential.m */; };
@@ -43,8 +43,8 @@
 		84A571A1186AC30C0067C898 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		84A571A2186AC30C0067C898 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		84A571A4186AC30C0067C898 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		84B612D4186AC98E00BA9E10 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		84B612D5186AC98E00BA9E10 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		84B612D4186AC98E00BA9E10 /* SubscriptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscriptionsViewController.h; sourceTree = "<group>"; };
+		84B612D5186AC98E00BA9E10 /* SubscriptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscriptionsViewController.m; sourceTree = "<group>"; };
 		84B612D7186ACB3100BA9E10 /* Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cell.h; sourceTree = "<group>"; };
 		84B612D8186ACB3100BA9E10 /* Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cell.m; sourceTree = "<group>"; };
 		84C29546186AC4C700B59901 /* ASFFeedly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFFeedly.h; sourceTree = "<group>"; };
@@ -114,10 +114,10 @@
 			children = (
 				84A571A1186AC30C0067C898 /* AppDelegate.h */,
 				84A571A2186AC30C0067C898 /* AppDelegate.m */,
-				84B612D4186AC98E00BA9E10 /* RootViewController.h */,
-				84B612D5186AC98E00BA9E10 /* RootViewController.m */,
 				84B612D7186ACB3100BA9E10 /* Cell.h */,
 				84B612D8186ACB3100BA9E10 /* Cell.m */,
+				84B612D4186AC98E00BA9E10 /* SubscriptionsViewController.h */,
+				84B612D5186AC98E00BA9E10 /* SubscriptionsViewController.m */,
 				84A571A4186AC30C0067C898 /* Images.xcassets */,
 				84A57199186AC30C0067C898 /* Supporting Files */,
 			);
@@ -238,7 +238,7 @@
 				84C2955B186AC4C700B59901 /* ASFCategory.m in Sources */,
 				84C2955A186AC4C700B59901 /* ASFLogInViewController.m in Sources */,
 				84C29560186AC4C700B59901 /* ASFRequestBuilder.m in Sources */,
-				84B612D6186AC98E00BA9E10 /* RootViewController.m in Sources */,
+				84B612D6186AC98E00BA9E10 /* SubscriptionsViewController.m in Sources */,
 				84C29558186AC4C700B59901 /* ASFFeedly.m in Sources */,
 				84C2955E186AC4C700B59901 /* ASFStream.m in Sources */,
 				84C2955C186AC4C700B59901 /* ASFConstants.m in Sources */,

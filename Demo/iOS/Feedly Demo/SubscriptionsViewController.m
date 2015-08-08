@@ -1,12 +1,12 @@
 //
-//  RootViewController.m
+//  SubscriptionsViewController.m
 //  Feedly Demo
 //
 //  Created by Anton Simakov on 12/25/13.
 //  Copyright (c) 2013 Anton Simakov. All rights reserved.
 //
 
-#import "RootViewController.h"
+#import "SubscriptionsViewController.h"
 #import "Cell.h"
 
 #import "ASFFeedly.h"
@@ -15,7 +15,7 @@
 static NSString *const kClientID = @"sandbox";
 static NSString *const kClientSecret = @""; // Client Secret
 
-@interface RootViewController () <UITableViewDelegate, UITableViewDataSource, ASFLogInViewControllerDelegate>
+@interface SubscriptionsViewController () <UITableViewDelegate, UITableViewDataSource, ASFLogInViewControllerDelegate>
 
 @property (nonatomic, assign) NSUInteger loadCount;
 @property (nonatomic, assign) BOOL presentedLogInViewController;
@@ -26,7 +26,7 @@ static NSString *const kClientSecret = @""; // Client Secret
 
 @end
 
-@implementation RootViewController
+@implementation SubscriptionsViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
