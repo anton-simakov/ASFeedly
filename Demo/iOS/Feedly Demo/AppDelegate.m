@@ -11,16 +11,15 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    CGRect bounds = [[UIScreen mainScreen] bounds];
-    [self setWindow:[[UIWindow alloc] initWithFrame:bounds]];
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     SubscriptionsViewController *vc = [[SubscriptionsViewController alloc] init];
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
     
-    [[self window] setRootViewController:nc];
-    [[self window] makeKeyAndVisible];
+    self.window.rootViewController = nc;
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
