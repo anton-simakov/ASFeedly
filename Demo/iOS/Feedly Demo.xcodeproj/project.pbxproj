@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3ADE63D61B7736A00004F7BD /* ASFUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ADE63D51B7736A00004F7BD /* ASFUtil.m */; };
 		3AE9FB0B1B6BFAC900147959 /* ASFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE9FB0A1B6BFAC900147959 /* ASFURLConnectionOperation.m */; };
 		84A57193186AC30C0067C898 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A57192186AC30C0067C898 /* Foundation.framework */; };
 		84A57195186AC30C0067C898 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A57194186AC30C0067C898 /* CoreGraphics.framework */; };
@@ -29,6 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3ADE63D41B7736A00004F7BD /* ASFUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFUtil.h; sourceTree = "<group>"; };
+		3ADE63D51B7736A00004F7BD /* ASFUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFUtil.m; sourceTree = "<group>"; };
 		3AE9FB091B6BFAC900147959 /* ASFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFURLConnectionOperation.h; sourceTree = "<group>"; };
 		3AE9FB0A1B6BFAC900147959 /* ASFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFURLConnectionOperation.m; sourceTree = "<group>"; };
 		3AE9FB131B6CD07500147959 /* DLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLog.h; sourceTree = "<group>"; };
@@ -158,6 +161,8 @@
 				84C29555186AC4C700B59901 /* ASFSubscription.m */,
 				3AE9FB091B6BFAC900147959 /* ASFURLConnectionOperation.h */,
 				3AE9FB0A1B6BFAC900147959 /* ASFURLConnectionOperation.m */,
+				3ADE63D41B7736A00004F7BD /* ASFUtil.h */,
+				3ADE63D51B7736A00004F7BD /* ASFUtil.m */,
 				3AE9FB131B6CD07500147959 /* DLog.h */,
 			);
 			name = ASFFeedly;
@@ -237,6 +242,7 @@
 				84C2955F186AC4C700B59901 /* ASFSubscription.m in Sources */,
 				84C2955B186AC4C700B59901 /* ASFCategory.m in Sources */,
 				84C2955A186AC4C700B59901 /* ASFLogInViewController.m in Sources */,
+				3ADE63D61B7736A00004F7BD /* ASFUtil.m in Sources */,
 				84C29560186AC4C700B59901 /* ASFRequestBuilder.m in Sources */,
 				84B612D6186AC98E00BA9E10 /* SubscriptionsViewController.m in Sources */,
 				84C29558186AC4C700B59901 /* ASFFeedly.m in Sources */,
