@@ -41,7 +41,7 @@ static NSString *const kClientSecret = @""; // Client Secret
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = NSLocalizedString(@"Feedly Demo", nil);
+    self.navigationItem.title = NSLocalizedString(@"Subscriptions", nil);
     
     self.refreshButton =
     [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
