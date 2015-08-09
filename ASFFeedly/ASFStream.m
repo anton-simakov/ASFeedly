@@ -8,6 +8,7 @@
 
 #import "ASFStream.h"
 #import "ASFEntry.h"
+#import "ASFUtil.h"
 
 @implementation ASFStream
 
@@ -18,11 +19,7 @@
         _title = dictionary[@"title"];
         _direction = dictionary[@"direction"];
         _continuation = dictionary[@"continuation"];
-        
-        NSNumber *number = dictionary[@"updated"];
-        if (number) {
-            _updated = [NSDate dateWithTimeIntervalSince1970:[number longValue] / 1000.0];
-        }
+        _updated = ASFDate(dictionary[@"updated"]);
         
         NSMutableArray *items = [NSMutableArray array];
         

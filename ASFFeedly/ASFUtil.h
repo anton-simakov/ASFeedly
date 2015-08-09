@@ -8,6 +8,4 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ASFUtil : NSObject
-
-@end
+extern NSDate *ASFDate(NSNumber *number);

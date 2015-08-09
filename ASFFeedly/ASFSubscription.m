@@ -8,6 +8,7 @@
 
 #import "ASFSubscription.h"
 #import "ASFCategory.h"
+#import "ASFUtil.h"
 
 @implementation ASFSubscription
 
@@ -17,11 +18,7 @@
         _ID = dictionary[@"id"];
         _title = dictionary[@"title"];
         _website = dictionary[@"website"];
-        
-        NSNumber *updated = dictionary[@"updated"];
-        if (updated) {
-            _updated = [NSDate dateWithTimeIntervalSince1970:[updated longValue]/1000.0];
-        }
+        _updated = ASFDate(dictionary[@"updated"]);
         
         NSMutableArray *categories = [NSMutableArray array];
         

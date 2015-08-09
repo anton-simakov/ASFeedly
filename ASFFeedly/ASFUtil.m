@@ -8,6 +8,9 @@
 
 #import "ASFUtil.h"
 
-@implementation ASFUtil
-
-@end
+NSDate *ASFDate(NSNumber *number) {
+    if (!number) {
+        return nil;
+    }
+    return [NSDate dateWithTimeIntervalSince1970:[number longValue] / 1000.0];
+}

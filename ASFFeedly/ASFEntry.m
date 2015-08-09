@@ -7,6 +7,7 @@
 //
 
 #import "ASFEntry.h"
+#import "ASFUtil.h"
 
 @implementation ASFEntry
 
@@ -17,12 +18,7 @@
         _title = dictionary[@"title"];
         _author = dictionary[@"author"];
         _originID = dictionary[@"originId"];
-        
-        NSNumber *number = dictionary[@"published"];
-        if (number) {
-            _published = [NSDate dateWithTimeIntervalSince1970:[number longValue] / 1000.0];
-        }
-        
+        _published = ASFDate(dictionary[@"published"]);
         _unread = [dictionary[@"unread"] boolValue];
     }
     return self;
