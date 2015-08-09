@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 extern NSURL *ASFURLByAppendingParameters(NSURL *URL, NSDictionary *parameters);
-extern NSString *ASFQueryFromURL(NSURL *URL);
 extern NSString *ASFQueryFromParameters(NSDictionary *parameters);
 extern NSString *ASFURLEncodedString(NSString *string);
 extern NSString *ASFURLDecodedString(NSString *string);

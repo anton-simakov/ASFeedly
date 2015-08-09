@@ -36,11 +36,6 @@ NSURL *ASFURLByAppendingParameters(NSURL *URL, NSDictionary *parameters) {
     return [NSURL URLWithString:absoluteString];
 }
 
-NSString *ASFQueryFromURL(NSURL *URL) {
-    NSArray *components = [[URL absoluteString] componentsSeparatedByString:@"?"];
-    return [components lastObject];
-}
-
 NSString *ASFQueryFromParameters(NSDictionary *parameters) {
     NSMutableArray *pairs = [NSMutableArray array];
     

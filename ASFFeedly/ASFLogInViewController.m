@@ -65,8 +65,7 @@ static NSString *_code;
     NSURL *URL = [request URL];
     if ([[URL absoluteString] hasPrefix:ASFRedirectURI]) {
         
-        NSString *query = ASFQueryFromURL(URL);
-        NSDictionary *parameters = ASFParametersFromQuery(query);
+        NSDictionary *parameters = ASFParametersFromQuery(URL.query);
         
         _code = parameters[@"code"];
         
