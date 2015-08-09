@@ -56,8 +56,7 @@ static NSString *const kClientSecret = @""; // Client Secret
     self.tableView.dataSource = self;
     self.tableView.allowsSelection = NO;
     
-    [self.tableView registerClass:[Cell class]
-           forCellReuseIdentifier:NSStringFromClass([Cell class])];
+    [self.tableView registerClass:[Cell class] forCellReuseIdentifier:@"Cell"];
     
     [self.view addSubview:self.tableView];
 }
@@ -155,8 +154,7 @@ static NSString *const kClientSecret = @""; // Client Secret
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    Cell *cell = (Cell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
-    return [cell calculateHeight:CGRectGetWidth([_tableView frame])];
+    return 100.0;
 }
 
 #pragma mark - UITableViewDataSource
@@ -168,14 +166,12 @@ static NSString *const kClientSecret = @""; // Client Secret
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    Cell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([Cell class])];
+    Cell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
     ASFStream *stream = self.streams[indexPath.section];
     ASFEntry *entry = stream.items[indexPath.row];
     
-    cell.title = entry.title;
-    cell.date = entry.published;
-    
+    cell.entry = entry;
     return cell;
 }
 

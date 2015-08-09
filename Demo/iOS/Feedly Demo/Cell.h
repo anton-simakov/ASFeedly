@@ -8,11 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class ASFEntry;
+
 @interface Cell : UITableViewCell
 
-- (void)setTitle:(NSString *)title;
-- (void)setDate:(NSDate *)date;
-
-- (CGFloat)calculateHeight:(CGFloat)width;
+@property (nonatomic, strong) ASFEntry *entry;
 
 @end
