@@ -7,7 +7,7 @@
 //
 
 NSString *const ASFEndpoint             = @"https://sandbox.feedly.com/v3";
-NSString *const ASFRedirectURI          = @"http://localhost";
+NSString *const ASFRedirectURI          = @"https://localhost";
 
 NSString *const ASFAuthAuthPath         = @"auth/auth";
 NSString *const ASFAuthTokenPath        = @"auth/token";
