@@ -15,6 +15,8 @@
 
 @interface ASFFeedly : NSObject
 
++ (BOOL)openURL:(NSURL *)URL;
+
 - (instancetype)initWithClientID:(NSString *)clientID
                     clientSecret:(NSString *)clientSecret NS_DESIGNATED_INITIALIZER;
 

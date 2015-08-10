@@ -7,8 +7,9 @@
 //
 
 #import "ASFLogInViewController.h"
-#import "ASFConstants.h"
+
 #import "ASFFeedly.h"
+#import "ASFConstants.h"
 #import "ASFRequestBuilder.h"
 
 static NSString *_code;
@@ -61,9 +62,8 @@ static NSString *_code;
 #pragma mark - UIWebViewDelegate
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    
-    NSURL *URL = [request URL];
-    if ([[URL absoluteString] hasPrefix:ASFRedirectURI]) {
+    NSURL *URL = request.URL;
+    if ([ASFFeedly openURL:URL]) {
         
         NSDictionary *parameters = ASFParametersFromQuery(URL.query);
         

@@ -30,6 +30,10 @@ typedef void (^ASFResultBlock)(NSError *error);
 
 @implementation ASFFeedly
 
++ (BOOL)openURL:(NSURL *)URL {
+    return [[URL absoluteString] hasPrefix:ASFRedirectURI];
+}
+
 - (instancetype)init {
     return [self initWithClientID:nil clientSecret:nil];
 }
