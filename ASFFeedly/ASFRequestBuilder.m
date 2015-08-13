@@ -74,14 +74,28 @@ NSDictionary *ASFParametersFromQuery(NSString *query) {
     return parameters;
 }
 
+@interface ASFRequestBuilder ()
+
+@property (nonatomic, strong) NSURL *URL;
+
+@end
+
 @implementation ASFRequestBuilder
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _URL = [NSURL URLWithString:ASFEndpoint];
+    }
+    return self;
+}
 
 - (NSURLRequest *)request:(NSString *)method
                      path:(NSString *)path
                parameters:(NSDictionary *)parameters
                     token:(NSString *)token
                     error:(NSError *__autoreleasing *)error {
-    NSURL *URL = [NSURL URLWithString:[ASFEndpoint stringByAppendingFormat:@"/%@", path]];
+    NSURL *URL = [self.URL URLByAppendingPathComponent:path];
     
     NSParameterAssert(URL);
     
