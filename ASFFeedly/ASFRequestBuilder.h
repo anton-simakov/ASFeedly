@@ -16,10 +16,10 @@ extern NSDictionary *ASFParametersFromQuery(NSString *query);
 
 @interface ASFRequestBuilder : NSObject
 
-- (NSURLRequest *)requestWithMethod:(NSString *)method
-                          URLString:(NSString *)URLString
-                         parameters:(NSDictionary *)parameters
-                              token:(NSString *)token
-                              error:(NSError *__autoreleasing *)error;
+- (NSURLRequest *)request:(NSString *)method
+                     path:(NSString *)path
+               parameters:(NSDictionary *)parameters
+                    token:(NSString *)token
+                    error:(NSError *__autoreleasing *)error;
 
 @end

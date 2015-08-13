@@ -47,11 +47,12 @@ static NSString *_code;
                                  @"scope" : @"https://cloud.feedly.com/subscriptions"};
     
     ASFRequestBuilder *builder = [[ASFRequestBuilder alloc] init];
-    NSURLRequest *request = [builder requestWithMethod:@"GET"
-                                             URLString:[NSString stringWithFormat:@"%@/%@", ASFEndpoint, ASFAuthAuthPath]
-                                            parameters:parameters
-                                                 token:nil
-                                                 error:nil];
+    
+    NSURLRequest *request = [builder request:@"GET"
+                                        path:ASFAuthAuthPath
+                                  parameters:parameters
+                                       token:nil
+                                       error:nil];
     [self.webView loadRequest:request];
 }
 

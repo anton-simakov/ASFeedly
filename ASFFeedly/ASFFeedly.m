@@ -208,11 +208,12 @@ typedef void (^ASFResultBlock)(NSError *error);
                 completion(nil, nil, error);
             }
         } else {
-            NSURLRequest *request = [self.builder requestWithMethod:method
-                                                          URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", path]
-                                                         parameters:parameters
-                                                              token:token
-                                                              error:nil];
+            NSURLRequest *request = [self.builder request:method
+                                                     path:path
+                                               parameters:parameters
+                                                    token:token
+                                                    error:nil];
+
             [self doRequest:request completion:completion];
         }
     }];
@@ -260,11 +261,11 @@ typedef void (^ASFResultBlock)(NSError *error);
                  completion:(void(^)(NSString *token, NSError *error))completion {
     
     NSError *error;
-    NSURLRequest *request = [self.builder requestWithMethod:@"POST"
-                                                  URLString:[ASFEndpoint stringByAppendingFormat:@"/%@", ASFAuthTokenPath]
-                                                 parameters:parameters
-                                                      token:nil
-                                                      error:&error];
+    NSURLRequest *request = [self.builder request:@"POST"
+                                             path:ASFAuthTokenPath
+                                       parameters:parameters
+                                            token:nil
+                                            error:&error];
     if (error) {
         completion(nil, error);
         return;
