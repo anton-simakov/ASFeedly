@@ -98,7 +98,7 @@ NSString *const ASFErrorDomain = @"ASFErrorDomain";
                    error:(NSError *__autoreleasing *)error {
     
     if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
-        DLog(@"Got response: %@ (%ld)", [NSHTTPURLResponse localizedStringForStatusCode:response.statusCode], (long)response.statusCode);
+        DLog(@"Got response %ld", (long)response.statusCode);
         // TODO:
     }
     return YES;

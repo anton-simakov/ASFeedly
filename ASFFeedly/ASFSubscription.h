@@ -7,16 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ASFCategory.h"
 
 @interface ASFSubscription : NSObject
 
-@property(nonatomic, strong) NSString *ID;
-@property(nonatomic, strong) NSString *title;
-@property(nonatomic, strong) NSString *website;
-@property(nonatomic, strong) NSDate *updated;
-@property(nonatomic, strong) NSArray *categories;
+@property (readonly, nonatomic, copy) NSString *ID;
+@property (readonly, nonatomic, copy) NSString *title;
+@property (readonly, nonatomic, copy) NSString *website;
+@property (readonly, nonatomic, strong) NSDate *updated;
+@property (readonly, nonatomic, strong) NSArray *categories;
 
-- (NSString *)link;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

@@ -7,43 +7,35 @@
 //
 
 #import "ASFFeedly.h"
-#import "ASFConstants.h"
-#import "ASFUtil.h"
-#import "ASFStream.h"
-#import "ASFEntry.h"
-#import "ASFAuthentication.h"
-#import "ASFSignInViewController.h"
+
 #import "ASFURLConnectionOperation.h"
+#import "ASFLogInViewController.h"
+#import "ASFRequestBuilder.h"
+#import "ASFCredential.h"
+#import "ASFConstants.h"
+
 #import "DLog.h"
 
 typedef void (^ASFResultBlock)(NSError *error);
-typedef void (^ASFResponseResultBlock)(id response, NSError *error);
 
-const CGFloat ASFStreamEntriesMax = 10000;
+@interface ASFFeedly ()
 
-NSString * rankingStrings[2] =
-{
-    @"newest",
-    @"oldest"
-};
-
-NSString * ASFRankingString(ASFRanking ranking)
-{
-    return rankingStrings[ranking];
-}
-
-@interface ASFFeedly ()<ASFSignInViewControllerDelegate>
-
+@property (nonatomic, copy) NSString *clientID;
+@property (nonatomic, copy) NSString *clientSecret;
 @property (nonatomic, strong) NSOperationQueue *queue;
-@property (nonatomic, strong) ASFAuthentication *authentication;
+@property (nonatomic, strong) ASFCredential *credential;
+@property (nonatomic, strong) ASFRequestBuilder *builder;
 
 @end
 
 @implementation ASFFeedly
 
++ (BOOL)openURL:(NSURL *)URL {
+    return [[URL absoluteString] hasPrefix:ASFRedirectURI];
+}
+
 - (instancetype)init {
-    return [self initWithClientID:nil
-                     clientSecret:nil];
+    return [self initWithClientID:nil clientSecret:nil];
 }
 
 - (instancetype)initWithClientID:(NSString *)clientID
@@ -61,7 +53,8 @@ NSString * ASFRankingString(ASFRanking ranking)
     
     self = [super init];
     if (self) {
-        _authentication = [ASFAuthentication restore];
+        _credential = [ASFCredential retrieveCredential];
+        _builder = [[ASFRequestBuilder alloc] init];
         _clientID = clientID;
         _clientSecret = clientSecret;
         _queue = [[NSOperationQueue alloc] init];
@@ -70,139 +63,34 @@ NSString * ASFRankingString(ASFRanking ranking)
     return self;
 }
 
-- (void)loginWithViewController:(UIViewController *)controller
-{
-    if (![_authentication refreshToken])
-    {
-        ASFSignInViewController *vc = [[ASFSignInViewController alloc] initWithCliendID:_clientID
-                                                                               delegate:self];
-        
-        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
-        
-        [nc setModalPresentationStyle:UIModalPresentationFullScreen];
-        [controller presentViewController:nc animated:YES completion:NULL];
-    }
-    else
-    {
-        [self finishAuthentication:_authentication];
-    }
+- (BOOL)isAuthorized {
+    return [ASFLogInViewController code] || self.credential;
 }
 
-- (void)logout
-{
-    [ASFAuthentication reset];
-    [self setAuthentication:nil];
-}
-
-#pragma mark - ASFSignInViewControllerDelegate
-
-- (void)feedlyClientAuthenticationViewController:(ASFSignInViewController *)vc
-                               didFinishWithCode:(NSString *)code
-{
-    ASFAuthentication *authentication = [ASFAuthentication authenticationWithCode:code];
-    [self finishAuthentication:authentication];
-}
-
-- (void)finishAuthentication:(ASFAuthentication *)authentication
-{
-    [self setAuthentication:authentication];
-    [ASFAuthentication store:authentication];
-    
-    if ([_delegate respondsToSelector:@selector(feedlyClientDidFinishLogin:)])
-    {
-        [_delegate feedlyClientDidFinishLogin:self];
-    }
-}
-
-#pragma mark - Get
-
-- (void)getCategories
-{
-    NSURL *URL = [ASFUtil URLWithPath:@"categories" parameters:nil];
-    
-    __weak __typeof(self)weak = self;
-    [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
-     {
-         if (error)
-         {
-             [weak handleError:error];
-         }
-         else
-         {
-             // parse categories
+- (void)subscriptions:(void(^)(NSArray *subscriptions, NSError *error))completion {
+    [self GET:ASFSubscriptionsPath parameters:nil completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error) {
+         if (error) {
+             completion(nil, error);
+         } else {
+             NSMutableArray *subscriptions = [NSMutableArray array];
+             for (NSDictionary *subscription in JSON) {
+                 [subscriptions addObject:[[ASFSubscription alloc] initWithDictionary:subscription]];
+             }
+             
+             completion(subscriptions, nil);
          }
      }];
 }
 
-- (void)getSubscriptions
-{
-    NSURL *URL = [ASFUtil URLWithPath:ASFSubscriptionsPath parameters:nil];
+- (void)stream:(NSString *)streamID completion:(void(^)(ASFStream *stream, NSError *error))completion {
     
-    __weak __typeof(self)weak = self;
-    [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
-     {
-         if (error)
-         {
-             [weak handleError:error];
-         }
-         else
-         {
-             [weak parseSubscriptions:response];
-         }
-     }];
-}
-
-- (void)getStream:(NSString *)streamID
-{
-    [self getStream:streamID count:0 ranking:ASFRankingDefault unreadOnly:YES newerThan:0 continuation:nil];
-}
-
-- (void)getStream:(NSString *)streamID
-            count:(NSInteger)count
-          ranking:(ASFRanking)ranking
-       unreadOnly:(BOOL)unreadOnly
-        newerThan:(long long)newerThan
-     continuation:(NSString *)continuation
-{
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObject:streamID
-                                                                         forKey:ASFStreamIDKey];
-    if (count)
-    {
-        [parameters setValue:@(count) forKey:ASFCountKey];
-    }
+    NSDictionary *parameters = @{ASFStreamIDKey : streamID};
     
-    if (ranking != ASFRankingDefault)
-    {
-        [parameters setValue:ASFRankingString(ASFRankingNewest) forKey:ASFRankedKey];
-    }
-    
-    if (unreadOnly)
-    {
-        [parameters setValue:ASFFeedTrueValue forKey:ASFUnreadOnlyKey];
-    }
-    
-    if (newerThan)
-    {
-        [parameters setValue:@(newerThan + 1) forKey:ASFNewerThanKey];
-    }
-    
-    if (continuation)
-    {
-        [parameters setValue:continuation forKey:ASFContinuationKey];
-    }
-    
-    NSURL *URL = [ASFUtil URLWithPath:ASFStreamsContentsPath parameters:parameters];
-    
-    __weak __typeof(self)weak = self;
-    [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
-     {
-         if (error)
-         {
-             [weak handleError:error];
-         }
-         else
-         {
-             [weak parseStream:response];
+    [self GET:ASFStreamsContentsPath parameters:parameters completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error) {
+         if (error) {
+             completion(nil, error);
+         } else {
+             completion([[ASFStream alloc] initWithDictionary:JSON], nil);
          }
      }];
 }
@@ -221,19 +109,8 @@ NSString * ASFRankingString(ASFRanking ranking)
         [parameters setValue:@(newerThan + 1) forKey:ASFNewerThanKey];
     }
     
-    NSURL *URL = [ASFUtil URLWithPath:ASFMarkersReadsPath parameters:parameters];
-    
-    __weak __typeof(self)weak = self;
-    [self startRequestWithURL:URL completionBlock:^(id response, NSError *error)
-     {
-         if (error)
-         {
-             [weak handleError:error];
-         }
-         else
-         {
-             [weak parseMarkersReads:response];
-         }
+    [self GET:ASFMarkersReadsPath parameters:parameters completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error) {
+         // TODO:
      }];
 }
 
@@ -241,18 +118,18 @@ NSString * ASFRankingString(ASFRanking ranking)
 
 - (void)updateCategory:(NSString *)ID withLabel:(NSString *)label
 {
-    NSString *path = [NSString stringWithFormat:@"%@/%@", ASFCategoriesPath, [ASFUtil encodeString:ID]];
+    NSDictionary *parameters = @{ASFLabelKey : label};
     
-    [self makeRequestWithBase:ASFEndpoint path:path parameters:@{ASFLabelKey : label}];
+    [self POST:ASFCategoriesPath parameters:parameters completion:nil];
 }
 
 - (void)updateSubscription:(NSString *)ID withTitle:(NSString *)title categories:(NSArray *)categories
 {
-    [self makeRequestWithBase:ASFEndpoint
-                         path:ASFSubscriptionsPath
-                   parameters:@{ASFIDKey : ID,
-                                ASFTitleKey : title,
-                                ASFCategoriesKey : categories}];
+    NSDictionary *parameters = @{ASFIDKey : ID,
+                                 ASFTitleKey : title,
+                                 ASFCategoriesKey : categories};
+    
+    [self POST:ASFSubscriptionsPath parameters:parameters completion:nil];
 }
 
 #pragma mark - Mark
@@ -264,9 +141,11 @@ NSString * ASFRankingString(ASFRanking ranking)
 
 - (void)markEntries:(NSArray *)IDs read:(BOOL)read
 {
-    [self makeRequestWithPath:ASFMarkersPath parameters:@{ASFActionKey : [self actionForReadState:read],
-                                                              ASFTypeKey : ASFEntriesValue,
-                                                              ASFEntryIDsKey : IDs}];
+    NSDictionary *parameters = @{ASFActionKey : [self actionForReadState:read],
+                                 ASFTypeKey : ASFEntriesValue,
+                                 ASFEntryIDsKey : IDs};
+    
+    [self POST:ASFMarkersPath parameters:parameters completion:nil];
 }
 
 - (void)markCategory:(NSString *)ID read:(BOOL)read
@@ -276,9 +155,11 @@ NSString * ASFRankingString(ASFRanking ranking)
 
 - (void)markCategories:(NSArray *)IDs read:(BOOL)read
 {
-    [self makeRequestWithPath:ASFMarkersPath parameters:@{ASFActionKey : [self actionForReadState:read],
-                                                              ASFTypeKey : ASFCategoriesValue,
-                                                              ASFCategoryIDsKey : IDs}];
+    NSDictionary *parameters = @{ASFActionKey : [self actionForReadState:read],
+                                 ASFTypeKey : ASFCategoriesValue,
+                                 ASFCategoryIDsKey : IDs};
+    
+    [self POST:ASFMarkersPath parameters:parameters completion:nil];
 }
 
 - (void)markSubscription:(NSString *)ID read:(BOOL)read
@@ -288,9 +169,11 @@ NSString * ASFRankingString(ASFRanking ranking)
 
 - (void)markSubscriptions:(NSArray *)IDs read:(BOOL)read
 {
-    [self makeRequestWithPath:ASFMarkersPath parameters:@{ASFActionKey : [self actionForReadState:read],
-                                                              ASFTypeKey : ASFFeedsValue,
-                                                              ASFFeedIDsKey : IDs}];
+    NSDictionary *parameters = @{ASFActionKey : [self actionForReadState:read],
+                                 ASFTypeKey : ASFFeedsValue,
+                                 ASFFeedIDsKey : IDs};
+    
+    [self POST:ASFMarkersPath parameters:parameters completion:nil];
 }
 
 - (NSString *)actionForReadState:(BOOL)state
@@ -298,304 +181,105 @@ NSString * ASFRankingString(ASFRanking ranking)
     return state ? ASFMarkAsReadValue : ASFKeepUnreadValue;
 }
 
-#pragma mark - Requests
+#pragma mark - Request
 
-- (NSMutableURLRequest *)requestWithMethod:(NSString *)method
-                                 URLString:(NSString *)URLString
-                                parameters:(NSDictionary *)parameters
-                                     error:(NSError *__autoreleasing *)error {
+- (void)GET:(NSString *)path
+ parameters:(NSDictionary *)parameters
+ completion:(ASFURLConnectionOperationCompletion)completion {
     
-    NSParameterAssert([method isEqualToString:@"GET"] ||
-                      [method isEqualToString:@"POST"]);
-    
-    NSURL *URL = [NSURL URLWithString:URLString];
-    
-    NSParameterAssert(URL);
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-
-    [request setHTTPMethod:method];
-    
-    if ([method isEqualToString:@"GET"]) {
-        //
-    } else {
-        [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-        [request setValue:[self.authentication accessToken] forHTTPHeaderField:@"Authorization"];
-        [request setHTTPBody:[NSJSONSerialization dataWithJSONObject:parameters options:0 error:error]];
-    }
-    
-    return request;
+    [self doRequest:@"GET" path:path parameters:parameters completion:completion];
 }
 
-#pragma mark - POST
-
-- (void)makeRequestWithPath:(NSString *)path parameters:(NSDictionary *)parameters;
-{
-    [self makeRequestWithBase:ASFEndpoint path:path parameters:parameters];
+- (void)POST:(NSString *)path
+  parameters:(NSDictionary *)parameters
+  completion:(ASFURLConnectionOperationCompletion)completion {
+    
+    [self doRequest:@"POST" path:path parameters:parameters completion:completion];
 }
 
-- (void)makeRequestWithBase:(NSString *)base path:(NSString *)path parameters:(NSDictionary *)parameters
-{
-    NSString *URLString = [NSString stringWithFormat:@"%@/%@", base, path];
+- (void)doRequest:(NSString *)method
+             path:(NSString *)path
+       parameters:(NSDictionary *)parameters
+       completion:(ASFURLConnectionOperationCompletion)completion {
     
-    NSURLRequest *request = [self requestWithMethod:@"POST"
-                                          URLString:URLString
-                                         parameters:parameters
-                                              error:nil];
-    
-    [self.queue addOperation:[[ASFURLConnectionOperation alloc] initWithRequest:request]];
+    [self token:^(NSString *token, NSError *error) {
+        if (error) {
+            if (completion) {
+                completion(nil, nil, error);
+            }
+        } else {
+            NSURLRequest *request = [self.builder request:method
+                                                     path:path
+                                               parameters:parameters
+                                                    token:token
+                                                    error:nil];
+
+            [self doRequest:request completion:completion];
+        }
+    }];
 }
 
-#pragma mark - GET
-
-- (void)startRequestWithURL:(NSURL *)URL completionBlock:(ASFResponseResultBlock)block
-{
-    __weak __typeof(self)weak = self;
-    [self getTokenWithblock:^(NSError *error)
-     {
-         if (error)
-         {
-             [weak handleError:error];
-         }
-         else
-         {
-             [weak startRequestWithURL:URL authorized:YES completionBlock:block];
-         }
-     }];
-}
-
-- (void)startRequestWithURL:(NSURL *)URL authorized:(BOOL)authorized completionBlock:(ASFResponseResultBlock)block
-{
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-    
-    if (authorized)
-    {
-        [self authorizeRequest:request];
-    }
-    
-    [self startRequest:request completionBlock:block];
-}
-
-- (void)startRequest:(NSURLRequest *)request completionBlock:(ASFResponseResultBlock)block
+- (void)doRequest:(NSURLRequest *)request completion:(ASFURLConnectionOperationCompletion)completion
 {
     ASFURLConnectionOperation *operation =
     [[ASFURLConnectionOperation alloc] initWithRequest:request
-                                            completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error)
-     {
-         if (block) {
-             block(JSON, error);
-         }
-     }];
-    
+                                            completion:completion];
     [self.queue addOperation:operation];
 }
 
 #pragma mark - Token
 
-- (void)getTokenWithblock:(ASFResultBlock)block
-{
-    if ([_authentication accessToken] == nil)
-    {
-        [self getAccessTokenWithBlock:block];
-    }
-    else if ([_authentication isTokenExpired])
-    {
-        [self refreshTokenWithBlock:block];
-    }
-    else
-    {
-        if (block)
-        {
-            block(nil);
-        }
-    }
-}
-
-- (void)getAccessTokenWithBlock:(ASFResultBlock)block
-{
-    NSDictionary *parameters = @{ASFCodeKey : [_authentication code],
-                                 ASFClientIDKey : _clientID,
-                                 ASFClientSecretKey : _clientSecret,
-                                 ASFRedirectURIKey : ASFRedirectURI,
-                                 ASFGrantTypeKey : ASFGrantTypeAuthorizationCode};
+- (void)token:(void(^)(NSString *token, NSError *error))completion {
     
-    NSURL *URL = [ASFUtil URLWithPath:ASFAuthTokenPath parameters:parameters];
-    NSURLRequest *request = [ASFUtil requestWithURL:URL method:@"POST"];
+    NSParameterAssert(completion);
     
-    __weak __typeof(self)weak = self;
-    [self startRequest:request completionBlock:^(id response, NSError *error)
-     {
-         if (!error)
-         {
-             [weak parseAuthentication:response];
-         }
-         
-         if (block)
-         {
-             block(error);
-         }
-     }];
-}
-
-- (void)refreshTokenWithBlock:(ASFResultBlock)block
-{
-    NSDictionary *parameters = @{ASFRefreshTokenKey : [_authentication refreshToken],
-                                 ASFClientIDKey : _clientID,
-                                 ASFClientSecretKey : _clientSecret,
-                                 ASFGrantTypeKey : ASFGrantTypeRefreshToken};
-    
-    NSURL *URL = [ASFUtil URLWithPath:ASFAuthTokenPath parameters:parameters];
-    NSURLRequest *request = [ASFUtil requestWithURL:URL method:@"POST"];
-    
-    __weak __typeof(self)weak = self;
-    [self startRequest:request completionBlock:^(id response, NSError *error)
-     {
-         if (!error)
-         {
-             [weak parseAuthentication:response];
-         }
-         
-         if (block)
-         {
-             block(error);
-         }
-     }];
-}
-
-#pragma mark - Parse
-
-- (void)parseAuthentication:(NSDictionary *)responce
-{
-    NSString *refreshToken = responce[ASFRefreshTokenKey];
-    
-    if (refreshToken)
-    {
-        [_authentication setRefreshToken:refreshToken];
-    }
-    
-    NSString *state = responce[ASFStateKey];
-    
-    if (state)
-    {
-        [_authentication setState:state];
-    }
-    
-    [_authentication setUserID:responce[ASFIDKey]];
-    [_authentication setAccessToken:responce[ASFAccessTokenKey]];
-    [_authentication setTokenType:responce[ASFTokenTypeKey]];
-    [_authentication setPlan:responce[ASFPlanKey]];
-    
-    NSNumber *timeInterval = responce[ASFExpiresInKey];
-    [_authentication setExpiresIn:[timeInterval longValue]];
-    
-    [ASFAuthentication store:_authentication];
-}
-
-- (void)parseSubscriptions:(NSArray *)response
-{
-    NSMutableArray *subscriptions = [NSMutableArray array];
-    
-    for (NSDictionary *subscriptionDictionary in response)
-    {
-        ASFSubscription *subscription = [ASFSubscription new];
-        
-        [subscription setID: subscriptionDictionary[ASFIDKey]];
-        [subscription setTitle: subscriptionDictionary[ASFTitleKey]];
-        [subscription setWebsite:subscriptionDictionary[ASFWebsiteKey]];
-        
-        NSTimeInterval updated = [subscriptionDictionary[ASFUpdatedKey] longLongValue];
-        
-        [subscription setUpdated:[NSDate dateWithTimeIntervalSince1970:updated]];
-        
-        NSMutableArray *categories = [NSMutableArray array];
-        NSArray *categoriesResponse = subscriptionDictionary[ASFCategoriesKey];
-        
-        for (NSDictionary *categoryDictionary in categoriesResponse)
-        {
-            ASFCategory *category = [ASFCategory new];
+    if (self.credential.accessToken) {
+        if (self.credential.isExpired) {
+            NSDictionary *parameters = @{@"refresh_token" : self.credential.refreshToken,
+                                         @"client_id" : self.clientID,
+                                         @"client_secret" : self.clientSecret,
+                                         @"grant_type" : @"refresh_token"};
             
-            [category setID:categoryDictionary[ASFIDKey]];
-            [category setLabel:categoryDictionary[ASFLabelKey]];
-            
-            [categories addObject:category];
+            [self tokenWithParameters:parameters
+                           completion:completion];
+        } else {
+            completion(self.credential.accessToken, nil);
         }
+    } else {
+        NSDictionary *parameters = @{@"code" : [ASFLogInViewController code],
+                                     @"client_id" : self.clientID,
+                                     @"client_secret" : self.clientSecret,
+                                     @"redirect_uri" : ASFRedirectURI,
+                                     @"grant_type" : @"authorization_code"};
         
-        [subscription setCategories:categories];
-        
-        [subscriptions addObject:subscription];
-    }
-    
-    if ([_delegate respondsToSelector:@selector(feedlyClient:didLoadSubscriptions:)])
-    {
-        [_delegate feedlyClient:self didLoadSubscriptions:subscriptions];
+        [self tokenWithParameters:parameters
+                       completion:completion];
     }
 }
 
-- (void)parseStream:(NSDictionary *)response
-{
-    ASFStream *stream = [ASFStream new];
+- (void)tokenWithParameters:(NSDictionary *)parameters
+                 completion:(void(^)(NSString *token, NSError *error))completion {
     
-    [stream setID:response[ASFIDKey]];
-    [stream setTitle:response[ASFTitleKey]];
-    [stream setDirection:response[ASFDirectionKey]];
-    [stream setContinuation:response[ASFContinuationKey]];
-    [stream setUpdated:[response[ASFUpdatedKey] longLongValue]];
-    
-    NSArray *items = response[ASFItemsKey];
-    [stream setItems:[self parseEntries:items]];
-    
-    if ([_delegate respondsToSelector:@selector(feedlyClient:didLoadStream:)])
-    {
-        [_delegate feedlyClient:self didLoadStream:stream];
-    }
-}
-
-- (NSArray *)parseEntries:(NSArray *)items
-{
-    NSMutableArray *entries = [NSMutableArray array];
-    
-    for (NSDictionary *item in items)
-    {
-        ASFEntry *entry = [self parseEntry:item];
-        [entries addObject:entry];
+    NSError *error;
+    NSURLRequest *request = [self.builder request:@"POST"
+                                             path:ASFAuthTokenPath
+                                       parameters:parameters
+                                            token:nil
+                                            error:&error];
+    if (error) {
+        completion(nil, error);
+        return;
     }
     
-    return entries;
-}
-
-- (ASFEntry *)parseEntry:(NSDictionary *)item
-{
-    ASFEntry *entry = [ASFEntry new];
-    
-    [entry setID:item[ASFIDKey]];
-    [entry setTitle:item[ASFTitleKey]];
-    [entry setAuthor:item[ASFAuthorKey]];
-    [entry setOriginID:item[ASFOriginIDKey]];
-    
-    [entry setContent:item[ASFSummaryKey][ASFContentKey]];
-    [entry setUnread:[item[ASFUnreadKey] boolValue]];
-    [entry setEngagement:[item[ASFEngagementKey] longValue]];
-    [entry setImageURLString:item[ASFVisualKey][ASFURLKey]];
-    [entry setPublished:[item[ASFPublishedKey] longLongValue]];
-    
-    return entry;
-}
-
-- (void)parseMarkersReads:(NSDictionary *)response
-{
-    NSLog(@"%@", response);
-}
-
-- (void)authorizeRequest:(NSMutableURLRequest *)request
-{
-    [request addValue:[_authentication accessToken] forHTTPHeaderField:@"Authorization"];
-}
-
-- (void)handleError:(NSError *)error
-{
-#ifdef DEBUG
-    NSLog(@"Error occurred: %@", [error localizedDescription]);
-#endif
+    [self doRequest:request completion:^(ASFURLConnectionOperation *operation, id JSON, NSError *error) {
+        if (error) {
+            completion(nil, error);
+        } else {
+            self.credential = [[ASFCredential alloc] initWithDictionary:JSON];
+            [ASFCredential storeCredential:self.credential];
+            completion(self.credential.accessToken, nil);
+        }
+    }];
 }
 
 @end

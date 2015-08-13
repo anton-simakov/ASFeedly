@@ -7,52 +7,23 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "ASFSubscription.h"
+#import "ASFCategory.h"
 #import "ASFStream.h"
 #import "ASFEntry.h"
 
-@class ASFFeedly;
-
-typedef NS_ENUM(NSInteger, ASFRanking)
-{
-    ASFRankingDefault,
-    ASFRankingNewest,
-    ASFRankingOldest
-};
-
-extern const CGFloat ASFStreamEntriesMax;
-
-@protocol ASFDelegate <NSObject>
-
-@optional
-- (void)feedlyClientDidFinishLogin:(ASFFeedly *)client;
-- (void)feedlyClient:(ASFFeedly *)client didLoadSubscriptions:(NSArray *)subscriptions;
-- (void)feedlyClient:(ASFFeedly *)client didLoadStream:(ASFStream *)stream;
-
-@end
-
 @interface ASFFeedly : NSObject
 
-@property(nonatomic, strong) NSString *clientID;
-@property(nonatomic, strong) NSString *clientSecret;
-@property(nonatomic, strong) id<ASFDelegate> delegate;
++ (BOOL)openURL:(NSURL *)URL;
 
 - (instancetype)initWithClientID:(NSString *)clientID
                     clientSecret:(NSString *)clientSecret NS_DESIGNATED_INITIALIZER;
 
-- (void)loginWithViewController:(UIViewController *)controller;
-- (void)logout;
+- (BOOL)isAuthorized;
 
-- (void)getSubscriptions;
-
-- (void)getStream:(NSString *)streamID;
-
-- (void)getStream:(NSString *)streamID
-            count:(NSInteger)count
-          ranking:(ASFRanking)ranking
-       unreadOnly:(BOOL)unreadOnly
-        newerThan:(long long)newerThan
-     continuation:(NSString *)continuation;
+- (void)subscriptions:(void(^)(NSArray *subscriptions, NSError *error))completion;
+- (void)stream:(NSString *)streamID completion:(void(^)(ASFStream *stream, NSError *error))completion;
 
 - (void)getMarkersReads;
 - (void)getMarkersReadsNewerThan:(long long)newerThan;

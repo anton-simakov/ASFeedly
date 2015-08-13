@@ -10,7 +10,9 @@
 
 @interface ASFCategory : NSObject
 
-@property(nonatomic, strong) NSString *ID;
-@property(nonatomic, strong) NSString *label;
+@property (readonly, nonatomic, copy) NSString *ID;
+@property (readonly, nonatomic, copy) NSString *label;
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

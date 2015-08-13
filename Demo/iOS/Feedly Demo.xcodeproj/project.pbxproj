@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3ADE63D61B7736A00004F7BD /* ASFUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ADE63D51B7736A00004F7BD /* ASFUtil.m */; };
 		3AE9FB0B1B6BFAC900147959 /* ASFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE9FB0A1B6BFAC900147959 /* ASFURLConnectionOperation.m */; };
 		84A57193186AC30C0067C898 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A57192186AC30C0067C898 /* Foundation.framework */; };
 		84A57195186AC30C0067C898 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A57194186AC30C0067C898 /* CoreGraphics.framework */; };
@@ -15,22 +16,22 @@
 		84A5719F186AC30C0067C898 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A5719E186AC30C0067C898 /* main.m */; };
 		84A571A3186AC30C0067C898 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A571A2186AC30C0067C898 /* AppDelegate.m */; };
 		84A571A5186AC30C0067C898 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84A571A4186AC30C0067C898 /* Images.xcassets */; };
-		84B612D6186AC98E00BA9E10 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612D5186AC98E00BA9E10 /* RootViewController.m */; };
+		84B612D6186AC98E00BA9E10 /* SubscriptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612D5186AC98E00BA9E10 /* SubscriptionsViewController.m */; };
 		84B612D9186ACB3100BA9E10 /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612D8186ACB3100BA9E10 /* Cell.m */; };
-		84B612DC186ACD8000BA9E10 /* TableSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612DB186ACD8000BA9E10 /* TableSection.m */; };
-		84B612DF186ACE7900BA9E10 /* CellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B612DE186ACE7900BA9E10 /* CellItem.m */; };
 		84C29558186AC4C700B59901 /* ASFFeedly.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29547186AC4C700B59901 /* ASFFeedly.m */; };
-		84C29559186AC4C700B59901 /* ASFAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29549186AC4C700B59901 /* ASFAuthentication.m */; };
-		84C2955A186AC4C700B59901 /* ASFSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954B186AC4C700B59901 /* ASFSignInViewController.m */; };
+		84C29559186AC4C700B59901 /* ASFCredential.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29549186AC4C700B59901 /* ASFCredential.m */; };
+		84C2955A186AC4C700B59901 /* ASFLogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954B186AC4C700B59901 /* ASFLogInViewController.m */; };
 		84C2955B186AC4C700B59901 /* ASFCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954D186AC4C700B59901 /* ASFCategory.m */; };
 		84C2955C186AC4C700B59901 /* ASFConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2954F186AC4C700B59901 /* ASFConstants.m */; };
 		84C2955D186AC4C700B59901 /* ASFEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29551186AC4C700B59901 /* ASFEntry.m */; };
 		84C2955E186AC4C700B59901 /* ASFStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29553186AC4C700B59901 /* ASFStream.m */; };
 		84C2955F186AC4C700B59901 /* ASFSubscription.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29555186AC4C700B59901 /* ASFSubscription.m */; };
-		84C29560186AC4C700B59901 /* ASFUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29557186AC4C700B59901 /* ASFUtil.m */; };
+		84C29560186AC4C700B59901 /* ASFRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C29557186AC4C700B59901 /* ASFRequestBuilder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3ADE63D41B7736A00004F7BD /* ASFUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFUtil.h; sourceTree = "<group>"; };
+		3ADE63D51B7736A00004F7BD /* ASFUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFUtil.m; sourceTree = "<group>"; };
 		3AE9FB091B6BFAC900147959 /* ASFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFURLConnectionOperation.h; sourceTree = "<group>"; };
 		3AE9FB0A1B6BFAC900147959 /* ASFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFURLConnectionOperation.m; sourceTree = "<group>"; };
 		3AE9FB131B6CD07500147959 /* DLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLog.h; sourceTree = "<group>"; };
@@ -45,20 +46,16 @@
 		84A571A1186AC30C0067C898 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		84A571A2186AC30C0067C898 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		84A571A4186AC30C0067C898 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		84B612D4186AC98E00BA9E10 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		84B612D5186AC98E00BA9E10 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		84B612D4186AC98E00BA9E10 /* SubscriptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscriptionsViewController.h; sourceTree = "<group>"; };
+		84B612D5186AC98E00BA9E10 /* SubscriptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscriptionsViewController.m; sourceTree = "<group>"; };
 		84B612D7186ACB3100BA9E10 /* Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cell.h; sourceTree = "<group>"; };
 		84B612D8186ACB3100BA9E10 /* Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cell.m; sourceTree = "<group>"; };
-		84B612DA186ACD8000BA9E10 /* TableSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableSection.h; sourceTree = "<group>"; };
-		84B612DB186ACD8000BA9E10 /* TableSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableSection.m; sourceTree = "<group>"; };
-		84B612DD186ACE7900BA9E10 /* CellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellItem.h; sourceTree = "<group>"; };
-		84B612DE186ACE7900BA9E10 /* CellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellItem.m; sourceTree = "<group>"; };
 		84C29546186AC4C700B59901 /* ASFFeedly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFFeedly.h; sourceTree = "<group>"; };
 		84C29547186AC4C700B59901 /* ASFFeedly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFFeedly.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		84C29548186AC4C700B59901 /* ASFAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFAuthentication.h; sourceTree = "<group>"; };
-		84C29549186AC4C700B59901 /* ASFAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFAuthentication.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		84C2954A186AC4C700B59901 /* ASFSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ASFSignInViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		84C2954B186AC4C700B59901 /* ASFSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFSignInViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		84C29548186AC4C700B59901 /* ASFCredential.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFCredential.h; sourceTree = "<group>"; };
+		84C29549186AC4C700B59901 /* ASFCredential.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFCredential.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		84C2954A186AC4C700B59901 /* ASFLogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ASFLogInViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		84C2954B186AC4C700B59901 /* ASFLogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASFLogInViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		84C2954C186AC4C700B59901 /* ASFCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFCategory.h; sourceTree = "<group>"; };
 		84C2954D186AC4C700B59901 /* ASFCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFCategory.m; sourceTree = "<group>"; };
 		84C2954E186AC4C700B59901 /* ASFConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFConstants.h; sourceTree = "<group>"; };
@@ -69,8 +66,8 @@
 		84C29553186AC4C700B59901 /* ASFStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFStream.m; sourceTree = "<group>"; };
 		84C29554186AC4C700B59901 /* ASFSubscription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFSubscription.h; sourceTree = "<group>"; };
 		84C29555186AC4C700B59901 /* ASFSubscription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFSubscription.m; sourceTree = "<group>"; };
-		84C29556186AC4C700B59901 /* ASFUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFUtil.h; sourceTree = "<group>"; };
-		84C29557186AC4C700B59901 /* ASFUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFUtil.m; sourceTree = "<group>"; };
+		84C29556186AC4C700B59901 /* ASFRequestBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASFRequestBuilder.h; sourceTree = "<group>"; };
+		84C29557186AC4C700B59901 /* ASFRequestBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASFRequestBuilder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,14 +117,10 @@
 			children = (
 				84A571A1186AC30C0067C898 /* AppDelegate.h */,
 				84A571A2186AC30C0067C898 /* AppDelegate.m */,
-				84B612D4186AC98E00BA9E10 /* RootViewController.h */,
-				84B612D5186AC98E00BA9E10 /* RootViewController.m */,
 				84B612D7186ACB3100BA9E10 /* Cell.h */,
 				84B612D8186ACB3100BA9E10 /* Cell.m */,
-				84B612DD186ACE7900BA9E10 /* CellItem.h */,
-				84B612DE186ACE7900BA9E10 /* CellItem.m */,
-				84B612DA186ACD8000BA9E10 /* TableSection.h */,
-				84B612DB186ACD8000BA9E10 /* TableSection.m */,
+				84B612D4186AC98E00BA9E10 /* SubscriptionsViewController.h */,
+				84B612D5186AC98E00BA9E10 /* SubscriptionsViewController.m */,
 				84A571A4186AC30C0067C898 /* Images.xcassets */,
 				84A57199186AC30C0067C898 /* Supporting Files */,
 			);
@@ -148,26 +141,28 @@
 		84C29545186AC4C700B59901 /* ASFFeedly */ = {
 			isa = PBXGroup;
 			children = (
-				84C29548186AC4C700B59901 /* ASFAuthentication.h */,
-				84C29549186AC4C700B59901 /* ASFAuthentication.m */,
 				84C2954C186AC4C700B59901 /* ASFCategory.h */,
 				84C2954D186AC4C700B59901 /* ASFCategory.m */,
 				84C2954E186AC4C700B59901 /* ASFConstants.h */,
 				84C2954F186AC4C700B59901 /* ASFConstants.m */,
+				84C29548186AC4C700B59901 /* ASFCredential.h */,
+				84C29549186AC4C700B59901 /* ASFCredential.m */,
 				84C29550186AC4C700B59901 /* ASFEntry.h */,
 				84C29551186AC4C700B59901 /* ASFEntry.m */,
 				84C29546186AC4C700B59901 /* ASFFeedly.h */,
 				84C29547186AC4C700B59901 /* ASFFeedly.m */,
-				84C2954A186AC4C700B59901 /* ASFSignInViewController.h */,
-				84C2954B186AC4C700B59901 /* ASFSignInViewController.m */,
+				84C2954A186AC4C700B59901 /* ASFLogInViewController.h */,
+				84C2954B186AC4C700B59901 /* ASFLogInViewController.m */,
+				84C29556186AC4C700B59901 /* ASFRequestBuilder.h */,
+				84C29557186AC4C700B59901 /* ASFRequestBuilder.m */,
 				84C29552186AC4C700B59901 /* ASFStream.h */,
 				84C29553186AC4C700B59901 /* ASFStream.m */,
 				84C29554186AC4C700B59901 /* ASFSubscription.h */,
 				84C29555186AC4C700B59901 /* ASFSubscription.m */,
 				3AE9FB091B6BFAC900147959 /* ASFURLConnectionOperation.h */,
 				3AE9FB0A1B6BFAC900147959 /* ASFURLConnectionOperation.m */,
-				84C29556186AC4C700B59901 /* ASFUtil.h */,
-				84C29557186AC4C700B59901 /* ASFUtil.m */,
+				3ADE63D41B7736A00004F7BD /* ASFUtil.h */,
+				3ADE63D51B7736A00004F7BD /* ASFUtil.m */,
 				3AE9FB131B6CD07500147959 /* DLog.h */,
 			);
 			name = ASFFeedly;
@@ -240,20 +235,19 @@
 			files = (
 				84B612D9186ACB3100BA9E10 /* Cell.m in Sources */,
 				84A571A3186AC30C0067C898 /* AppDelegate.m in Sources */,
-				84C29559186AC4C700B59901 /* ASFAuthentication.m in Sources */,
+				84C29559186AC4C700B59901 /* ASFCredential.m in Sources */,
 				84C2955D186AC4C700B59901 /* ASFEntry.m in Sources */,
 				84A5719F186AC30C0067C898 /* main.m in Sources */,
 				3AE9FB0B1B6BFAC900147959 /* ASFURLConnectionOperation.m in Sources */,
 				84C2955F186AC4C700B59901 /* ASFSubscription.m in Sources */,
 				84C2955B186AC4C700B59901 /* ASFCategory.m in Sources */,
-				84C2955A186AC4C700B59901 /* ASFSignInViewController.m in Sources */,
-				84C29560186AC4C700B59901 /* ASFUtil.m in Sources */,
-				84B612D6186AC98E00BA9E10 /* RootViewController.m in Sources */,
+				84C2955A186AC4C700B59901 /* ASFLogInViewController.m in Sources */,
+				3ADE63D61B7736A00004F7BD /* ASFUtil.m in Sources */,
+				84C29560186AC4C700B59901 /* ASFRequestBuilder.m in Sources */,
+				84B612D6186AC98E00BA9E10 /* SubscriptionsViewController.m in Sources */,
 				84C29558186AC4C700B59901 /* ASFFeedly.m in Sources */,
 				84C2955E186AC4C700B59901 /* ASFStream.m in Sources */,
 				84C2955C186AC4C700B59901 /* ASFConstants.m in Sources */,
-				84B612DF186ACE7900BA9E10 /* CellItem.m in Sources */,
-				84B612DC186ACD8000BA9E10 /* TableSection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

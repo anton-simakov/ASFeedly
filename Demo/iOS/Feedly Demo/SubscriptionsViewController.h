@@ -1,5 +1,5 @@
 //
-//  RootViewController.h
+//  SubscriptionsViewController.h
 //  Feedly Demo
 //
 //  Created by Anton Simakov on 12/25/13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RootViewController : UIViewController
+@interface SubscriptionsViewController : UIViewController
 
 @end

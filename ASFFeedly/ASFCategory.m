@@ -10,9 +10,17 @@
 
 @implementation ASFCategory
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"Category ID: %@, label: %@", _ID, _label];
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super init];
+    if (self) {
+        _ID = dictionary[@"id"];
+        _label = dictionary[@"label"];
+    }
+    return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@ ID \"%@\" label \"%@\">", [self class], self.ID, self.label];
 }
 
 @end

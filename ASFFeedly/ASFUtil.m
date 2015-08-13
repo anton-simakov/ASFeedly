@@ -2,54 +2,15 @@
 //  ASFUtil.m
 //  ASFFeedly
 //
-//  Created by Anton Simakov on 12/12/13.
-//  Copyright (c) 2013 Anton Simakov. All rights reserved.
+//  Created by Anton Simakov on 8/9/15.
+//  Copyright (c) 2015 Anton Simakov. All rights reserved.
 //
 
 #import "ASFUtil.h"
-#import "ASFConstants.h"
 
-@implementation ASFUtil
-
-+ (NSURLRequest *)requestWithURL:(NSURL *)URL method:(NSString *)method
-{
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-    [request setHTTPMethod:method];
-    return request;
-}
-
-+ (NSURL *)URLWithPath:(NSString *)path parameters:(NSDictionary *)parameters
-{
-    return [self URLWithPath:path parameters:parameters base:ASFEndpoint];
-}
-
-+ (NSURL *)URLWithPath:(NSString *)path parameters:(NSDictionary *)parameters base:(NSString *)base
-{
-    NSString *query = [NSString string];
-    
-    for (NSString *key in [parameters allKeys])
-    {
-        NSString *value = parameters[key];
-        query = [query stringByAppendingString:[NSString stringWithFormat:@"%@=%@&", key, value]];
+NSDate *ASFDate(NSNumber *number) {
+    if (!number) {
+        return nil;
     }
-    
-    if ([query length])
-    {
-        query = [query stringByReplacingCharactersInRange:NSMakeRange([query length] - 1, 1) withString:@""];
-        query = [NSString stringWithFormat:@"?%@", query];
-    }
-    
-    NSString *URLString = [NSString stringWithFormat:@"%@/%@%@", base, path, query];
-    return [NSURL URLWithString:[URLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    return [NSDate dateWithTimeIntervalSince1970:[number longValue] / 1000.0];
 }
-
-+ (NSString *)encodeString:(NSString *)string
-{
-    return CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                                                                     (CFStringRef)string,
-                                                                     NULL,
-                                                                     CFSTR(":/?#[]@!$&’()*+,;="),
-                                                                     kCFStringEncodingUTF8));
-}
-
-@end
