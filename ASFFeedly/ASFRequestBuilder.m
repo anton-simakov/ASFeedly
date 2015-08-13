@@ -95,41 +95,46 @@ NSDictionary *ASFParametersFromQuery(NSString *query) {
                parameters:(NSDictionary *)parameters
                     token:(NSString *)token
                     error:(NSError *__autoreleasing *)error {
+
+    NSParameterAssert(path);
+    
     NSURL *URL = [self.URL URLByAppendingPathComponent:path];
     
     NSParameterAssert(URL);
     
-    NSMutableURLRequest *request = [self requestWithURL:URL
-                                                 method:method
-                                             parameters:parameters
-                                                  error:error];
-    if (token) {
-        [request setValue:token forHTTPHeaderField:@"Authorization"];
-    }
-    
-    return request;
+    return [self request:method
+                     URL:URL
+              parameters:parameters
+                   token:token
+                   error:error];
 }
 
-- (NSMutableURLRequest *)requestWithURL:(NSURL *)URL
-                                 method:(NSString *)method
-                             parameters:(NSDictionary *)parameters
-                                  error:(NSError *__autoreleasing *)error {
+- (NSURLRequest *)request:(NSString *)method
+                      URL:(NSURL *)URL
+               parameters:(NSDictionary *)parameters
+                    token:(NSString *)token
+                    error:(NSError *__autoreleasing *)error {
     
     NSParameterAssert([method isEqualToString:@"GET"] ||
                       [method isEqualToString:@"POST"]);
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
+    request.HTTPMethod = method;
+    
     if ([method isEqualToString:@"GET"]) {
         request.URL = ASFURLByAppendingParameters(URL, parameters);
     } else {
         request.URL = URL;
-        request.HTTPMethod = method;
         request.HTTPBody = [NSJSONSerialization dataWithJSONObject:parameters
                                                            options:0
                                                              error:error];
         
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    }
+    
+    if (token) {
+        [request setValue:token forHTTPHeaderField:@"Authorization"];
     }
     
     return request;
