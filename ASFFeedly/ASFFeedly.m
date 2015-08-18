@@ -34,23 +34,8 @@ typedef void (^ASFResultBlock)(NSError *error);
     return [[URL absoluteString] hasPrefix:ASFRedirectURI];
 }
 
-- (instancetype)init {
-    return [self initWithClientID:nil clientSecret:nil];
-}
-
 - (instancetype)initWithClientID:(NSString *)clientID
                     clientSecret:(NSString *)clientSecret {
-    
-    if (!clientID || ![clientID length]) {
-        DLog(@"Client ID is nil or empty.");
-        return nil;
-    }
-    
-    if (!clientSecret || ![clientSecret length]) {
-        DLog(@"Client secret is nil or empty.");
-        return nil;
-    }
-    
     self = [super init];
     if (self) {
         _credential = [ASFCredential retrieveCredential];
