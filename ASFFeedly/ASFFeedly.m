@@ -40,8 +40,8 @@ typedef void (^ASFResultBlock)(NSError *error);
     if (self) {
         _credential = [ASFCredential retrieveCredential];
         _builder = [[ASFRequestBuilder alloc] init];
-        _clientID = clientID;
-        _clientSecret = clientSecret;
+        _clientID = [clientID copy];
+        _clientSecret = [clientSecret copy];
         _queue = [[NSOperationQueue alloc] init];
         _queue.maxConcurrentOperationCount = 1;
     }
