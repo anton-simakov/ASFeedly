@@ -13,7 +13,7 @@
 #import "ASFLogInViewController.h"
 
 static NSString *const kClientID = @"sandbox";
-static NSString *const kClientSecret = @""; // Client Secret
+static NSString *const kClientSecret = @""; // Put your client secret here
 
 @interface SubscriptionsViewController () <UITableViewDelegate, UITableViewDataSource, ASFLogInViewControllerDelegate>
 
