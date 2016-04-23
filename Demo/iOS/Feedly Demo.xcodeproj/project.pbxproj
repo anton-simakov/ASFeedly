@@ -196,7 +196,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = "";
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Anton Simakov";
 			};
 			buildConfigurationList = 84A5718A186AC30C0067C898 /* Build configuration list for PBXProject "Feedly Demo" */;
@@ -283,6 +283,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -345,6 +346,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Feedly Demo/Feedly Demo-Prefix.pch";
 				INFOPLIST_FILE = "Feedly Demo/Feedly Demo-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.antonsimakov.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Feedly Demo";
 				WRAPPER_EXTENSION = app;
 			};
@@ -358,6 +360,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Feedly Demo/Feedly Demo-Prefix.pch";
 				INFOPLIST_FILE = "Feedly Demo/Feedly Demo-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.antonsimakov.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Feedly Demo";
 				WRAPPER_EXTENSION = app;
 			};
